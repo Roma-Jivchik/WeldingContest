@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeldingContest.DataAccess\WeldingContest.DataAccess.csproj" />
+    <ProjectReference Include="..\WeldingContest.Services.Entities\WeldingContest.Services.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
