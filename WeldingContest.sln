@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeldingContest", "WeldingContest\WeldingContest.csproj", "{4AC67776-605B-45E0-B1A0-E1F917A5E9D8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeldingContest.Services.Entities", "WeldingContest.Services.Entities\WeldingContest.Services.Entities.csproj", "{01F539DF-D276-4090-B3AC-855D71D75F1B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeldingContest.DataAccess", "WeldingContest.DataAccess\WeldingContest.DataAccess.csproj", "{639CBA1D-660A-4980-BA33-36B311DEBD18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeldingContest.Services", "WeldingContest.Services\WeldingContest.Services.csproj", "{F7B21A0B-98F6-4BA2-8814-1E329433AE90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeldingContest.Services", "WeldingContest.Services\WeldingContest.Services.csproj", "{F7B21A0B-98F6-4BA2-8814-1E329433AE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeldingContest", "WeldingContest\WeldingContest.csproj", "{2CFC654E-8E28-4E14-9726-C8BE71BAFA6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AC67776-605B-45E0-B1A0-E1F917A5E9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AC67776-605B-45E0-B1A0-E1F917A5E9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AC67776-605B-45E0-B1A0-E1F917A5E9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AC67776-605B-45E0-B1A0-E1F917A5E9D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01F539DF-D276-4090-B3AC-855D71D75F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01F539DF-D276-4090-B3AC-855D71D75F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01F539DF-D276-4090-B3AC-855D71D75F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{F7B21A0B-98F6-4BA2-8814-1E329433AE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7B21A0B-98F6-4BA2-8814-1E329433AE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7B21A0B-98F6-4BA2-8814-1E329433AE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CFC654E-8E28-4E14-9726-C8BE71BAFA6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CFC654E-8E28-4E14-9726-C8BE71BAFA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CFC654E-8E28-4E14-9726-C8BE71BAFA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CFC654E-8E28-4E14-9726-C8BE71BAFA6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

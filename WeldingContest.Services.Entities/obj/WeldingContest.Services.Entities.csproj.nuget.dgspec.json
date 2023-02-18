@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {}
+    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
+    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
         "projectName": "WeldingContest.Services.Entities",
-        "projectPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+        "projectPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
+        "outputPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",

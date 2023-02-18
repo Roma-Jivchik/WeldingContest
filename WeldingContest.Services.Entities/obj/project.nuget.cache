@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pTb3HFRJZEBNFWKYWNpAB2E5LXTyfZ2v/u8U+Nii8LOgXMnWt77L6XQ4aFf8SKjXmu58pyYQjwjPAvEKoIGntQ==",
+  "dgSpecHash": "DKSljCBUKct5d2ZCwxuDQFtvYnwzyI4twXSOCWYQ38J7/4c0IUVxw3/s7VBQ1XG0eAjcRSh4aohRUNTp2CFZxg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+  "projectFilePath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

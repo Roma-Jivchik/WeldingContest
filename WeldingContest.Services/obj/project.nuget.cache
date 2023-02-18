@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "J3FcgctdDqR6PFsXBWr7c+LYFAFZahuwbUZhox7O6tJ4YZWh/ES7xTnF0WX5nkkx6yatnIAJ4a8KXbv4Xi9kqA==",
+  "dgSpecHash": "Wyt8E83ydbTa7+FtALitDWlryxeo613MYYCF9HGz35IcxW6a9hEpfwR3HuqKNdYdaxMG+xX6K9h0UFrROm31uw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest.Services\\WeldingContest.Services.csproj",
+  "projectFilePath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services\\WeldingContest.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
