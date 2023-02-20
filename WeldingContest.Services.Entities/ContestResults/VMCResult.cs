@@ -12,9 +12,13 @@ namespace WeldingContest.Services.Entities.ContestResults
         public int LackOfPenetrationFrom10mmTo20mmCount { get; set; }
         public int LackOfPenetrationFrom20mmCount { get; set; }
         public int EdgeOffsetCount { get; set; }
+        public int UndercutUpTo10mmCount { get; set; }
+        public int UndercutFrom20mmCount { get; set; }
+        public int UndercutRemovalCount { get; set; }
         public int SinkingCount { get; set; }
         public int ExcessPenetrationCount { get; set; }
         public int ExcessSeamWidthCount { get; set; }
+        public int ExcessSeamConvexityCount { get; set; }
         public int ExcessSeamScalingCount { get; set; }
         public int RoughTransitionCount { get; set; }
         public int OtherWarningsCount { get; set; }

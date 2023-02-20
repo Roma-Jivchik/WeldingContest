@@ -34,6 +34,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-by-id")]
+        public async Task<IActionResult> GetByID(string id)
+        {
+            try
+            {
+                var contestants = await _WeldingTimeResultService.Get(id);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-range")]
         public async Task<IActionResult> GetRange(int pageNumber, int rowsNumber)
         {

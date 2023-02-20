@@ -32,6 +32,8 @@ namespace WeldingContest.Services.ContestWorkServices
         {
             return await weldingContestContext.ContestWorks
                 .Include(_ => _.Nomination)
+                .Include(_ => _.Contest)
+                .Include(_ => _.Contestant)
                 .Include(_ => _.ArmatureAssemblyKSSResults)
                 .Include(_ => _.ArmatureEvaluationResults)
                 .Include(_ => _.ArmatureSafetyResults)
@@ -52,6 +54,8 @@ namespace WeldingContest.Services.ContestWorkServices
         {
             return await weldingContestContext.ContestWorks
                 .Include(_ => _.Nomination)
+                .Include(_ => _.Contest)
+                .Include(_ => _.Contestant)
                 .Include(_ => _.ArmatureAssemblyKSSResults)
                 .Include(_ => _.ArmatureEvaluationResults)
                 .Include(_ => _.ArmatureSafetyResults)
@@ -73,6 +77,8 @@ namespace WeldingContest.Services.ContestWorkServices
         {
             return await weldingContestContext.ContestWorks
                 .Include(_ => _.Nomination)
+                .Include(_ => _.Contest)
+                .Include(_ => _.Contestant)
                 .Include(_ => _.ArmatureAssemblyKSSResults)
                 .Include(_ => _.ArmatureEvaluationResults)
                 .Include(_ => _.ArmatureSafetyResults)

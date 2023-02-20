@@ -33,6 +33,22 @@ namespace WeldingContest.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("[controller]/get-by-id")]
+        public async Task<IActionResult> GetByID(string id)
+        {
+            try
+            {
+                var contestants = await _RGMResultService.Get(id);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
         private IActionResult StatusCode(int v1, string v2)
         {
             throw new NotImplementedException();

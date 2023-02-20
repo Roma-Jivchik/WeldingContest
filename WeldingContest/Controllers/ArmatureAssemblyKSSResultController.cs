@@ -33,6 +33,22 @@ namespace WeldingContest.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("[controller]/get-by-id")]
+        public async Task<IActionResult> GetByID(string id)
+        {
+            try
+            {
+                var contestants = await _armatureAssemblyKSSResultService.Get(id);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
         [HttpPost]
         [Route("[controller]/create")]
         [ProducesResponseType(typeof(ArmatureAssemblyKSSResult), StatusCodes.Status200OK)]

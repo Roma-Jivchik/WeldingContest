@@ -1,0 +1,59 @@
+﻿import React, { Component } from 'react';
+<<<<<<< HEAD
+=======
+import './stylesheets/NavMenu.css';
+>>>>>>> Work
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Navbar from 'react-bootstrap/Navbar'
+
+export class NavigationMenu extends Component {
+    static displayName = NavigationMenu.name;
+
+<<<<<<< HEAD
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Brand href="#home">Конкурс</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
+                        <NavDropdown title="Конкурсанты" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="/ContestantInformation">Информация</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestantRegistration">Добавление</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestantDeletion">Удаление</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestantUpdating">Обновление</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Члены комиссии" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="/CommissionMemberInformation">Информация</NavDropdown.Item>
+                            <NavDropdown.Item href="/CommissionMemberRegistration">Добавление</NavDropdown.Item>
+                            <NavDropdown.Item href="/CommissionMemberDeletion">Удаление</NavDropdown.Item>
+                            <NavDropdown.Item href="/CommissionMemberUpdating">Обновление</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Конкурсы" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="/ContestInformation">Информация</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestRegistration">Добавление</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestDeletion">Удаление</NavDropdown.Item>
+                            <NavDropdown.Item href="/ContestUpdating">Обновление</NavDropdown.Item>
+                        <NavDropdown title="Сотрудники" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="/WeldersInfo">Информация о сотрудниках</NavDropdown.Item>
+                            <NavDropdown.Item href="/TasksInfo">Информация о заданиях сотрудников</NavDropdown.Item>
+                            <NavDropdown.Item href="/SearchWelder">Поиск сотрудника</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Образцы для заданий" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="/SamplesInfo">Информация об образцах</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                    <Nav>
+                        <Nav.Link href="/">На главную</Nav.Link>
+                        <Nav.Link href="/logout">Выйти</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+        );
+    }
+}

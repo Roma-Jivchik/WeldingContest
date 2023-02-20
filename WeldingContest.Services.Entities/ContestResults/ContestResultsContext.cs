@@ -311,9 +311,9 @@ namespace WeldingContest.Services.Entities.ContestResults
                     .IsUnicode(false)
                     .HasColumnName("ContestWorkID");
 
-                entity.Property(e => e.TimeOfBegin).HasColumnType("date");
+                entity.Property(e => e.TimeOfBegin).HasColumnType("datetime");
 
-                entity.Property(e => e.TimeOfEnd).HasColumnType("date");
+                entity.Property(e => e.TimeOfEnd).HasColumnType("datetime");
 
                 entity.HasOne(d => d.ContestWork)
                     .WithMany(p => p.WeldingTimeResults)
