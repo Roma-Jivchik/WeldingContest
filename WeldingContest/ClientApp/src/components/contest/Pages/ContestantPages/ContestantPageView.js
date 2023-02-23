@@ -31,6 +31,9 @@ export class ContestantPageView extends Component {
                         </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
+                        <Button hidden={ this.props.isUpdating} href="/Contestants">
+                            Назад к списку конкурсантов
+                        </Button>
                         <Button hidden={this.props.isUpdating} onClick={this.props.handleDelete}>
                             Удалить
                         </Button>

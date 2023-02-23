@@ -8,7 +8,7 @@ export class ContestantAddPage extends Component {
             fullName: "",
             rfid: "",
             qr: "",
-            company: "",
+            company: "Компания",
             validated: false,
         }
 
