@@ -6,8 +6,8 @@ export class WeldingTimeResultAddTab extends Component {
         super(props);
         this.state = {
             contestWorkID: this.props.contestWork.id,
-            timeOfBegin: 0,
-            timeOfEnd: 0,
+            timeOfBegin: "10:00",
+            timeOfEnd: "10:25",
             overallMark: 10,
             validated: false,
         }
@@ -21,7 +21,7 @@ export class WeldingTimeResultAddTab extends Component {
     async postObjectToController(object) {
         const response = await fetch(`weldingTimeResult/create`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(object)
         });
         const data = await response.json();
@@ -37,7 +37,7 @@ export class WeldingTimeResultAddTab extends Component {
                 handleSubmit={this.handleSubmit}
                 handleChangeInput={this.handleChangeInput}
             />
-            );
+        );
     }
 
     handleSubmit() {
@@ -60,16 +60,18 @@ export class WeldingTimeResultAddTab extends Component {
     }
 
     handleChangeInput() {
-        if (event.target.value >= 0) {
-            this.setState({ [event.target.name]: event.target.value }, () => { this.countOverallMark() });
-        }
+        this.setState({ [event.target.name]: event.target.value }, () => { this.countOverallMark() });
     }
 
     countOverallMark() {
-        let overallMark = 10 - (Math.max((this.state.timeOfEnd - this.state.timeOfBegin) - 25, 0));
+        let timeOfBegin = parseInt(this.state.timeOfBegin.split(":")[0]) * 60 + parseInt(this.state.timeOfBegin.split(":")[1]);
+        let timeOfEnd = parseInt(this.state.timeOfEnd.split(":")[0]) * 60 + parseInt(this.state.timeOfEnd.split(":")[1]);
+
+        let overallMark = 10 - (Math.max((timeOfEnd - timeOfBegin) - 25, 0));
         if (overallMark < 0) {
             overallMark = 0;
         }
+
         this.setState({ overallMark: overallMark });
         console.log(overallMark);
     }
