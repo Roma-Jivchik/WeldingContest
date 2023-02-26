@@ -39,7 +39,7 @@ export class ContestWorkMainPageView extends Component {
         return (
             <>
                 <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button variant="outlined" href="/ContestWorks/Add">Добавить</Button>
+                    <Button style={{ margin: "10px 10px" }} variant="outlined" href="/ContestWorks/Add">Добавить</Button>
                     </Stack>
                 <CustomDataGrid
                     columns={this.state.columns}

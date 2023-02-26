@@ -74,7 +74,7 @@ export class SafetyResultAddTab extends Component {
     countOverallMark() {
         let overallMark =
             10 -
-            (this.state.lackOfProtectiveClothesCount * 5
+            (this.state.lackOfProtectiveClothesCount * 3
                 + this.state.wrongEquipmentUsageCount * 5
                 + this.state.machinesUntimelyDeenergizationCount * 5);
         if (overallMark < 0) {

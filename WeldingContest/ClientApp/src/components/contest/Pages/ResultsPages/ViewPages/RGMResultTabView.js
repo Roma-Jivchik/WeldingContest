@@ -22,7 +22,7 @@ export class RGMResultTabView extends Component {
                         src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Рентген_${this.props.contestWork.contestant.rfid}.jpg`}
                     />
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button onClick={ this.props.handleDelete}>
+                        <Button variant="danger" style={{ margin: "10px 10px" }} onClick={ this.props.handleDelete}>
                         Удалить
                         </Button>
                         </Stack>

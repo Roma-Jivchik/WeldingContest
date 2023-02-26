@@ -16,16 +16,11 @@ export class ContestWorkAddPageView extends Component {
                 { field: 'dateOfEnd', headerName: 'Дата окончания конкурса'},
             ],
             columnsContestant: [
-                { field: 'fullName', headerName: 'ФИО'},
                 { field: 'rfid', headerName: 'RFID' },
                 { field: 'qr', headerName: 'QR' },
-                { field: 'company', headerName: 'Компания'},
             ],
             columnsNomination: [
                 { field: 'title', headerName: 'Название номинации'},
-                { field: 'size', headerName: 'Размер образца'},
-                { field: 'thickness', headerName: 'Толщина образца'},
-                { field: 'material', headerName: 'Материал образца'},
                 { field: 'weldingType', headerName: 'Тип сварки'},
             ],
         }
@@ -108,10 +103,10 @@ export class ContestWorkAddPageView extends Component {
                         </Stack>
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button href="/ContestWorks">
+                        <Button variant="outline-secondary" style={{ margin: "10px 10px" }} href="/ContestWorks">
                             Назад к списку конкурсных работ
                             </Button>
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

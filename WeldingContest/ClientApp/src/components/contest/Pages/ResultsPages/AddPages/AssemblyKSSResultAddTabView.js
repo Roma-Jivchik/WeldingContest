@@ -45,7 +45,7 @@ export class AssemblyKSSResultAddTabView extends Component {
                         <Form.Control type="number" name="sampleRepositioningCount" value={this.props.sampleRepositioningCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>За использование личных (не предоставленных организатором) приспособлений и оснастки ддля сборки и сварки (20 баллов)</Form.Label>
+                        <Form.Label>За использование личных (не предоставленных организатором) приспособлений и оснастки для сборки и сварки (20 баллов)</Form.Label>
                         <Form.Control type="number" name="personalWeldingToolsUsed" value={this.props.personalWeldingToolsUsed} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
@@ -57,7 +57,7 @@ export class AssemblyKSSResultAddTabView extends Component {
                         <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

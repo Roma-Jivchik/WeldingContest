@@ -113,22 +113,22 @@ export class VMCResultAddTab extends Component {
     countOverallMark() {
         let overallMark =
             50 -
-            (this.state.LackOfPenetrationUpTo10mmCount * 5
-                + this.state.LackOfPenetrationFrom10mmTo20mmCount * 10
-                + this.state.LackOfPenetrationFrom20mmCount * 20
-                + this.state.EdgeOffsetCount * 3
-                + this.state.UndercutUpTo10mmCount * 3
-                + this.state.UndercutFrom20mmCount * 5
-                + this.state.UndercutRemovalCount * 5
-                + this.state.SinkingCount * 3
-                + this.state.ExcessPenetrationCount * 3
-                + this.state.ExcessSeamWidthCount * 3
-                + this.state.ExcessSeamConvexityCount * 5
-                + this.state.ExcessSeamScalingCount * 3
-                + this.state.RoughTransitionCount * 10
-                + this.state.OtherWarningsCount * 3
-                + this.state.SeamGeometryCount * 5
-                + this.state.PipeSeamsDisplacement * 5);
+            (this.state.lackOfPenetrationUpTo10mmCount * 5
+                + this.state.lackOfPenetrationFrom10mmTo20mmCount * 10
+                + this.state.lackOfPenetrationFrom20mmCount * 20
+                + this.state.edgeOffsetCount * 3
+                + this.state.undercutUpTo10mmCount * 3
+                + this.state.undercutFrom20mmCount * 5
+                + this.state.undercutRemovalCount * 5
+                + this.state.sinkingCount * 3
+                + this.state.excessPenetrationCount * 3
+                + this.state.excessSeamWidthCount * 3
+                + this.state.excessSeamConvexityCount * 5
+                + this.state.excessSeamScalingCount * 3
+                + this.state.roughTransitionCount * 10
+                + this.state.otherWarningsCount * 3
+                + this.state.seamGeometryCount * 5
+                + this.state.pipeSeamsDisplacement * 5);
         if (overallMark < 0) {
             overallMark = 0;
         }

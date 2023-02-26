@@ -5522,19 +5522,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Max\\.nuget\\packages\\": {}
+    "C:\\Users\\LENOVO\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
       "projectName": "WeldingContest.DataAccess",
-      "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
-      "packagesPath": "C:\\Users\\Max\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\obj\\",
+      "projectPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
+      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Max\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5548,8 +5548,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
-              "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj"
+            "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
+              "projectPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj"
             }
           }
         }
@@ -5600,7 +5600,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.409\\RuntimeIdentifierGraph.json"
       }
     }
   }

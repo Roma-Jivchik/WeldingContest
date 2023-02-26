@@ -65,7 +65,7 @@ export class VMCResultAddTabView extends Component {
                         <Form.Control type="number" name="roughTransitionCount" value={this.props.roughTransitionCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>За другие замечания (поры, гоаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (3 балла за каждое замечание)</Form.Label>
+                        <Form.Label>За другие замечания (поры, шлаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (3 балла за каждое замечание)</Form.Label>
                         <Form.Control type="number" name="otherWarningsCount" value={this.props.otherWarningsCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
@@ -73,7 +73,7 @@ export class VMCResultAddTabView extends Component {
                         <Form.Control type="number" name="seamGeometryCount" value={this.props.seamGeometryCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>ЗСмещение продольных швов труб на расстояние менее 15 мм (5 баллов)</Form.Label>
+                        <Form.Label>Смещение продольных швов труб на расстояние менее 15 мм (5 баллов)</Form.Label>
                         <Form.Control type="number" name="pipeSeamsDisplacement" value={this.props.pipeSeamsDisplacement} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
@@ -85,7 +85,7 @@ export class VMCResultAddTabView extends Component {
                         <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

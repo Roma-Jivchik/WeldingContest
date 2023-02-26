@@ -25,7 +25,7 @@ export class WeldingTimeResultAddTabView extends Component {
                         <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

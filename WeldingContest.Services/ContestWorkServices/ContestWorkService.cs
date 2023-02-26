@@ -99,6 +99,7 @@ namespace WeldingContest.Services.ContestWorkServices
                 .Include(_ => _.WeldingTimeResults)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
+                .OrderBy(_ => _.Contestant.RFID)
                 .ToListAsync();
         }
 

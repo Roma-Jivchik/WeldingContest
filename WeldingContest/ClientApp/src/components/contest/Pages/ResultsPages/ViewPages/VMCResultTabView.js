@@ -66,7 +66,7 @@ export class VMCResultTabView extends Component {
                             <Form.Control type="number" name="roughTransitionCount" value={this.props.roughTransitionCount} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>За другие замечания (поры, гоаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (3 балла за каждое замечание)</Form.Label>
+                            <Form.Label>За другие замечания (поры, шлаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (3 балла за каждое замечание)</Form.Label>
                             <Form.Control type="number" name="otherWarningsCount" value={this.props.otherWarningsCount} />
                         </Form.Group>
                         <Form.Group>
@@ -87,7 +87,7 @@ export class VMCResultTabView extends Component {
                         </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button onClick={this.props.handleDelete}>
+                        <Button variant="danger" style={{ margin: "10px 10px" }} onClick={this.props.handleDelete}>
                             Удалить
                         </Button>
                     </Stack>

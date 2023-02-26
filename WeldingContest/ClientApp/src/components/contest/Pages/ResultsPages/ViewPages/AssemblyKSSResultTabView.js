@@ -59,7 +59,7 @@ export class AssemblyKSSResultTabView extends Component {
                         </Form.Group>
                         </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button onClick={this.props.handleDelete}>
+                        <Button variant="danger" style={{ margin: "10px 10px" }} onClick={this.props.handleDelete}>
                             Удалить
                         </Button>
                         </Stack>

@@ -27,28 +27,30 @@ export class ContestPageView extends Component {
                         </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button hidden={this.props.isUpdating} href="/Contests">
+                        <Button variant="outline-secondary" style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} href="/Contests">
                             Назад к списку конкурсов
                         </Button>
-                        <Button hidden={this.props.isUpdating} onClick={this.props.handleDelete}>
+                        <Button variant="danger" style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} onClick={this.props.handleDelete}>
                             Удалить
                         </Button>
-                        <Button hidden={this.props.isUpdating} onClick={this.props.handleUpdate}>
+                        <Button style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} onClick={this.props.handleUpdate}>
                             Обновить
                         </Button>
-                        <Button hidden={this.props.isUpdating} href={`/ContestWorks/${this.props.contest.id}`}>
+                        <Button style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} href={`/ContestWorks/${this.props.contest.id}`}>
                             Перейти к конкурсным работам
                             </Button>
-                        <Button hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
+                        <Button style={{ margin: "10px 10px" }} hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
                             Отмена
                         </Button>
-                        <Button type="submit" hidden={!this.props.isUpdating}>
+                        <Button style={{ margin: "10px 10px" }} type="submit" hidden={!this.props.isUpdating}>
                             Подтвердить
                         </Button>
                     </Stack>
-                    <Button hidden={this.props.isUpdating} onClick={this.props.handleFormProtocol}>
+                    <Stack direction="row" spacing={2} justifyContent="center">
+                    <Button hidden={this.props.isUpdating} onClick={this.props.handleFormProtocol} >
                         Сформировать протокол по результатам конкурса
                         </Button>
+                    </Stack>
                 </Form>
             </>
         );

@@ -1,7 +1,4 @@
 ﻿import React, { Component } from 'react';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import CustomDataGrid from '../../sub-components/CustomDataGrid';
 import { ContestPageView } from './ContestPageView';
 
 export class ContestPage extends Component {
@@ -97,12 +94,14 @@ export class ContestPage extends Component {
 
     handleSubmit() {
         event.preventDefault();
+
         let object = {
             ID: this.state.contest.id,
             Name: this.state.name,
             DateOfBegin: this.state.dateOfBegin,
             DateOfEnd: this.state.dateOfEnd,
         };
+
         const form = event.target;
 
         if (form.checkValidity() === false) {

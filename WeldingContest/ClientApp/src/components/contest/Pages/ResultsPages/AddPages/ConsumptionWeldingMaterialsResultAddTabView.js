@@ -13,7 +13,7 @@ export class ConsumptionWeldingMaterialsResultAddTabView extends Component {
             <>
                 <Form validated={this.props.validated} onSubmit={this.props.handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Количество дополнительных сварочных материалов (норма: 111(труба) - 5 электродов, 141 - 3 прутка) (+1 балл за каждый доп. материал)</Form.Label>
+                        <Form.Label>Количество дополнительных сварочных материалов (норма: 111 (труба) - 5 электродов, Б-141 - 3 прутка) (+1 балл за каждый доп. материал)</Form.Label>
                         <Form.Control type="number" name="consumbleMaterialAmount" value={this.props.consumbleMaterialAmount} onChange={ this.props.handleChangeInput} required/>
                     </Form.Group>
                     <Form.Group>
@@ -21,7 +21,7 @@ export class ConsumptionWeldingMaterialsResultAddTabView extends Component {
                         <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

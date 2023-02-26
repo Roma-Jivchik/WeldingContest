@@ -31,19 +31,19 @@ export class ContestantPageView extends Component {
                         </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button hidden={ this.props.isUpdating} href="/Contestants">
+                        <Button variant="outline-secondary" style={{ margin: "10px 10px" }} hidden={ this.props.isUpdating} href="/Contestants">
                             Назад к списку конкурсантов
                         </Button>
-                        <Button hidden={this.props.isUpdating} onClick={this.props.handleDelete}>
+                        <Button variant="danger" style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} onClick={this.props.handleDelete}>
                             Удалить
                         </Button>
-                        <Button hidden={this.props.isUpdating} onClick={this.props.handleUpdate}>
+                        <Button style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} onClick={this.props.handleUpdate}>
                             Обновить
                         </Button>
-                        <Button hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
+                        <Button style={{ margin: "10px 10px" }} hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
                             Отмена
                         </Button>
-                        <Button type="submit" hidden={!this.props.isUpdating}>
+                        <Button style={{ margin: "10px 10px" }} type="submit" hidden={!this.props.isUpdating}>
                             Подтвердить
                         </Button>
                     </Stack>

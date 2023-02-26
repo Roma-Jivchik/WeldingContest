@@ -33,10 +33,10 @@ export class NominationAddPageView extends Component {
                         <Form.Control name="weldingType" value={this.props.weldingType} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button href="/Contests">
+                        <Button variant="outline-secondary" style={{ margin: "10px 10px" }}n href="/Contests">
                             Назад к списку номинаций
                             </Button>
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

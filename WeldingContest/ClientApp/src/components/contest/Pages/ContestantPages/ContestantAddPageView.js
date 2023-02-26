@@ -29,10 +29,10 @@ export class ContestantAddPageView extends Component {
                         <Form.Control name="company" value={this.props.company} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                        <Button href="/Contestants">
+                        <Button variant="outline-secondary" style={{ margin: "10px 10px" }} href="/Contestants">
                             Назад к списку конкурсантов
                             </Button>
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

@@ -19,7 +19,7 @@ export class RGMResultAddTabView extends Component {
                     </Form.Group>
                     <AddFileComponent handleFile={ this.props.handleFile}/>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button type="submit">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить
                         </Button>
                         </Stack>

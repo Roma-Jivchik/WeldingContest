@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {}
+    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
+    "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
         "projectName": "WeldingContest.Services.Entities",
-        "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
-        "packagesPath": "C:\\Users\\Max\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
+        "projectPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LENOVO\\OneDrive\\Документы\\GitHub\\WeldingContest\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Max\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.409\\RuntimeIdentifierGraph.json"
         }
       }
     }
