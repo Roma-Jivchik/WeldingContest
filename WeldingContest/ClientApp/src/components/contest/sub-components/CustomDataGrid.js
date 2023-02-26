@@ -5,7 +5,7 @@ import { ruRU } from '@mui/x-data-grid';
 export default function CustomDataGrid(props) {
     return (
         <DataGrid
-            pagination
+            hideFooter
             pageSize={10}
             rowsPerPageOptions={[5, 10, 15, 20]}
             columns={props.columns}

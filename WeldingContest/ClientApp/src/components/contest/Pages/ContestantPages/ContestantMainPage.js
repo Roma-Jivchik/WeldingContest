@@ -7,19 +7,30 @@ export class ContestantMainPage extends Component {
 
         this.state = {
             contestants: [],
+            pagesNumber: 0,
+            pageNumber: 1,
         };
 
         this.handleSelect = this.handleSelect.bind(this);
         this.getCollectionFromController = this.getCollectionFromController.bind(this);
+        this.getPagesNumber = this.getPagesNumber.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
     }
 
     componentDidMount() {
         this.props.changePageTitle("Конкурсанты");
-        this.getCollectionFromController();
+        this.getPagesNumber();
+        this.getCollectionFromController(1, 10);
     }
 
-    async getCollectionFromController() {
-        const response = await fetch(`contestant`);
+    async getPagesNumber() {
+        const response = await fetch('contestant/get-pages-number?rowsNumber=10');
+        const data = await response.json();
+        this.setState({ pagesNumber: data });
+    }
+
+    async getCollectionFromController(pageNumber, rowsNumber) {
+        const response = await fetch(`contestant/get-range?pageNumber=${pageNumber}&rowsNumber=${rowsNumber}`);
         const data = await response.json();
         this.setState({ contestants: data});
         console.log(data);
@@ -30,7 +41,10 @@ export class ContestantMainPage extends Component {
             <>
                 <ContestantMainPageView
                     contestants={this.state.contestants}
+                    pageNumber={this.state.pageNumber}
+                    pagesNumber={this.state.pagesNumber}
                     handleSelect={this.handleSelect}
+                    handleChangePage={ this.handleChangePage}
                 />
                 </>
             );
@@ -38,5 +52,10 @@ export class ContestantMainPage extends Component {
 
     handleSelect(contestant) {
         window.location = (`/Contestants/Contestant/${contestant.id}`);
+    }
+
+    handleChangePage(event, value) {
+        console.log(value);
+        this.setState({ pageNumber: value }, () => { this.getCollectionFromController(this.state.pageNumber, 10) });
     }
 }

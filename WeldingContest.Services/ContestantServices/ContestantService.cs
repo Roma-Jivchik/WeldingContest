@@ -28,6 +28,11 @@ namespace WeldingContest.Services.ContestantServices
             return entity;
         }
 
+        public async Task<int> GetPagesNumber(int rowsNumber)
+        {
+            return await weldingContestContext.Contestants.CountAsync()/rowsNumber;
+        }
+
         public async Task<Contestant> Get(string id)
         {
             return await weldingContestContext.Contestants.Include(_ => _.ContestWorks).FirstOrDefaultAsync(_ => _.ID == id);
@@ -58,7 +63,7 @@ namespace WeldingContest.Services.ContestantServices
         public async Task<IList<Contestant>> GetRange(int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.Contestants
-                .Skip(rowsNumber * pageNumber)
+                .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
                 .ToListAsync();
         }

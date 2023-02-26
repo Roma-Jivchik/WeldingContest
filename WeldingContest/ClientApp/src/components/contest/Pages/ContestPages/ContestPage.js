@@ -80,6 +80,7 @@ export class ContestPage extends Component {
     render() {
         return (
             <ContestPageView
+                contest={ this.state.contest}
                 name={this.state.name}
                 dateOfBegin={this.state.dateOfBegin}
                 dateOfEnd={this.state.dateOfEnd}

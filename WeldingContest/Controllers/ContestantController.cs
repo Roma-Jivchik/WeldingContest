@@ -34,6 +34,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-pages-number")]
+        public async Task<IActionResult> GetPagesNumber(int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetPagesNumber(rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-by-id")]
         public async Task<IActionResult> GetByID(string id)
         {

@@ -36,6 +36,9 @@ export class ContestPageView extends Component {
                         <Button hidden={this.props.isUpdating} onClick={this.props.handleUpdate}>
                             Обновить
                         </Button>
+                        <Button hidden={this.props.isUpdating} href={`/ContestWorks/${this.props.contest.id}`}>
+                            Перейти к конкурсным работам
+                            </Button>
                         <Button hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
                             Отмена
                         </Button>
@@ -43,6 +46,9 @@ export class ContestPageView extends Component {
                             Подтвердить
                         </Button>
                     </Stack>
+                    <Button hidden={this.props.isUpdating} onClick={this.props.handleFormProtocol}>
+                        Сформировать протокол по результатам конкурса
+                        </Button>
                 </Form>
             </>
         );

@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Pagination from '@mui/material/Pagination';
 import CustomDataGrid from '../../sub-components/CustomDataGrid';
 
 export class ContestWorkMainPageView extends Component {
@@ -45,6 +46,7 @@ export class ContestWorkMainPageView extends Component {
                     rows={this.props.contestWorks}
                     handleSelect={ this.props.handleSelect}
                 />
+                <Pagination count={this.props.pagesNumber} page={this.props.pageNumber} onChange={this.props.handleChangePage} />
                 </>
             );
     }

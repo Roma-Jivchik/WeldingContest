@@ -28,6 +28,11 @@ namespace WeldingContest.Services.ContestWorkServices
             return entity;
         }
 
+        public async Task<int> GetPagesNumber(int rowsNumber)
+        {
+            return await weldingContestContext.ContestWorks.CountAsync()/rowsNumber;
+        }
+
         public async Task<ContestWork> Get(string id)
         {
             return await weldingContestContext.ContestWorks
@@ -92,7 +97,55 @@ namespace WeldingContest.Services.ContestWorkServices
                 .Include(_ => _.TheoreticalResults)
                 .Include(_ => _.VMCResults)
                 .Include(_ => _.WeldingTimeResults)
-                .Skip(rowsNumber * pageNumber)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IList<ContestWork>> GetAllByContestID(string contestID)
+        {
+            return await weldingContestContext.ContestWorks
+                .Include(_ => _.Nomination)
+                .Include(_ => _.Contest)
+                .Include(_ => _.Contestant)
+                .Include(_ => _.ArmatureAssemblyKSSResults)
+                .Include(_ => _.ArmatureEvaluationResults)
+                .Include(_ => _.ArmatureSafetyResults)
+                .Include(_ => _.ArmatureVMCResults)
+                .Include(_ => _.AssemblyKSSResults)
+                .Include(_ => _.ConsumptionWeldingMaterialsResults)
+                .Include(_ => _.EvaluationResults)
+                .Include(_ => _.MechanicalTestResults)
+                .Include(_ => _.RGMResults)
+                .Include(_ => _.SafetyResults)
+                .Include(_ => _.TheoreticalResults)
+                .Include(_ => _.VMCResults)
+                .Include(_ => _.WeldingTimeResults)
+                .Where(_ => _.ContestID == contestID)
+                .ToListAsync(); 
+        }
+
+        public async Task<IList<ContestWork>> GetRangeByContestID(string contestID, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.ContestWorks
+                .Include(_ => _.Nomination)
+                .Include(_ => _.Contest)
+                .Include(_ => _.Contestant)
+                .Include(_ => _.ArmatureAssemblyKSSResults)
+                .Include(_ => _.ArmatureEvaluationResults)
+                .Include(_ => _.ArmatureSafetyResults)
+                .Include(_ => _.ArmatureVMCResults)
+                .Include(_ => _.AssemblyKSSResults)
+                .Include(_ => _.ConsumptionWeldingMaterialsResults)
+                .Include(_ => _.EvaluationResults)
+                .Include(_ => _.MechanicalTestResults)
+                .Include(_ => _.RGMResults)
+                .Include(_ => _.SafetyResults)
+                .Include(_ => _.TheoreticalResults)
+                .Include(_ => _.VMCResults)
+                .Include(_ => _.WeldingTimeResults)
+                .Where(_ => _.ContestID == contestID)
+                .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
                 .ToListAsync();
         }

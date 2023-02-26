@@ -34,6 +34,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-pages-number")]
+        public async Task<IActionResult> GetPagesNumber(int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumber(rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-by-id")]
         public async Task<IActionResult> GetByID(string id)
         {
@@ -56,6 +72,38 @@ namespace WeldingContest.Controllers
             try
             {
                 var contestWorks = await _contestWorkService.GetRange(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-all-by-contest-id")]
+        public async Task<IActionResult> GetAllByContestID(string contestID)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetAllByContestID(contestID);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contest-id")]
+        public async Task<IActionResult> GetRange(string contestID, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByContestID(contestID, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
