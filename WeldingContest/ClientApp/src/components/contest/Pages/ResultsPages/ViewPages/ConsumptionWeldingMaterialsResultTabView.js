@@ -15,7 +15,7 @@ export class ConsumptionWeldingMaterialsResultTabView extends Component {
                     <fieldset disabled>
                     <Form.Group>
                         <Form.Label>Количество дополнительных сварочных материалов (норма: 111(труба) - 5 электродов, 141 - 3 прутка) (+1 балл за каждый доп. материал)</Form.Label>
-                        <Form.Control type="time" name="consumbleMaterialAmount" value={this.props.consumbleMaterialAmount}/>
+                        <Form.Control type="number" name="consumbleMaterialAmount" value={this.props.consumbleMaterialAmount}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Итоговое количество баллов</Form.Label>

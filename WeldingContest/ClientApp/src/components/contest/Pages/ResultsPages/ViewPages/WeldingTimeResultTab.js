@@ -5,13 +5,17 @@ export class WeldingTimeResultTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            timeOfBegin: this.props.contestWork.weldingTimeResults[0].timeOfBegin,
-            timeOfEnd: this.props.contestWork.weldingTimeResults[0].timeOfEnd,
+            timeOfBegin: this.props.contestWork.weldingTimeResults[0].timeOfBegin.substring(11, 16),
+            timeOfEnd: this.props.contestWork.weldingTimeResults[0].timeOfEnd.substring(11, 16),
             overallMark: this.props.contestWork.weldingTimeResults[0].overallMark,
         }
 
         this.deleteObjectFromController = this.deleteObjectFromController.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this.state.timeOfBegin);
     }
 
     async deleteObjectFromController(id) {

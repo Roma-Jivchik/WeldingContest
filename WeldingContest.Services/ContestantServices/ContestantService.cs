@@ -30,7 +30,7 @@ namespace WeldingContest.Services.ContestantServices
 
         public async Task<int> GetPagesNumber(int rowsNumber)
         {
-            return await weldingContestContext.Contestants.CountAsync()/rowsNumber;
+            return await weldingContestContext.Contestants.CountAsync()/rowsNumber + 1;
         }
 
         public async Task<Contestant> Get(string id)

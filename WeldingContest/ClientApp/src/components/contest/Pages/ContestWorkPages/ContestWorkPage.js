@@ -57,9 +57,9 @@ export class ContestWorkPage extends Component {
     componentDidMount() {
         this.props.changePageTitle("Конкурсная работа");
         this.getObjectFromController(this.props.id);
-        this.getCollectionFromController("contest");
-        this.getCollectionFromController("contestant");
-        this.getCollectionFromController("nomination");
+        //this.getCollectionFromController("contest");
+        //this.getCollectionFromController("contestant");
+        //this.getCollectionFromController("nomination");
     }
 
     async getObjectFromController(id) {

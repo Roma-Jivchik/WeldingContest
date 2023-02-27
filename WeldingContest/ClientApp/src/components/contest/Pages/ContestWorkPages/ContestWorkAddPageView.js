@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
+import Pagination from '@mui/material/Pagination';
 import CustomDataGrid from '../../sub-components/CustomDataGrid';
 
 export class ContestWorkAddPageView extends Component {
@@ -38,6 +39,7 @@ export class ContestWorkAddPageView extends Component {
                                 Выбрать
                             </Button>
                             <Popover
+                                autoWidth
                                 open={this.props.contestAnchorOpen}
                                 anchorEl={this.props.contestAnchor}
                                 onClose={this.props.handleClose}
