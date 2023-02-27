@@ -36,17 +36,20 @@ namespace WeldingContest.Services.ProtocolServices
             InputDataWithoutBorders(xlWorkSheet, "D2", "Q2", $"Анализ результатов {entity.Name}");
             int currentRow = 6;
             var nominations = weldingContestContext.Nominations.ToList();
+            var nominationsMarksList = new List<List<int>>();
 
             foreach (var nomination in nominations)
             {
                 var contestWorks = weldingContestContext.ContestWorks
                     .Include(_ => _.Nomination)
-                    .Include(_=>_.VMCResults)
+                    .Include(_ => _.VMCResults)
                     .Where(_ => _.Nomination == nomination)
                     .Where(_ => _.VMCResults.Count != 0)
                     .ToList();
 
-                var resultsCount = CountMarks1(contestWorks);
+                var resultsCount = CountMarks(contestWorks);
+
+                nominationsMarksList.Add(resultsCount);
 
                 InputData(xlWorkSheet, $"B{currentRow}", $"B{currentRow}", nomination.Title);
                 InputData(xlWorkSheet, $"C{currentRow}", $"C{currentRow}", contestWorks.Count().ToString());
@@ -64,6 +67,38 @@ namespace WeldingContest.Services.ProtocolServices
 
                 currentRow++;
             }
+
+            var nominationsMarksListSum = new List<int>();
+
+            for (var i=0; i< nominationsMarksList.ElementAt(0).Count(); i++)
+            {
+                var count = 0;
+
+                foreach(var list in nominationsMarksList)
+                {
+                    count += list.ElementAt(i);
+                }
+
+                nominationsMarksListSum.Add(count);
+            }
+
+            var contestWorksAll = weldingContestContext.ContestWorks
+                .Include(_ => _.VMCResults)
+                .Where(_ => _.VMCResults.Count != 0);
+
+            InputData(xlWorkSheet, $"B{currentRow}", $"B{currentRow}", "Итого");
+            InputData(xlWorkSheet, $"C{currentRow}", $"C{currentRow}", contestWorksAll.Count().ToString());
+            InputData(xlWorkSheet, $"D{currentRow}", $"D{currentRow}", nominationsMarksListSum.ElementAt(0).ToString());
+            InputData(xlWorkSheet, $"E{currentRow}", $"E{currentRow}", nominationsMarksListSum.ElementAt(1).ToString());
+            InputData(xlWorkSheet, $"F{currentRow}", $"F{currentRow}", nominationsMarksListSum.ElementAt(2).ToString());
+            InputData(xlWorkSheet, $"G{currentRow}", $"G{currentRow}", nominationsMarksListSum.ElementAt(3).ToString());
+            InputData(xlWorkSheet, $"H{currentRow}", $"H{currentRow}", nominationsMarksListSum.ElementAt(4).ToString());
+            InputData(xlWorkSheet, $"I{currentRow}", $"I{currentRow}", nominationsMarksListSum.ElementAt(5).ToString());
+            InputData(xlWorkSheet, $"J{currentRow}", $"J{currentRow}", nominationsMarksListSum.ElementAt(6).ToString());
+            InputData(xlWorkSheet, $"K{currentRow}", $"K{currentRow}", nominationsMarksListSum.ElementAt(7).ToString());
+            InputData(xlWorkSheet, $"L{currentRow}", $"L{currentRow}", nominationsMarksListSum.ElementAt(8).ToString());
+            InputData(xlWorkSheet, $"N{currentRow}", $"N{currentRow}", nominationsMarksListSum.ElementAt(9).ToString());
+            InputData(xlWorkSheet, $"O{currentRow}", $"O{currentRow}", nominationsMarksListSum.ElementAt(10).ToString());
 
             xlWorkBook.SaveAs(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             xlWorkBook.Close(true, misValue, misValue);
@@ -99,63 +134,80 @@ namespace WeldingContest.Services.ProtocolServices
             int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
             xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn] = data;
         }
-
-        private List<int> CountMarks(List<ContestWork> contestWorks)
+        private int CountUpperData(Worksheet xlWorkSheet, string column, int startRow, int rowsCount)
         {
-            List<int> result = new List<int>();
+            List<string> alphabet = new List<string>()
+            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
-            int counter = 0;
-            int countLackOfPenetration = 0;
-            int countEdgeOffset = 0;
-            int countUndercut = 0;
-            int countSinking = 0;
-            int countExcessPenetration = 0;
-            int countExcessSeamWidth = 0;
-            int countExcessSeamConvexity = 0;
-            int countExcessSeamScaling = 0;
-            int countRoughTransition = 0;
-            int countSeamGeometry = 0;
-            int countOtherWarnings = 0;
+            int columnIndex = alphabet.FindIndex(_ => _ ==column) + 1;
 
-            foreach (var contestWork in contestWorks)
+            var counter = 0;
+
+            for (var i = startRow; i < rowsCount; i++)
             {
-                var vmcResult = contestWork.VMCResults.ElementAt(0);
-
-                countLackOfPenetration += vmcResult.LackOfPenetrationUpTo10mmCount
-                    + vmcResult.LackOfPenetrationFrom10mmTo20mmCount
-                    + vmcResult.LackOfPenetrationFrom20mmCount;
-                countEdgeOffset += vmcResult.EdgeOffsetCount;
-                countUndercut += vmcResult.UndercutUpTo10mmCount
-                    + vmcResult.UndercutFrom20mmCount
-                    + vmcResult.UndercutRemovalCount;
-                countSinking += vmcResult.SinkingCount;
-                countExcessPenetration += vmcResult.ExcessPenetrationCount;
-                countExcessSeamWidth += vmcResult.ExcessSeamWidthCount;
-                countExcessSeamConvexity += vmcResult.ExcessSeamConvexityCount;
-                countExcessSeamScaling += vmcResult.ExcessSeamScalingCount;
-                countRoughTransition += vmcResult.RoughTransitionCount;
-                countSeamGeometry += vmcResult.SeamGeometryCount;
-                countOtherWarnings += vmcResult.OtherWarningsCount;
-
-                counter++;
+                counter += int.Parse((string)(((Microsoft.Office.Interop.Excel.Range)xlWorkSheet.Cells[i, columnIndex]).Text));
             }
 
-            result.Add(countLackOfPenetration);
-            result.Add(countEdgeOffset);
-            result.Add(countUndercut);
-            result.Add(countSinking);
-            result.Add(countExcessPenetration);
-            result.Add(countExcessSeamWidth);
-            result.Add(countExcessSeamConvexity);
-            result.Add(countExcessSeamScaling);
-            result.Add(countRoughTransition);
-            result.Add(countSeamGeometry);
-            result.Add(countOtherWarnings);
-
-            return result;
+            return counter;
         }
 
-        private List<int> CountMarks1(List<ContestWork> contestWorks)
+        //private List<int> CountMarks(List<ContestWork> contestWorks)
+        //{
+        //    List<int> result = new List<int>();
+
+        //    int counter = 0;
+        //    int countLackOfPenetration = 0;
+        //    int countEdgeOffset = 0;
+        //    int countUndercut = 0;
+        //    int countSinking = 0;
+        //    int countExcessPenetration = 0;
+        //    int countExcessSeamWidth = 0;
+        //    int countExcessSeamConvexity = 0;
+        //    int countExcessSeamScaling = 0;
+        //    int countRoughTransition = 0;
+        //    int countSeamGeometry = 0;
+        //    int countOtherWarnings = 0;
+
+        //    foreach (var contestWork in contestWorks)
+        //    {
+        //        var vmcResult = contestWork.VMCResults.ElementAt(0);
+
+        //        countLackOfPenetration += vmcResult.LackOfPenetrationUpTo10mmCount
+        //            + vmcResult.LackOfPenetrationFrom10mmTo20mmCount
+        //            + vmcResult.LackOfPenetrationFrom20mmCount;
+        //        countEdgeOffset += vmcResult.EdgeOffsetCount;
+        //        countUndercut += vmcResult.UndercutUpTo10mmCount
+        //            + vmcResult.UndercutFrom20mmCount
+        //            + vmcResult.UndercutRemovalCount;
+        //        countSinking += vmcResult.SinkingCount;
+        //        countExcessPenetration += vmcResult.ExcessPenetrationCount;
+        //        countExcessSeamWidth += vmcResult.ExcessSeamWidthCount;
+        //        countExcessSeamConvexity += vmcResult.ExcessSeamConvexityCount;
+        //        countExcessSeamScaling += vmcResult.ExcessSeamScalingCount;
+        //        countRoughTransition += vmcResult.RoughTransitionCount;
+        //        countSeamGeometry += vmcResult.SeamGeometryCount;
+        //        countOtherWarnings += vmcResult.OtherWarningsCount;
+
+        //        counter++;
+        //    }
+
+        //    result.Add(countLackOfPenetration);
+        //    result.Add(countEdgeOffset);
+        //    result.Add(countUndercut);
+        //    result.Add(countSinking);
+        //    result.Add(countExcessPenetration);
+        //    result.Add(countExcessSeamWidth);
+        //    result.Add(countExcessSeamConvexity);
+        //    result.Add(countExcessSeamScaling);
+        //    result.Add(countRoughTransition);
+        //    result.Add(countSeamGeometry);
+        //    result.Add(countOtherWarnings);
+
+        //    return result;
+        //}
+
+        private List<int> CountMarks(List<ContestWork> contestWorks)
         {
             List<int> result = new List<int>();
 
