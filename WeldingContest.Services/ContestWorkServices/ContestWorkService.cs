@@ -30,7 +30,7 @@ namespace WeldingContest.Services.ContestWorkServices
 
         public async Task<int> GetPagesNumber(int rowsNumber)
         {
-            return await weldingContestContext.ContestWorks.CountAsync()/rowsNumber;
+            return await weldingContestContext.ContestWorks.CountAsync()/rowsNumber + 1;
         }
 
         public async Task<ContestWork> Get(string id)
@@ -97,9 +97,9 @@ namespace WeldingContest.Services.ContestWorkServices
                 .Include(_ => _.TheoreticalResults)
                 .Include(_ => _.VMCResults)
                 .Include(_ => _.WeldingTimeResults)
+                .OrderBy(_ => _.Contestant.RFID)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
-                .OrderBy(_ => _.Contestant.RFID)
                 .ToListAsync();
         }
 

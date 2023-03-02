@@ -19,7 +19,9 @@ using WeldingContest.Services.TheoreticalResultServices;
 using WeldingContest.Services.VMCResultServices;
 using WeldingContest.Services.WeldingTimeResultServices;
 using WeldingContest.Services.FileServices;
+using WeldingContest.Services.ProtocolServices;
 using WeldingContest.Services.Entities;
+using WeldingContest.Services.Entities.ContestMembers;
 
 namespace WeldingContest.Services
 {
@@ -46,6 +48,7 @@ namespace WeldingContest.Services
             serviceCollection.AddScoped<IVMCResultService, VMCResultService>();
             serviceCollection.AddScoped<IWeldingTimeResultService, WeldingTimeResultService>();
             serviceCollection.AddScoped<IFileService<RGMPhotoFile>, FileService>();
+            serviceCollection.AddScoped<IProtocolServiceBase<Contest>, OverallContestProtocolService>();
         }
     }
 }

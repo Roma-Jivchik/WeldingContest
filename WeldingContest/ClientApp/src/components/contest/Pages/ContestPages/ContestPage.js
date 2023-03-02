@@ -18,11 +18,13 @@ export class ContestPage extends Component {
         this.getObjectFromController = this.getObjectFromController.bind(this);
         this.putObjectToController = this.putObjectToController.bind(this);
         this.deleteObjectFromController = this.deleteObjectFromController.bind(this);
+        this.formProtocol = this.formProtocol.bind(this);
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFormProtocol = this.handleFormProtocol.bind(this);
     }
 
     clearState() {
@@ -74,10 +76,21 @@ export class ContestPage extends Component {
         this.props.getMessage(data);
     }
 
+    async formProtocol(contest) {
+        const response = await fetch('protocol/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(contest)
+        });
+
+        const data = await response.json();
+        console.log(data);
+    }
+
     render() {
         return (
             <ContestPageView
-                contest={ this.state.contest}
+                contest={this.state.contest}
                 name={this.state.name}
                 dateOfBegin={this.state.dateOfBegin}
                 dateOfEnd={this.state.dateOfEnd}
@@ -85,9 +98,10 @@ export class ContestPage extends Component {
                 validated={this.state.validated}
                 handleChangeInput={this.handleChangeInput}
                 handleUpdate={this.handleUpdate}
-                handleDelete={ this.handleDelete}
-                handleCancel={ this.handleCancel}
-                handleSubmit={ this.handleSubmit}
+                handleDelete={this.handleDelete}
+                handleCancel={this.handleCancel}
+                handleSubmit={this.handleSubmit}
+                handleFormProtocol={this.handleFormProtocol}
             />
             );
     }
@@ -110,6 +124,10 @@ export class ContestPage extends Component {
             this.setState({ validated: true });
             this.putObjectToController(object);
         }
+    }
+
+    handleFormProtocol() {
+        this.formProtocol(this.state.contest);
     }
 
     handleUpdate() {
