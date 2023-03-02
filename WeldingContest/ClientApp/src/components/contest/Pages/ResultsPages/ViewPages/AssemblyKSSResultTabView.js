@@ -46,7 +46,7 @@ export class AssemblyKSSResultTabView extends Component {
                         <Form.Control type="number" name="sampleRepositioningCount" value={this.props.sampleRepositioningCount}/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>За использование личных (не предоставленных организатором) приспособлений и оснастки ддля сборки и сварки (20 баллов)</Form.Label>
+                        <Form.Label>За использование личных (не предоставленных организатором) приспособлений и оснастки для сборки и сварки (20 баллов)</Form.Label>
                         <Form.Control type="number" name="personalWeldingToolsUsed" value={this.props.personalWeldingToolsUsed}/>
                     </Form.Group>
                     <Form.Group>

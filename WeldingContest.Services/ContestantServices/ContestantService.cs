@@ -65,6 +65,7 @@ namespace WeldingContest.Services.ContestantServices
             return await weldingContestContext.Contestants
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
+                .Include(_ => _.ContestWorks)
                 .ToListAsync();
         }
 
@@ -91,6 +92,66 @@ namespace WeldingContest.Services.ContestantServices
             await SaveChanges();
 
             return entity;
+        }
+
+        public async Task<IList<Contestant>> GetBySurnameRangeAsync(string surname, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Where(_ => _.FullName.Contains(surname))
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .Include(_ => _.ContestWorks)
+                .OrderBy(_ => _.FullName)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetByCompanyRangeAsync(string company, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+               .Where(_ => _.Company == company)
+               .Skip(rowsNumber * (pageNumber - 1))
+               .Take(rowsNumber)
+               .Include(_ => _.ContestWorks)
+               .OrderBy(_ => _.FullName)
+               .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetByContestWorksRangeAsync(string nomination, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+               .Where(_ => _.ContestWorks.FirstOrDefault(_ => _.Nomination.Title != nomination).Nomination.Title != nomination)
+               .Skip(rowsNumber * (pageNumber - 1))
+               .Take(rowsNumber)
+               .Include(_ => _.ContestWorks)
+               .OrderBy(_ => _.FullName)
+               .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetAllByRFID(int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.RFID)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetAllByQR(int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.QR)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetAllByCompany(int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.Company)
+                .ToListAsync();
         }
     }
 }

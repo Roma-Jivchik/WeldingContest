@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WeldingContest.DataAccess;
 using WeldingContest.Services.Entities.ContestMembers;
-using WeldingContest.Services.Entities.ContestWorks;
 
 namespace WeldingContest.Services.ContestServices
 {
@@ -37,7 +36,7 @@ namespace WeldingContest.Services.ContestServices
         public async Task<IList<Contest>> GetAll()
         {
             return await weldingContestContext.Contests
-                .OrderBy(_ => _.Name)
+                .OrderBy(_ => _.DateOfBegin)
                 .ToListAsync();
         }
 
@@ -46,9 +45,50 @@ namespace WeldingContest.Services.ContestServices
             return await weldingContestContext.Contests.FirstOrDefaultAsync(_ => _.DateOfBegin.ToString() == beginDate);
         }
 
+        public async Task<IList<Contest>> GetByContestantIDAsync(string ID, int pageNumber, int rowsNumber)
+        {
+            var contestWorks = await weldingContestContext.ContestWorks
+                .Where(_ => _.ContestantID == ID)
+                .ToListAsync();
+
+            return await weldingContestContext.Contests
+                .Where(_ => _.ContestWorks == contestWorks)
+                .Include(_ => _.ContestWorks)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.DateOfBegin)
+                .ToListAsync();
+        }
+
+        public async Task<Contest> GetByEndDateAsync(string endDate)
+        {
+            return await weldingContestContext.Contests
+                .FirstOrDefaultAsync(_ => _.DateOfEnd.ToString() == endDate);
+        }
+
+        public async Task<Contest> GetByTitleAsync(string title)
+        {
+            return await weldingContestContext.Contests
+                .FirstOrDefaultAsync(_ => _.Name.Contains(title));
+        }
+
         public Task<IList<Contest>> GetRange(int pageNumber, int rowsNumber)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IList<Contest>> GetRangeByEndDate()
+        {
+            return await weldingContestContext.Contests
+                .OrderBy(_ => _.DateOfEnd)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contest>> GetRangeByTitle()
+        {
+            return await weldingContestContext.Contests
+                .OrderBy(_ => _.Name)
+                .ToListAsync();
         }
 
         public async Task Remove(string id)

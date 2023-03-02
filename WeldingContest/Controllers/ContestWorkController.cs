@@ -82,6 +82,102 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-range-by-contest-title")]
+        public async Task<IActionResult> GetRangeByContestTitle(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByContestName(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contestant-surname")]
+        public async Task<IActionResult> GetRangeByContestantSurname(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByContestantSurname(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contestant-company")]
+        public async Task<IActionResult> GetRangeByContestantCompany(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByContestantCompany(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-nomination-title")]
+        public async Task<IActionResult> GetRangeByNominationTitle(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByNominationTitle(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-welding-type")]
+        public async Task<IActionResult> GetRangeByWeldingType(int pageNumber, int rowsNumber)
+        { 
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeByWeldingType(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-sample-type")]
+        public async Task<IActionResult> GetRangeBySampleType(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetRangeBySampleType(pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-all-by-contest-id")]
         public async Task<IActionResult> GetAllByContestID(string contestID)
         {
@@ -99,11 +195,139 @@ namespace WeldingContest.Controllers
 
         [HttpGet]
         [Route("[controller]/get-range-by-contest-id")]
-        public async Task<IActionResult> GetRange(string contestID, int pageNumber, int rowsNumber)
+        public async Task<IActionResult> GetRangeByContestID(string contestID, int pageNumber, int rowsNumber)
         {
             try
             {
                 var contestWorks = await _contestWorkService.GetRangeByContestID(contestID, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {   
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contest-title")]
+        public async Task<IActionResult> GetRangeByContestTitle(string title, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByContestTitleAsyncRange(title, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-contestant-rfid")]
+        public async Task<IActionResult> GetByContestantRFID(string RFID)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByContestantRFIDAsync(RFID);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contestant-surname")]
+        public async Task<IActionResult> GetRangeByContestantCompany(string company, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByContestantCompanyAsyncRange(company, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contestant-surname")]
+        public async Task<IActionResult> GetRangeByNominationTitle(string title, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByNominationTitleAsyncRange(title, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-welding-type")]
+        public async Task<IActionResult> GetRangeByWeldingType(string weldingType, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByWeldingTypeAsyncRange(weldingType, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-sample-type")]
+        public async Task<IActionResult> GetRangeBySampleType(string sampleType, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetBySampleTypeAsyncRange(sampleType, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-contestant-id")]
+        public async Task<IActionResult> GetByContestantID(string ID)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetAllByContestID(ID);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-contestant-surname")]
+        public async Task<IActionResult> GetRangeByContestantSurname(string surname, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetByContestantSurnameAsyncRange(surname, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }

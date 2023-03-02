@@ -82,6 +82,102 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-range-by-rfid")]
+        public async Task<IActionResult> GetRangeByRFID(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetAllByRFID(pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-qr")]
+        public async Task<IActionResult> GetRangeByQR(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetAllByQR(pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-range-by-company")]
+        public async Task<IActionResult> GetRangeByCompany(int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetAllByCompany(pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-surname-range")]
+        public async Task<IActionResult> GetBySurnameRange(string surname, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetBySurnameRangeAsync(surname, pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-company-range")]
+        public async Task<IActionResult> GetByCompanyRange(string company, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetByCompanyRangeAsync(company, pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-contest-works-range")]
+        public async Task<IActionResult> GetByContestWorksRange(string nomination, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetByContestWorksRangeAsync(nomination, pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-by-qr")]
         public async Task<IActionResult> GetByQR(string QR)
         {

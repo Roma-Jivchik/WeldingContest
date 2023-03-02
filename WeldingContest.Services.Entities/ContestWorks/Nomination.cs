@@ -13,6 +13,7 @@ namespace WeldingContest.Services.Entities.ContestWorks
 
         public string ID { get; set; }
         public string Title { get; set; }
+        public string SampleType { get; set; }
         public int Size { get; set; }
         public string Thickness { get; set; }
         public string Material { get; set; }

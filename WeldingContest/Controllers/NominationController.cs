@@ -34,6 +34,38 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-all-by-sample-type")]
+        public async Task<IActionResult> GetAllBySampleType()
+        {
+            try
+            {
+                var nominations = await _nominationService.GetAllBySampleType();
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-all-by-welding-type")]
+        public async Task<IActionResult> GetAllByWeldingType()
+        {
+            try
+            {
+                var nominations = await _nominationService.GetAllByWeldingType();
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-by-id")]
         public async Task<IActionResult> GetByID(string id)
         {
@@ -56,6 +88,70 @@ namespace WeldingContest.Controllers
             try
             {
                 var nominations = await _nominationService.GetRange(pageNumber, rowsNumber);
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-contestant-id-range")]
+        public async Task<IActionResult> GetByContestantIDRange(string ID, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var nominations = await _nominationService.GetByContestantIDRangeAsync(ID, pageNumber, rowsNumber);
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-sample-type-range")]
+        public async Task<IActionResult> GetBySampleTypeRange(string sampleType, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var nominations = await _nominationService.GetBySampleTypeRangeAsync(sampleType, pageNumber, rowsNumber);
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by-welding-type-range")]
+        public async Task<IActionResult> GetByWeldingTypeRange(string weldingType, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var nominations = await _nominationService.GetByWeldingTypeRangeAsync(weldingType, pageNumber, rowsNumber);
+
+                return Ok(nominations);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-by title")]
+        public async Task<IActionResult> GetByTitle(string title)
+        {
+            try
+            {
+                var nominations = await _nominationService.GetByTitleAsync(title);
 
                 return Ok(nominations);
             }

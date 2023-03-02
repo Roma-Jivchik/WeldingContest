@@ -40,6 +40,63 @@ namespace WeldingContest.Services.NominationServices
                 .ToListAsync();
         }
 
+        public async Task<IList<Nomination>> GetAllBySampleType()
+        {
+            return await weldingContestContext.Nominations
+               .OrderBy(_ => _.SampleType)
+               .ToListAsync();
+        }
+
+        public async Task<IList<Nomination>> GetAllByWeldingType()
+        {
+            return await weldingContestContext.Nominations
+               .OrderBy(_ => _.WeldingType)
+               .ToListAsync();
+        }
+
+        public async Task<IList<Nomination>> GetByContestantIDRangeAsync(string ID, int rowsNumber, int pageNumber)
+        {
+            var contestWorks = await weldingContestContext.ContestWorks
+                .Where(_ => _.ContestantID == ID)
+                .ToListAsync();
+
+            return await weldingContestContext.Nominations
+                .Where(_ => _.ContestWorks == contestWorks)
+                .Include(_ => _.ContestWorks)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.WeldingType)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Nomination>> GetBySampleTypeRangeAsync(string sampleType, int rowsNumber, int pageNumber)
+        {
+            return await weldingContestContext.Nominations
+                .Where(_ => _.SampleType == sampleType)
+                .Include(_ => _.ContestWorks)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .OrderBy(_ => _.WeldingType)
+                .ToListAsync();
+        }
+
+        public async Task<Nomination> GetByTitleAsync(string title)
+        {
+            return await weldingContestContext.Nominations
+                .FirstOrDefaultAsync(_ => _.Title.Contains(title));
+        }
+
+        public async Task<IList<Nomination>> GetByWeldingTypeRangeAsync(string weldingType, int rowsNumber, int pageNumber)
+        {
+            return await weldingContestContext.Nominations
+               .Where(_ => _.WeldingType.Contains(weldingType))
+               .Include(_ => _.ContestWorks)
+               .Skip(rowsNumber * (pageNumber - 1))
+               .Take(rowsNumber)
+               .OrderBy(_ => _.SampleType)
+               .ToListAsync();
+        }
+
         public async Task<IList<Nomination>> GetRange(int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.Nominations
