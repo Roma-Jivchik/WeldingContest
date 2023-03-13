@@ -9,11 +9,12 @@ export class NominationMainPageView extends Component {
 
         this.state = {
             columns: [
-                { field: 'title', headerName: 'Название номинации', width: 300 },
-                { field: 'size', headerName: 'Размер образца', width: 200  },
-                { field: 'thickness', headerName: 'Толщина образца', width: 200 },
-                { field: 'material', headerName: 'Материал образца', width: 200 },
-                { field: 'weldingType', headerName: 'Тип сварки', width: 300 },
+                { field: 'title', headerName: 'Название номинации', width: 200, sortable: false },
+                { field: 'size', headerName: 'Размер образца', width: 200, sortable: false  },
+                { field: 'thickness', headerName: 'Толщина образца', width: 200, sortable: false },
+                { field: 'material', headerName: 'Материал образца', width: 200, sortable: false },
+                { field: 'weldingType', headerName: 'Тип сварки', width: 200, sortable: false },
+                { field: 'sampleType', headerName: 'Тип образца', width: 200, sortable: false },
             ],
         }
     }

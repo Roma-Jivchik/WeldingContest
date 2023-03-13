@@ -9,9 +9,9 @@ export class ContestMainPageView extends Component {
 
         this.state = {
             columns: [
-                { field: 'name', headerName: 'Название конкурса', width: 300 },
-                { field: 'dateOfBegin', headerName: 'Дата начала конкурса', width: 300  },
-                { field: 'dateOfEnd', headerName: 'Дата окончания конкурса', width: 300  },
+                { field: 'name', headerName: 'Название конкурса', width: 300, sortable: false },
+                { field: 'dateOfBegin', headerName: 'Дата начала конкурса', width: 300, sortable: false  },
+                { field: 'dateOfEnd', headerName: 'Дата окончания конкурса', width: 300, sortable: false  },
             ],
         }
     }
