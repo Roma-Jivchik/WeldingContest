@@ -94,63 +94,130 @@ namespace WeldingContest.Services.ContestantServices
             return entity;
         }
 
-        public async Task<IList<Contestant>> GetBySurnameRangeAsync(string surname, int pageNumber, int rowsNumber)
+        public async Task<int> GetPagesNumberBySurname(string surname, int rowsNumber)
         {
             return await weldingContestContext.Contestants
                 .Where(_ => _.FullName.Contains(surname))
+                .CountAsync() / rowsNumber + 1;
+        }
+
+        public async Task<int> GetPagesNumberByCompany(string company, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Where(_ => _.Company.Contains(company))
+                .CountAsync() / rowsNumber + 1;
+        }
+
+        public async Task<int> GetPagesNumberByNomination(string nomination, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Include(_ => _.ContestWorks)
+                .Where(_ => _.ContestWorks.Where(_ => _.Nomination.Title.Contains(nomination)).Count() != 0)
+                .CountAsync() / rowsNumber + 1;
+        }
+
+        public async Task<IList<Contestant>> GetSearchedBySurname(string surname, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Where(_ => _.FullName.Contains(surname))
+                .OrderBy(_ => _.FullName)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
                 .Include(_ => _.ContestWorks)
-                .OrderBy(_ => _.FullName)
                 .ToListAsync();
         }
 
-        public async Task<IList<Contestant>> GetByCompanyRangeAsync(string company, int pageNumber, int rowsNumber)
+        public async Task<IList<Contestant>> GetSearchedByCompany(string company, int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.Contestants
-               .Where(_ => _.Company == company)
+               .Where(_ => _.Company.Contains(company))
+               .OrderBy(_ => _.FullName)
                .Skip(rowsNumber * (pageNumber - 1))
                .Take(rowsNumber)
                .Include(_ => _.ContestWorks)
-               .OrderBy(_ => _.FullName)
                .ToListAsync();
         }
 
-        public async Task<IList<Contestant>> GetByContestWorksRangeAsync(string nomination, int pageNumber, int rowsNumber)
+        public async Task<IList<Contestant>> GetSearchedByNomination(string nomination, int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.Contestants
-               .Where(_ => _.ContestWorks.FirstOrDefault(_ => _.Nomination.Title != nomination).Nomination.Title != nomination)
+               .Include(_ => _.ContestWorks)
+               .Where(_ => _.ContestWorks.Where(_ => _.Nomination.Title.Contains(nomination)).Count() != 0)
+               .OrderBy(_ => _.FullName)
                .Skip(rowsNumber * (pageNumber - 1))
                .Take(rowsNumber)
-               .Include(_ => _.ContestWorks)
-               .OrderBy(_ => _.FullName)
                .ToListAsync();
         }
 
-        public async Task<IList<Contestant>> GetAllByRFID(int pageNumber, int rowsNumber)
+        public async Task<IList<Contestant>> GetSortedByRFID(string direction, int pageNumber, int rowsNumber)
         {
+            if (direction == "up")
+            {
+                return await weldingContestContext.Contestants
+                    .OrderBy(_ => _.RFID)
+                    .Skip(rowsNumber * (pageNumber - 1))
+                    .Take(rowsNumber)
+                    .ToListAsync();
+            }
+
             return await weldingContestContext.Contestants
+                .OrderByDescending(_ => _.RFID)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
-                .OrderBy(_ => _.RFID)
                 .ToListAsync();
         }
 
-        public async Task<IList<Contestant>> GetAllByQR(int pageNumber, int rowsNumber)
+        public async Task<IList<Contestant>> GetSortedByQR(string direction, int pageNumber, int rowsNumber)
         {
+            if (direction == "up")
+            {
+                return await weldingContestContext.Contestants
+                    .OrderBy(_ => _.QR)
+                    .Skip(rowsNumber * (pageNumber - 1))
+                    .Take(rowsNumber)
+                    .ToListAsync();
+            }
+
             return await weldingContestContext.Contestants
+                .OrderByDescending(_ => _.QR)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
-                .OrderBy(_ => _.QR)
                 .ToListAsync();
         }
 
-        public async Task<IList<Contestant>> GetAllByCompany(int pageNumber, int rowsNumber)
+        public async Task<IList<Contestant>> GetSortedByCompany(string direction, int pageNumber, int rowsNumber)
         {
+            if (direction == "up")
+            {
+                return await weldingContestContext.Contestants
+                    .OrderBy(_ => _.Company)
+                    .Skip(rowsNumber * (pageNumber - 1))
+                    .Take(rowsNumber)
+                    .ToListAsync();
+            }
+
             return await weldingContestContext.Contestants
+                .OrderByDescending(_ => _.Company)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
-                .OrderBy(_ => _.Company)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetSortedByFullName(string direction, int pageNumber, int rowsNumber)
+        {
+            if (direction == "up")
+            {
+                return await weldingContestContext.Contestants
+                    .OrderBy(_ => _.FullName)
+                    .Skip(rowsNumber * (pageNumber - 1))
+                    .Take(rowsNumber)
+                    .ToListAsync();
+            }
+
+            return await weldingContestContext.Contestants
+                .OrderByDescending(_ => _.FullName)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
                 .ToListAsync();
         }
     }

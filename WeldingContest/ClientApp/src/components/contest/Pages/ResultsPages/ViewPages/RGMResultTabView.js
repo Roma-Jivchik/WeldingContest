@@ -17,7 +17,13 @@ export class RGMResultTabView extends Component {
                         <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark}/>
                     </Form.Group>
                     <img
-                        style={{marginTop:"10px",marginBottom:"10px",display:"grid"}}
+                        style={{
+                            width: "1000px",
+                            height: "700px",
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                            display: "grid"
+                        }}
                         alt="Темплейт"
                         src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Рентген_${this.props.contestWork.contestant.rfid}.jpg`}
                     />

@@ -17,7 +17,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            pageTitle:"Главная"
+            pageTitle: "Главная",
         }
 
         this.changePageTitle = this.changePageTitle.bind(this);
@@ -28,7 +28,7 @@ export default class App extends Component {
             <Layout pageTitle={this.state.pageTitle}>
                 <Router>
                     <Routes>
-                        <Route path='/Contestants/*' element={<ContestantRouter changePageTitle={this.changePageTitle} />} />
+                        <Route path='/Contestants/*' element={<ContestantRouter changePageTitle={this.changePageTitle}/>} />
                         <Route path='/Contests/*' element={<ContestRouter changePageTitle={this.changePageTitle} />} />
                         <Route path='/Nominations/*' element={<NominationRouter changePageTitle={this.changePageTitle} />} />
                         <Route path='/ContestWorks/*' element={<ContestWorkRouter changePageTitle={this.changePageTitle} />} />

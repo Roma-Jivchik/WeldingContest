@@ -47,7 +47,7 @@ export class RGMResultAddTab extends Component {
     }
 
     handleSubmit() {
-        //event.preventDefault();
+        event.preventDefault();
         let object = {
             ID: "_",
             ContestWorkID: this.state.contestWorkID,

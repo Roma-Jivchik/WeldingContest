@@ -18,14 +18,14 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]")]
-        public async Task<IActionResult> GetAll()
+        [Route("[controller]/get-pages-number")]
+        public async Task<IActionResult> GetPagesNumber(int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetAll();
+                var contestants = await _contestWorkService.GetPagesNumber(rowsNumber);
 
-                return Ok(contestWorks);
+                return Ok(contestants);
             }
             catch (Exception e)
             {
@@ -34,12 +34,92 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-pages-number")]
-        public async Task<IActionResult> GetPagesNumber(int rowsNumber)
+        [Route("[controller]/get-pages-number/by-contestTitle")]
+        public async Task<IActionResult> GetPagesNumberByContestTitle(string contestTitle, int rowsNumber)
         {
             try
             {
-                var contestants = await _contestWorkService.GetPagesNumber(rowsNumber);
+                var contestants = await _contestWorkService.GetPagesNumberByContestTitle(contestTitle, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-pages-number/by-contestantSurname")]
+        public async Task<IActionResult> GetPagesNumberByContestantSurname(string contestantSurname, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberByContestantSurname(contestantSurname, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-pages-number/by-contestantCompany")]
+        public async Task<IActionResult> GetPagesNumberByContestantCompany(string contestantCompany, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberByContestantCompany(contestantCompany, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-pages-number/by-nominationTitle")]
+        public async Task<IActionResult> GetPagesNumberByNominationTitle(string nominationTitle, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberByNominationTitle(nominationTitle, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-pages-number/by-weldingType")]
+        public async Task<IActionResult> GetPagesNumberByWeldingType(string weldingType, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberByWeldingType(weldingType, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-pages-number/by-sampleType")]
+        public async Task<IActionResult> GetPagesNumberBySampleType(string sampleType, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberBySampleType(sampleType, rowsNumber);
 
                 return Ok(contestants);
             }
@@ -66,7 +146,7 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range")]
+        [Route("[controller]")]
         public async Task<IActionResult> GetRange(int pageNumber, int rowsNumber)
         {
             try
@@ -82,12 +162,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contest-title")]
-        public async Task<IActionResult> GetRangeByContestTitle(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-contestTitle")]
+        public async Task<IActionResult> GetSearchedByContestTitle(string contestTitle, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByContestName(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedByContestTitle(contestTitle, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -98,12 +178,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contestant-surname")]
-        public async Task<IActionResult> GetRangeByContestantSurname(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-contestantRFID")]
+        public async Task<IActionResult> GetSearchedByContestantRFID(string contestantRFID, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByContestantSurname(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedByContestantRFID(contestantRFID, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -114,12 +194,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contestant-company")]
-        public async Task<IActionResult> GetRangeByContestantCompany(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-contestantSurname")]
+        public async Task<IActionResult> GetSearchedByContestantSurname(string contestantSurname, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByContestantCompany(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedByContestantSurname(contestantSurname, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -130,12 +210,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-nomination-title")]
-        public async Task<IActionResult> GetRangeByNominationTitle(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-contestantCompany")]
+        public async Task<IActionResult> GetSearchedByContestantCompany(string contestantCompany, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByNominationTitle(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedByContestantCompany(contestantCompany, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -146,12 +226,28 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-welding-type")]
-        public async Task<IActionResult> GetRangeByWeldingType(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-nominationTitle")]
+        public async Task<IActionResult> GetSearchedByNominationTitle(string nominationTitle, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestWorks = await _contestWorkService.GetSearchedByNominationTitle(nominationTitle, pageNumber, rowsNumber);
+
+                return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/searched/by-weldingType")]
+        public async Task<IActionResult> GetSearchedByWeldingType(string weldingType, int pageNumber, int rowsNumber)
         { 
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByWeldingType(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedByWeldingType(weldingType, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -162,12 +258,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-sample-type")]
-        public async Task<IActionResult> GetRangeBySampleType(int pageNumber, int rowsNumber)
+        [Route("[controller]/searched/by-sampleType")]
+        public async Task<IActionResult> GetSearchedBySampleType(string sampleType, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeBySampleType(pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSearchedBySampleType(sampleType, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -194,12 +290,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contest-id")]
-        public async Task<IActionResult> GetRangeByContestID(string contestID, int pageNumber, int rowsNumber)
+        [Route("[controller]/sorted/by-contest-name")]
+        public async Task<IActionResult> GetSortedByContestName(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetRangeByContestID(contestID, pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSortedByContestName(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -210,12 +306,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contest-title")]
-        public async Task<IActionResult> GetRangeByContestTitle(string title, int pageNumber, int rowsNumber)
+        [Route("[controller]/sorted/by-contestant-full-name")]
+        public async Task<IActionResult> GetSortedByContestantFullName(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetByContestTitleAsyncRange(title, pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSortedByContestantFullName(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -226,12 +322,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-by-contestant-rfid")]
-        public async Task<IActionResult> GetByContestantRFID(string RFID)
+        [Route("[controller]/sorted/by-contestant-company")]
+        public async Task<IActionResult> GetSortedByContestantCompany(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetByContestantRFIDAsync(RFID);
+                var contestWorks = await _contestWorkService.GetSortedByContestantFullName(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -242,12 +338,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contestant-surname")]
-        public async Task<IActionResult> GetRangeByContestantCompany(string company, int pageNumber, int rowsNumber)
+        [Route("[controller]/sorted/by-nomination-title")]
+        public async Task<IActionResult> GetSortedByNominationTitle(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetByContestantCompanyAsyncRange(company, pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSortedByNominationTitle(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -258,12 +354,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-contestant-surname")]
-        public async Task<IActionResult> GetRangeByNominationTitle(string title, int pageNumber, int rowsNumber)
+        [Route("[controller]/sorted/by-sample-type")]
+        public async Task<IActionResult> GetSortedBySampleType(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetByNominationTitleAsyncRange(title, pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSortedBySampleType(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -274,28 +370,12 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-welding-type")]
-        public async Task<IActionResult> GetRangeByWeldingType(string weldingType, int pageNumber, int rowsNumber)
+        [Route("[controller]/sorted/by-welding-type")]
+        public async Task<IActionResult> GetSortedByWeldingType(string direction, int pageNumber, int rowsNumber)
         {
             try
             {
-                var contestWorks = await _contestWorkService.GetByWeldingTypeAsyncRange(weldingType, pageNumber, rowsNumber);
-
-                return Ok(contestWorks);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"{e.Message}");
-            }
-        }
-
-        [HttpGet]
-        [Route("[controller]/get-range-by-sample-type")]
-        public async Task<IActionResult> GetRangeBySampleType(string sampleType, int pageNumber, int rowsNumber)
-        {
-            try
-            {
-                var contestWorks = await _contestWorkService.GetBySampleTypeAsyncRange(sampleType, pageNumber, rowsNumber);
+                var contestWorks = await _contestWorkService.GetSortedByWeldingType(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }
@@ -312,22 +392,6 @@ namespace WeldingContest.Controllers
             try
             {
                 var contestWorks = await _contestWorkService.GetAllByContestID(ID);
-
-                return Ok(contestWorks);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"{e.Message}");
-            }
-        }
-
-        [HttpGet]
-        [Route("[controller]/get-range-by-contestant-surname")]
-        public async Task<IActionResult> GetRangeByContestantSurname(string surname, int pageNumber, int rowsNumber)
-        {
-            try
-            {
-                var contestWorks = await _contestWorkService.GetByContestantSurnameAsyncRange(surname, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
             }

@@ -23,12 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WeldingContest.Services.Entities\WeldingContest.Services.Entities.csproj" />
     <ProjectReference Include="..\WeldingContest.Services\WeldingContest.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="wwwroot\Фото\18 конкурс сварщиков\Номинация А 135\" />
   </ItemGroup>
 
   <ItemGroup>

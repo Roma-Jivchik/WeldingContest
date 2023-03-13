@@ -11,12 +11,6 @@ export class NavigationMenu extends Component {
     render() {
         let content;
 
-        if (window.location.href.toLowerCase().includes("searching")) {
-            content = this.props.search;
-        } else {
-            content = <div />;
-        }
-
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand style={{ marginLeft:"10px"}} href="/">Проект</Navbar.Brand>
@@ -28,7 +22,6 @@ export class NavigationMenu extends Component {
                         <Nav.Link href="/Nominations">Номинации</Nav.Link>
                         <Nav.Link href="/ContestWorks">Конкурсные работы</Nav.Link>
                     </Nav>
-                    { content}
                     <Navbar.Brand style={{ "marginLeft": "auto" }}>
                         {this.props.pageTitle}
                     </Navbar.Brand>
