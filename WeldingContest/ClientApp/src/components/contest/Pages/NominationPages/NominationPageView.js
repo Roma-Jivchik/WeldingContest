@@ -33,6 +33,10 @@ export class NominationPageView extends Component {
                             <Form.Label>Тип сварки</Form.Label>
                             <Form.Control name="weldingType" value={this.props.weldingType} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Тип образца</Form.Label>
+                            <Form.Control name="sampleType" value={this.props.sampleType} onChange={this.props.handleChangeInput} required />
+                        </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button variant="outline-secondary" style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} href="/Nominations">

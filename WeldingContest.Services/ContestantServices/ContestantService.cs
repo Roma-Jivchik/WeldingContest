@@ -101,6 +101,13 @@ namespace WeldingContest.Services.ContestantServices
                 .CountAsync() / rowsNumber + 1;
         }
 
+        public async Task<int> GetPagesNumberByRFID(string RFID, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Where(_ => _.RFID.Contains(RFID))
+                .CountAsync() / rowsNumber + 1;
+        }
+
         public async Task<int> GetPagesNumberByCompany(string company, int rowsNumber)
         {
             return await weldingContestContext.Contestants
@@ -120,6 +127,17 @@ namespace WeldingContest.Services.ContestantServices
         {
             return await weldingContestContext.Contestants
                 .Where(_ => _.FullName.Contains(surname))
+                .OrderBy(_ => _.FullName)
+                .Skip(rowsNumber * (pageNumber - 1))
+                .Take(rowsNumber)
+                .Include(_ => _.ContestWorks)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Contestant>> GetSearchedByRFID(string RFID, int pageNumber, int rowsNumber)
+        {
+            return await weldingContestContext.Contestants
+                .Where(_ => _.RFID.Contains(RFID))
                 .OrderBy(_ => _.FullName)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)

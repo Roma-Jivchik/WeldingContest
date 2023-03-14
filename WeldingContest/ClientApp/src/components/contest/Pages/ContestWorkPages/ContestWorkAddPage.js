@@ -5,9 +5,6 @@ export class ContestWorkAddPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            contests: [],
-            contestants: [],
-            nominations:[],
             contest: {name: ""},
             contestant: {rfid: ""},
             nomination: {title: ""},
@@ -15,26 +12,24 @@ export class ContestWorkAddPage extends Component {
             contestAnchorOpen: false,
             contestantAnchorOpen: false,
             nominationAnchorOpen: false,
-            contestAnchor: "",
-            contestantAnchor: "",
-            nominationAnchor: "",
+            contestAnchor: null,
+            contestantAnchor: null,
+            nominationAnchor: null,
         }
 
         this.postObjectToController = this.postObjectToController.bind(this);
-        this.getCollectionFromController = this.getCollectionFromController.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectContest = this.handleSelectContest.bind(this);
         this.handleSelectContestant = this.handleSelectContestant.bind(this);
         this.handleSelectNomination = this.handleSelectNomination.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleCloseContest = this.handleCloseContest.bind(this);
+        this.handleCloseContestant = this.handleCloseContestant.bind(this);
+        this.handleCloseNomination = this.handleCloseNomination.bind(this);
     }
 
     componentDidMount() {
-        this.props.changePageTitle("Добавление номинации");
-        this.getCollectionFromController("contest");
-        this.getCollectionFromController("contestant");
-        this.getCollectionFromController("nomination");
+        this.props.changePageTitle("Добавление конкурсной работы");
     }
 
     async postObjectToController(object) {
@@ -47,13 +42,6 @@ export class ContestWorkAddPage extends Component {
         console.log(data);
 
         window.location = ('/ContestWorks');
-    }
-
-    async getCollectionFromController(controller) {
-        const response = await fetch(`${controller}`);
-        const data = await response.json();
-        this.setState({ [`${controller}s`]: data });
-        console.log(data);
     }
 
     render() {
@@ -76,7 +64,9 @@ export class ContestWorkAddPage extends Component {
                 handleSelectContestant={this.handleSelectContestant}
                 handleSelectNomination={this.handleSelectNomination}
                 handleOpen={this.handleOpen}
-                handleClose={this.handleClose}
+                handleCloseContest={this.handleCloseContest}
+                handleCloseContestant={this.handleCloseContestant}
+                handleCloseNomination={this.handleCloseNomination}
             />
             );
     }
@@ -123,10 +113,24 @@ export class ContestWorkAddPage extends Component {
         });
     }
 
-    handleClose() {
+    handleCloseContest() {
         this.setState({
-            [event.target.name]: null,
-            [`${event.target.name}Open`]: false
+            contestAnchor: null,
+            contestAnchorOpen: false
+        });
+    }
+
+    handleCloseContestant() {
+        this.setState({
+            contestantAnchor: null,
+            contestantAnchorOpen: false
+        });
+    }
+
+    handleCloseNomination() {
+        this.setState({
+            nominationAnchor: null,
+            nominationAnchorOpen: false
         });
     }
 

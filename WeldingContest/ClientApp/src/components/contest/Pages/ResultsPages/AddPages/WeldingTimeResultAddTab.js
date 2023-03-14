@@ -41,7 +41,8 @@ export class WeldingTimeResultAddTab extends Component {
     }
 
     handleSubmit() {
-        //event.preventDefault();
+        event.preventDefault();
+
         let object = {
             ID: "_",
             ContestWorkID: this.state.contestWorkID,
@@ -57,6 +58,8 @@ export class WeldingTimeResultAddTab extends Component {
             this.setState({ validated: true });
             this.postObjectToController(object);
         }
+
+        setTimeout(() => { window.location.reload() }, 500);
     }
 
     handleChangeInput() {

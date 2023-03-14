@@ -15,6 +15,7 @@ export class NominationPage extends Component {
             thickness: "",
             material: "",
             weldingType: "",
+            sampleType: "",
             isUpdating: false,
             validated: false,
         };
@@ -37,6 +38,7 @@ export class NominationPage extends Component {
             thickness: this.state.nomination.thickness,
             material: this.state.nomination.material,
             weldingType: this.state.nomination.weldingType,
+            sampleType: this.state.nomination.sampleType,
             isUpdating: false,
             validated: false,
         });
@@ -57,6 +59,7 @@ export class NominationPage extends Component {
             thickness: data.thickness,
             material: data.material,
             weldingType: data.weldingType,
+            sampleType: data.sampleType
         });
         console.log(data);
     }
@@ -111,6 +114,7 @@ export class NominationPage extends Component {
             Thickness: this.state.thickness,
             Material: this.state.material,
             WeldingType: this.state.weldingType,
+            SampleType: this.state.sampleType
         };
         const form = event.target;
 

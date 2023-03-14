@@ -11,9 +11,11 @@ namespace WeldingContest.Services.ContestantServices
         Task<Contestant> GetByRFIDAsync(string RFID);
         Task<Contestant> GetByQRAsync(string QR);
         Task<int> GetPagesNumberBySurname(string surname, int rowsNumber);
+        Task<int> GetPagesNumberByRFID(string RFID, int rowsNumber);
         Task<int> GetPagesNumberByCompany(string company, int rowsNumber);
         Task<int> GetPagesNumberByNomination(string nomination, int rowsNumber);
         Task<IList<Contestant>> GetSearchedBySurname(string surname, int pageNumber, int rowsNumber);
+        Task<IList<Contestant>> GetSearchedByRFID(string RFID, int pageNumber, int rowsNumber);
         Task<IList<Contestant>> GetSearchedByCompany(string company, int pageNumber, int rowsNumber);
         Task<IList<Contestant>> GetSearchedByNomination(string nomination, int pageNumber, int rowsNumber);
         Task<IList<Contestant>> GetSortedByRFID(string direction, int rowsNumber, int pageNumber);

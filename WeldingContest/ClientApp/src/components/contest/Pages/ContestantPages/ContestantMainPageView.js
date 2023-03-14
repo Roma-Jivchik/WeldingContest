@@ -20,6 +20,7 @@ export class ContestantMainPageView extends Component {
 
             searchingMenuItems: [
                 { value: 'searched/by-company', label: 'По компании' },
+                { value: 'searched/by-rfid', label: 'По RFID' },
                 { value: 'searched/by-surname', label: 'По фамилии' },
                 { value: 'searched/by-nomination', label: 'По номинации'}
             ],
@@ -49,7 +50,7 @@ export class ContestantMainPageView extends Component {
                         marginBottom:"10px"
                     }}
                 >
-                    <Button style={{ margin: "10px 10px" }} variant="outlined" href="/Contestants/Add">Добавить</Button>
+                    <Button hidden={ !this.props.isAdding} style={{ margin: "10px 10px" }} variant="outlined" href="/Contestants/Add">Добавить</Button>
                     <SearchBar menuItems={this.state.searchingMenuItems} setUrl={this.props.setSearchingUrl} reset={ this.props.reset}/>
                     <SortBar menuItems={this.state.sortingMenuItems} setUrl={ this.props.setSortingUrl}/>
                     </Stack>

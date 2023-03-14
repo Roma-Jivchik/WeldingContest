@@ -10,6 +10,7 @@ export class NominationAddPage extends Component {
             thickness: "",
             material: "",
             weldingType: "",
+            sampleType: "",
             validated: false,
         }
 
@@ -42,8 +43,10 @@ export class NominationAddPage extends Component {
                 thickness={this.state.thickness}
                 material={this.state.material}
                 weldingType={this.state.weldingType}
+                sampleType={this.state.sampleType}
                 handleChangeInput={this.handleChangeInput}
-                handleSubmit={ this.handleSubmit}
+                handleSubmit={this.handleSubmit}
+
             />
             );
     }
@@ -56,7 +59,8 @@ export class NominationAddPage extends Component {
             Size: this.state.size,
             Thickness: this.state.thickness,
             Material: this.state.material,
-            WeldingType: this.state.weldingType
+            WeldingType: this.state.weldingType,
+            SampleType: this.state.sampleType
         }
         const form = event.target;
 

@@ -19,8 +19,16 @@ export class ContestMainPageView extends Component {
     render() {
         return (
             <>
-                <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button style={{ margin: "10px 10px" }} variant="outlined" href="/Contests/Add">Добавить</Button>
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    justifyItems="center"
+                    sx={{
+                        marginTop: "10px",
+                        marginBottom: "10px"
+                    }}
+                >
+                    <Button hidden={ !this.props.isAdding} style={{ margin: "10px 10px" }} variant="outlined" href="/Contests/Add">Добавить</Button>
                     </Stack>
                 <CustomDataGrid
                     columns={this.state.columns}

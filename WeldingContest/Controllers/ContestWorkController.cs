@@ -66,6 +66,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-pages-number/by-contestantRFID")]
+        public async Task<IActionResult> GetPagesNumberByContestantRFID(string contestantRFID, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestWorkService.GetPagesNumberByContestantRFID(contestantRFID, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-pages-number/by-contestantCompany")]
         public async Task<IActionResult> GetPagesNumberByContestantCompany(string contestantCompany, int rowsNumber)
         {

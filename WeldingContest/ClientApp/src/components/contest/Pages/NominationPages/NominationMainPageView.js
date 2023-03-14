@@ -23,7 +23,7 @@ export class NominationMainPageView extends Component {
         return (
             <>
                 <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button style={{ margin: "10px 10px" }} variant="outlined" href="/Nominations/Add">Добавить</Button>
+                    <Button hidden={ !this.props.isAdding} style={{ margin: "10px 10px" }} variant="outlined" href="/Nominations/Add">Добавить</Button>
                     </Stack>
                 <CustomDataGrid
                     columns={this.state.columns}

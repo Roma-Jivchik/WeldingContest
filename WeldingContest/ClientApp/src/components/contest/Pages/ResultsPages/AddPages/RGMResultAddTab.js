@@ -48,6 +48,7 @@ export class RGMResultAddTab extends Component {
 
     handleSubmit() {
         event.preventDefault();
+
         let object = {
             ID: "_",
             ContestWorkID: this.state.contestWorkID,
@@ -69,6 +70,8 @@ export class RGMResultAddTab extends Component {
             this.postObjectToController(object);
             this.postFileToController(file);
         }
+
+        setTimeout(() => { window.location.reload() }, 500);
     }
 
     handleChangeInput() {

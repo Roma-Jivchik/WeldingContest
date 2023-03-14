@@ -14,7 +14,7 @@ export class ContestantRouter extends Component {
             <Routes>
                 <Route path='/Contestant/:id' element={<ContestantPageWrapper changePageTitle={this.props.changePageTitle} />} />
                 <Route path='/Add' element={<ContestantAddPage changePageTitle={this.props.changePageTitle} />} />
-                <Route path='/*' element={<ContestantMainPage changePageTitle={this.props.changePageTitle} />} />
+                <Route path='/*' element={<ContestantMainPage isAdding={ true} changePageTitle={this.props.changePageTitle} />} />
             </Routes>
             );
     }

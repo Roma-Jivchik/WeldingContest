@@ -29,6 +29,7 @@ export class ContestMainPage extends Component {
         return (
             <>
                 <ContestMainPageView
+                    isAdding={ this.props.isAdding}
                     contests={this.state.contests}
                     handleSelect={this.handleSelect}
                 />
@@ -37,6 +38,10 @@ export class ContestMainPage extends Component {
     }
 
     handleSelect(contest) {
-        window.location = (`/Contests/Contest/${contest.id}`);
+        if (this.props.handleSelect == undefined) {
+            window.location = (`/Contests/Contest/${contest.id}`);
+        } else {
+            this.props.handleSelect(contest);
+        }
     }
 }

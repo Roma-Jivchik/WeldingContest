@@ -3,28 +3,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
-import Pagination from '@mui/material/Pagination';
-import CustomDataGrid from '../../sub-components/CustomDataGrid';
+import { ContestMainPage } from '../ContestPages/ContestMainPage';
+import { ContestantMainPage } from '../ContestantPages/ContestantMainPage';
+import { NominationMainPage } from '../NominationPages/NominationMainPage';
 
 export class ContestWorkAddPageView extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            columnsContest: [
-                { field: 'name', headerName: 'Название конкурса'},
-                { field: 'dateOfBegin', headerName: 'Дата начала конкурса'},
-                { field: 'dateOfEnd', headerName: 'Дата окончания конкурса'},
-            ],
-            columnsContestant: [
-                { field: 'rfid', headerName: 'RFID' },
-                { field: 'qr', headerName: 'QR' },
-            ],
-            columnsNomination: [
-                { field: 'title', headerName: 'Название номинации'},
-                { field: 'weldingType', headerName: 'Тип сварки'},
-            ],
-        }
     }
 
     render() {
@@ -39,19 +24,27 @@ export class ContestWorkAddPageView extends Component {
                                 Выбрать
                             </Button>
                             <Popover
-                                autoWidth
                                 open={this.props.contestAnchorOpen}
                                 anchorEl={this.props.contestAnchor}
-                                onClose={this.props.handleClose}
+                                onClose={this.props.handleCloseContest}
                                 anchorOrigin={{
                                     vertical: 'top',
                                     horizontal: 'left',
                                 }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal:'right'
+                                }}
+                                PaperProps={{
+                                    style: {
+                                        width: 500,
+                                    },
+                                }}
                             >
-                                <CustomDataGrid
-                                    columns={this.state.columnsContest}
-                                    rows={this.props.contests}
-                                    handleSelect={this.props.handleSelectContest}
+                                <ContestMainPage
+                                    isAdding={false}
+                                    changePageTitle={() => { console.log("1") }}
+                                    handleSelect={ this.props.handleSelectContest}
                                 />
                             </Popover>
                         </Stack>
@@ -66,15 +59,19 @@ export class ContestWorkAddPageView extends Component {
                             <Popover
                                 open={this.props.contestantAnchorOpen}
                                 anchorEl={this.props.contestantAnchor}
-                                onClose={this.props.handleClose}
+                                onClose={this.props.handleCloseContestant}
                                 anchorOrigin={{
                                     vertical: 'top',
                                     horizontal: 'left',
                                 }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal:'right'
+                                }}
                             >
-                                <CustomDataGrid
-                                    columns={this.state.columnsContestant}
-                                    rows={this.props.contestants}
+                                <ContestantMainPage
+                                    isAdding={false}
+                                    changePageTitle={() => { console.log("1") }}
                                     handleSelect={this.props.handleSelectContestant}
                                 />
                             </Popover>
@@ -90,15 +87,24 @@ export class ContestWorkAddPageView extends Component {
                             <Popover
                                 open={this.props.nominationAnchorOpen}
                                 anchorEl={this.props.nominationAnchor}
-                                onClose={this.props.handleClose}
+                                onClose={this.props.handleCloseNomination}
                                 anchorOrigin={{
                                     vertical: 'top',
                                     horizontal: 'left',
                                 }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal:'right'
+                                }}
+                                PaperProps={{
+                                    style: {
+                                        width: 500,
+                                    },
+                                }}
                             >
-                                <CustomDataGrid
-                                    columns={this.state.columnsNomination}
-                                    rows={this.props.nominations}
+                                <NominationMainPage
+                                    isAdding={false}
+                                    changePageTitle={() => { console.log("1")}}
                                     handleSelect={this.props.handleSelectNomination}
                                 />
                             </Popover>

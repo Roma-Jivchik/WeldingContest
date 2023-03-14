@@ -50,6 +50,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/get-pages-number/by-rfid")]
+        public async Task<IActionResult> GetPagesNumberByRFID(string rfid, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetPagesNumberByRFID(rfid, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/get-pages-number/by-company")]
         public async Task<IActionResult> GetPagesNumberByCompany(string company, int rowsNumber)
         {
@@ -193,6 +209,22 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/searched/by-rfid")]
+        public async Task<IActionResult> GetSearchedByRFID(string rfid, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var contestants = await _contestantService.GetSearchedByRFID(rfid, pageNumber, rowsNumber);
+
+                return Ok(contestants);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("[controller]/searched/by-company")]
         public async Task<IActionResult> GetSearchedByCompany(string company, int pageNumber, int rowsNumber)
         {
@@ -215,38 +247,6 @@ namespace WeldingContest.Controllers
             try
             {
                 var contestants = await _contestantService.GetSearchedByNomination(nomination, pageNumber, rowsNumber);
-
-                return Ok(contestants);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"{e.Message}");
-            }
-        }
-
-        [HttpGet]
-        [Route("[controller]/searched/by-qr")]
-        public async Task<IActionResult> GetByQR(string QR)
-        {
-            try
-            {
-                var contestants = await _contestantService.GetByQRAsync(QR);
-
-                return Ok(contestants);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"{e.Message}");
-            }
-        }
-
-        [HttpGet]
-        [Route("[controller]/searched/by-rfid")]
-        public async Task<IActionResult> GetByRFID(string RFID)
-        {
-            try
-            {
-                var contestants = await _contestantService.GetByRFIDAsync(RFID);
 
                 return Ok(contestants);
             }

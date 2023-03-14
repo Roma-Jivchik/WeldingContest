@@ -29,6 +29,7 @@ export class NominationMainPage extends Component {
         return (
             <>
                 <NominationMainPageView
+                    isAdding={ this.props.isAdding}
                     nominations={this.state.nominations}
                     handleSelect={this.handleSelect}
                 />
@@ -37,6 +38,10 @@ export class NominationMainPage extends Component {
     }
 
     handleSelect(nomination) {
-        window.location = (`/Nominations/Nomination/${nomination.id}`);
+        if (this.props.handleSelect == undefined) {
+            window.location = (`/Nominations/Nomination/${nomination.id}`);
+        } else {
+            this.props.handleSelect(nomination);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace WeldingContest.Services.ContestWorkServices
         Task<IList<ContestWork>> GetRangeByContestID(string contestID, int pageNumber, int rowsNumber);
         Task<int> GetPagesNumberByContestTitle(string title, int rowsNumber);
         Task<int> GetPagesNumberByContestantSurname(string surname, int rowsNumber);
+        Task<int> GetPagesNumberByContestantRFID(string RFID, int rowsNumber);
         Task<int> GetPagesNumberByContestantCompany(string company, int rowsNumber);
         Task<int> GetPagesNumberByNominationTitle(string title, int rowsNumber);
         Task<int> GetPagesNumberByWeldingType(string weldingType, int rowsNumber);

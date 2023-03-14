@@ -51,6 +51,7 @@ export class ContestantMainPage extends Component {
         return (
             <>
                 <ContestantMainPageView
+                    isAdding={ this.props.isAdding}
                     contestants={this.state.contestants}
                     pageNumber={this.state.pageNumber}
                     pagesNumber={this.state.pagesNumber}
@@ -65,7 +66,12 @@ export class ContestantMainPage extends Component {
     }
 
     handleSelect(contestant) {
-        window.location = (`/Contestants/Contestant/${contestant.id}`);
+        console.log(this.props.handleSelect);
+        if (this.props.handleSelect == undefined) {
+            window.location = (`/Contestants/Contestant/${contestant.id}`);
+        } else {
+            this.props.handleSelect(contestant);
+        }
     }
 
     handleChangePage(event, value) {

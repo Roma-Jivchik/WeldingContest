@@ -14,7 +14,7 @@ export class NominationRouter extends Component {
             <Routes>
                 <Route path='/Nomination/:id' element={<NominationPageWrapper changePageTitle={this.props.changePageTitle} />} />
                 <Route path='/Add' element={<NominationAddPage changePageTitle={this.props.changePageTitle} />} />
-                <Route path='/*' element={<NominationMainPage changePageTitle={this.props.changePageTitle} />} />
+                <Route path='/*' element={<NominationMainPage isAdding={ true} changePageTitle={this.props.changePageTitle} />} />
             </Routes>
             );
     }

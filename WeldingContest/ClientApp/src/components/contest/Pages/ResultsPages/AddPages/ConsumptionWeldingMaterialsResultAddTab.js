@@ -39,7 +39,8 @@ export class ConsumptionWeldingMaterialsResultAddTab extends Component {
     }
 
     handleSubmit() {
-        //event.preventDefault();
+        event.preventDefault();
+
         let object = {
             ID: "_",
             ContestWorkID: this.state.contestWorkID,
@@ -54,6 +55,8 @@ export class ConsumptionWeldingMaterialsResultAddTab extends Component {
             this.setState({ validated: true });
             this.postObjectToController(object);
         }
+
+        setTimeout(() => { window.location.reload() }, 500);
     }
 
     handleChangeInput() {

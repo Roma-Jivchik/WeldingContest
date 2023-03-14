@@ -137,6 +137,14 @@ namespace WeldingContest.Services.ContestWorkServices
                 .CountAsync() / rowsNumber + 1;
         }
 
+        public async Task<int> GetPagesNumberByContestantRFID(string RFID, int rowsNumber)
+        {
+            return await weldingContestContext.ContestWorks
+                .Include(_ => _.Contestant)
+                .Where(_ => _.Contestant.RFID.Contains(RFID))
+                .CountAsync() / rowsNumber + 1;
+        }
+
         public async Task<int> GetPagesNumberByContestantCompany(string company, int rowsNumber)
         {
             return await weldingContestContext.ContestWorks
