@@ -16,6 +16,7 @@ export class ContestantPage extends Component {
             company: "",
             isUpdating: false,
             validated: false,
+            loading: true,
         };
 
         this.clearState = this.clearState.bind(this);
@@ -27,6 +28,7 @@ export class ContestantPage extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelectContestWork = this.handleSelectContestWork.bind(this);
     }
 
     clearState() {
@@ -54,6 +56,7 @@ export class ContestantPage extends Component {
             rfid: data.rfid,
             qr: data.qr,
             company: data.company,
+            loading: false
         });
         console.log(data);
     }
@@ -81,21 +84,25 @@ export class ContestantPage extends Component {
     }
 
     render() {
-        return (
-            <ContestantPageView
-                fullName={this.state.fullName}
-                rfid={this.state.rfid}
-                qr={this.state.qr}
-                company={this.state.company}
-                isUpdating={this.state.isUpdating}
-                validated={this.state.validated}
-                handleChangeInput={this.handleChangeInput}
-                handleUpdate={this.handleUpdate}
-                handleDelete={ this.handleDelete}
-                handleCancel={ this.handleCancel}
-                handleSubmit={ this.handleSubmit}
-            />
+        if (!this.state.loading) {
+            return (
+                <ContestantPageView
+                    contestant={this.state.contestant}
+                    fullName={this.state.fullName}
+                    rfid={this.state.rfid}
+                    qr={this.state.qr}
+                    company={this.state.company}
+                    isUpdating={this.state.isUpdating}
+                    validated={this.state.validated}
+                    handleChangeInput={this.handleChangeInput}
+                    handleUpdate={this.handleUpdate}
+                    handleDelete={this.handleDelete}
+                    handleCancel={this.handleCancel}
+                    handleSubmit={this.handleSubmit}
+                    handleSelectContestWork={this.handleSelectContestWork}
+                />
             );
+        }
     }
 
     handleSubmit() {
@@ -135,5 +142,9 @@ export class ContestantPage extends Component {
 
     handleChangeInput() {
         this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSelectContestWork(contestWork) {
+        window.location = (`/ContestWorks/ContestWork/${contestWork.id}`);
     }
 }

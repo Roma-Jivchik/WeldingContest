@@ -2,10 +2,48 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from '@mui/material/Stack';
+import CustomDataGrid from '../../sub-components/CustomDataGrid';
 
 export class ContestantPageView extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            columns: [
+                {
+                    field: 'contest',
+                    headerName: 'Название конкурса',
+                    width: 200,
+                    valueGetter: (params) =>
+                        `${params.row.contest.name}`,
+                    sortable: false
+                },
+                {
+                    field: 'nominationTitle',
+                    headerName: 'Название номинации',
+                    width: 180,
+                    valueGetter: (params) =>
+                        `${params.row.nomination.title}`,
+                    sortable: false
+                },
+                {
+                    field: 'nominationWeldingType',
+                    headerName: 'Тип сварки',
+                    width: 150,
+                    valueGetter: (params) =>
+                        `${params.row.nomination.weldingType}`,
+                    sortable: false
+                },
+                {
+                    field: 'nominationSampleType',
+                    headerName: 'Тип образца',
+                    width: 150,
+                    valueGetter: (params) =>
+                        `${params.row.nomination.sampleType}`,
+                    sortable: false
+                },
+            ],
+        }
     }
 
     render() {
@@ -48,6 +86,12 @@ export class ContestantPageView extends Component {
                         </Button>
                     </Stack>
                 </Form>
+                <p>Конкурсные работы</p>
+                <CustomDataGrid
+                    columns={this.state.columns}
+                    rows={this.props.contestant.contestWorks}
+                    handleSelect={ this.props.handleSelectContestWork}
+                />
             </>
         );
     }

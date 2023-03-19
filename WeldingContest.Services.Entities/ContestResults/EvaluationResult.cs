@@ -14,6 +14,7 @@ namespace WeldingContest.Services.Entities.ContestResults
         public int ConsumptionWeldingMaterialsMark { get; set; }
         public int VMCMark { get; set; }
         public int RGMMark { get; set; }
+        public int TheoreticalMark { get; set; }
         public int OverallMark { get; set; }
 
         public virtual ContestWork ContestWork { get; set; }

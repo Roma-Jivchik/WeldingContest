@@ -21,6 +21,7 @@ import { SafetyResultTab } from '../ResultsPages/ViewPages/SafetyResultTab';
 import { TheoreticalResultTab } from '../ResultsPages/ViewPages/TheoreticalResultTab';
 import { VMCResultTab } from '../ResultsPages/ViewPages/VMCResultTab';
 import { WeldingTimeResultTab } from '../ResultsPages/ViewPages/WeldingTimeResultTab';
+import { EvaluationResultTab } from '../ResultsPages/ViewPages/EvaluationResultTab';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -134,6 +135,7 @@ export class ContestWorkPageView extends Component {
                         <Tab label="Конкурсная работа" />
                         <Tab label="Оценки" />
                         <Tab label="Добавление оценок" />
+                        <Tab label="Итоговый результат" />
                     </Tabs>
                     <TabPanel value={this.props.currentTab} index={0}>
                         <Form validated={this.props.validated} onSubmit={this.props.handleSubmit}>
@@ -243,6 +245,12 @@ export class ContestWorkPageView extends Component {
                                 : null}
                         </Stack>
                         {contentToAdd}
+                    </TabPanel>
+                    <TabPanel value={this.props.currentTab} index={3}>
+                        {this.props.contestWork.evaluationResults[0] != undefined ?
+                            <EvaluationResultTab contestWork={this.props.contestWork} />
+                            : <p>Оценка не была сформирована!</p>
+                            }
                     </TabPanel>
                     <Button variant="outline-secondary" href="/ContestWorks" style={{ marginTop: "20px", display: "grid" }}>
                         Назад к конкурсным работам

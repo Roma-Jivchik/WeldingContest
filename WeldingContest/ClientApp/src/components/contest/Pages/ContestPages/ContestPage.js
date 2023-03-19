@@ -12,6 +12,9 @@ export class ContestPage extends Component {
             dateOfEnd: "",
             isUpdating: false,
             validated: false,
+            pagesNumber: 0,
+            pageNumber: 0,
+            evaluationResults: [],
         };
 
         this.clearState = this.clearState.bind(this);
@@ -25,6 +28,13 @@ export class ContestPage extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFormProtocol = this.handleFormProtocol.bind(this);
+        this.handleFormEvaluationResults = this.handleFormEvaluationResults.bind(this);
+        this.formEvaluationResults = this.formEvaluationResults.bind(this);
+
+        this.getPagesNumber = this.getPagesNumber.bind(this);
+        this.getCollectionFromController = this.getCollectionFromController.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
     clearState() {
@@ -40,6 +50,22 @@ export class ContestPage extends Component {
     componentDidMount() {
         this.props.changePageTitle("Конкурс");
         this.getObjectFromController(this.props.id);
+
+        this.getPagesNumber();
+        this.getCollectionFromController(1, 10);
+    }
+
+    async getPagesNumber() {
+        const response = await fetch(`evaluationResult/get-pages-number/?rowsNumber=10`);
+        const data = await response.json();
+        this.setState({ pagesNumber: data });
+    }
+
+    async getCollectionFromController(pageNumber) {
+        const response = await fetch(`evaluationResult/get-range/?pageNumber=${pageNumber}&rowsNumber=10`);
+        const data = await response.json();
+        this.setState({ evaluationResults: data });
+        console.log(data);
     }
 
     async getObjectFromController(id) {
@@ -87,6 +113,13 @@ export class ContestPage extends Component {
         console.log(data);
     }
 
+    async formEvaluationResults() {
+        const response = await fetch('evaluationResult/temp/create-all');
+
+        const data = await response.json();
+        console.log(data);
+    }
+
     render() {
         return (
             <ContestPageView
@@ -102,6 +135,12 @@ export class ContestPage extends Component {
                 handleCancel={this.handleCancel}
                 handleSubmit={this.handleSubmit}
                 handleFormProtocol={this.handleFormProtocol}
+                handleFormEvaluationResults={this.handleFormEvaluationResults}
+                handleChangePage={this.handleChangePage}
+                pagesNumber={this.state.pagesNumber}
+                pageNumber={this.state.pageNumber}
+                handleSelect={this.handleSelect}
+                evaluationResults={ this.state.evaluationResults}
             />
             );
     }
@@ -130,6 +169,10 @@ export class ContestPage extends Component {
         this.formProtocol(this.state.contest);
     }
 
+    handleFormEvaluationResults() {
+        this.formEvaluationResults();
+    }
+
     handleUpdate() {
         this.setState({ isUpdating: true });
     }
@@ -148,5 +191,14 @@ export class ContestPage extends Component {
 
     handleChangeInput() {
         this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleChangePage(event, value) {
+        console.log(value);
+        this.setState({ pageNumber: value }, () => { this.getCollectionFromController(this.state.pageNumber) });
+    }
+
+    handleSelect(evaluationResult) {
+       window.location = (`/ContestWorks/ContestWork/${evaluationResult.row.contestWorkID}`);
     }
 }

@@ -94,6 +94,7 @@ export class NominationPage extends Component {
                 thickness={this.state.thickness}
                 material={this.state.material}
                 weldingType={this.state.weldingType}
+                sampleType={this.state.sampleType}
                 isUpdating={this.state.isUpdating}
                 validated={this.state.validated}
                 handleChangeInput={this.handleChangeInput}

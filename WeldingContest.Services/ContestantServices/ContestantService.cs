@@ -35,7 +35,12 @@ namespace WeldingContest.Services.ContestantServices
 
         public async Task<Contestant> Get(string id)
         {
-            return await weldingContestContext.Contestants.Include(_ => _.ContestWorks).FirstOrDefaultAsync(_ => _.ID == id);
+            return await weldingContestContext.Contestants
+                .Include(_ => _.ContestWorks)
+                .ThenInclude(_ => _.Nomination)
+                .Include(_ => _.ContestWorks)
+                .ThenInclude(_ => _.Contest)
+                .FirstOrDefaultAsync(_ => _.ID == id);
         }
 
         public async Task<IList<Contestant>> GetAll()

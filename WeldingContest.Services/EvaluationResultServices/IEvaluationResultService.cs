@@ -20,5 +20,6 @@ namespace WeldingContest.Services.EvaluationResultServices
         Task<IList<EvaluationResult>> GetRangeByNominationTitle(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByWeldingType(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeBySampleType(int rowsNumber, int pageNumber);
+        Task<IList<EvaluationResult>> CreateAll(); //Выпилить
     }
 }

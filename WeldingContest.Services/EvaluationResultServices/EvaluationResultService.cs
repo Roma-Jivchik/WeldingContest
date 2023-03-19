@@ -49,9 +49,13 @@ namespace WeldingContest.Services.EvaluationResultServices
         public async Task<IList<EvaluationResult>> GetRange(int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.EvaluationResults
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Nomination)
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Contestant)
+                .OrderByDescending(_ => _.OverallMark)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
-                .OrderBy(_ => _.ContestWork.Contestant.RFID)
                 .ToListAsync();
         }
 
@@ -191,6 +195,61 @@ namespace WeldingContest.Services.EvaluationResultServices
                 .Take(rowsNumber)
                 .OrderBy(_ => _.ContestWork.Nomination.SampleType)
                 .ToListAsync();
+        }
+
+        public async Task<IList<EvaluationResult>> CreateAll()
+        {
+            var contestWorks = await weldingContestContext.ContestWorks
+                .Include(_ => _.AssemblyKSSResults)
+                .Include(_ => _.ConsumptionWeldingMaterialsResults)
+                .Include(_ => _.MechanicalTestResults)
+                .Include(_ => _.RGMResults)
+                .Include(_ => _.SafetyResults)
+                .Include(_ => _.TheoreticalResults)
+                .Include(_ => _.VMCResults)
+                .Include(_ => _.WeldingTimeResults)
+                .Include(_ => _.EvaluationResults)
+                .Where(_ => _.EvaluationResults.Count() == 0)
+                .ToListAsync();
+
+            foreach (var contestWork in contestWorks)
+            {
+                    var evaluationResult = new EvaluationResult();
+
+                    evaluationResult.ID = Guid.NewGuid().ToString();
+                    evaluationResult.ContestWorkID = contestWork.ID;
+
+                    evaluationResult.AssemblyKSSMark = contestWork.AssemblyKSSResults.Count != 0 
+                        ? contestWork.AssemblyKSSResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.SafetyMark = contestWork.SafetyResults.Count != 0 
+                        ? contestWork.SafetyResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.WeldingTimeMark = contestWork.WeldingTimeResults.Count != 0 
+                        ? contestWork.WeldingTimeResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.ConsumptionWeldingMaterialsMark = contestWork.ConsumptionWeldingMaterialsResults.Count != 0 
+                        ? contestWork.ConsumptionWeldingMaterialsResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.VMCMark = contestWork.VMCResults.Count != 0 
+                        ? contestWork.VMCResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.RGMMark = contestWork.RGMResults.Count != 0 
+                        ? contestWork.RGMResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.TheoreticalMark = contestWork.TheoreticalResults.Count != 0 
+                        ? contestWork.TheoreticalResults.ElementAt(0).OverallMark : 0;
+
+                    evaluationResult.OverallMark = evaluationResult.AssemblyKSSMark + evaluationResult.SafetyMark
+                        + evaluationResult.WeldingTimeMark + evaluationResult.ConsumptionWeldingMaterialsMark
+                        + evaluationResult.VMCMark + evaluationResult.RGMMark + evaluationResult.TheoreticalMark;
+
+                    await weldingContestContext.EvaluationResults.AddAsync(evaluationResult);
+            }
+
+            await SaveChanges();
+
+            return await weldingContestContext.EvaluationResults.ToListAsync();
         }
     }
 }

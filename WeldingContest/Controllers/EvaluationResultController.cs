@@ -349,5 +349,22 @@ namespace WeldingContest.Controllers
                 return StatusCode(500, $"{e.Message}");
             }
         }
+
+        //Выпилить
+        [HttpGet]
+        [Route("[controller]/temp/create-all")]
+        public async Task<IActionResult> CreateAll()
+        {
+            try
+            {
+                var result = await _evaluationResultService.CreateAll();
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
     }
 }
