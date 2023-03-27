@@ -19,6 +19,12 @@ export class ContestantPageView extends Component {
                     sortable: false
                 },
                 {
+                    field: 'position',
+                    headerName: 'Место',
+                    width: 100,
+                    sortable: false
+                },
+                {
                     field: 'nominationTitle',
                     headerName: 'Название номинации',
                     width: 180,
@@ -89,7 +95,7 @@ export class ContestantPageView extends Component {
                 <p>Конкурсные работы</p>
                 <CustomDataGrid
                     columns={this.state.columns}
-                    rows={this.props.contestant.contestWorks}
+                    rows={this.props.contestWorks}
                     handleSelect={ this.props.handleSelectContestWork}
                 />
             </>

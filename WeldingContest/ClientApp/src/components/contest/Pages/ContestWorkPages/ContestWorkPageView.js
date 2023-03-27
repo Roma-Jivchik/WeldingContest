@@ -7,21 +7,22 @@ import Popover from '@mui/material/Popover';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import CustomDataGrid from '../../sub-components/CustomDataGrid';
-import { AssemblyKSSResultAddTab } from '../ResultsPages/AddPages/AssemblyKSSResultAddTab';
-import { RGMResultAddTab } from '../ResultsPages/AddPages/RGMResultAddTab';
-import { ConsumptionWeldingMaterialsResultAddTab } from '../ResultsPages/AddPages/ConsumptionWeldingMaterialsResultAddTab';
-import { SafetyResultAddTab } from '../ResultsPages/AddPages/SafetyResultAddTab';
-import { TheoreticalResultAddTab } from '../ResultsPages/AddPages/TheoreticalResultAddTab';
-import { VMCResultAddTab } from '../ResultsPages/AddPages/VMCResultAddTab';
-import { WeldingTimeResultAddTab } from '../ResultsPages/AddPages/WeldingTimeResultAddTab';
-import { RGMResultTab } from '../ResultsPages/ViewPages/RGMResultTab';
-import { AssemblyKSSResultTab } from '../ResultsPages/ViewPages/AssemblyKSSResultTab';
-import { ConsumptionWeldingMaterialsResultTab } from '../ResultsPages/ViewPages/ConsumptionWeldingMaterialsResultTab';
-import { SafetyResultTab } from '../ResultsPages/ViewPages/SafetyResultTab';
-import { TheoreticalResultTab } from '../ResultsPages/ViewPages/TheoreticalResultTab';
-import { VMCResultTab } from '../ResultsPages/ViewPages/VMCResultTab';
-import { WeldingTimeResultTab } from '../ResultsPages/ViewPages/WeldingTimeResultTab';
-import { EvaluationResultTab } from '../ResultsPages/ViewPages/EvaluationResultTab';
+import { AssemblyKSSResultAddTab } from '../Tabs/AddTabs/AssemblyKSSResultAddTab';
+import { RGMResultAddTab } from '../Tabs/AddTabs/RGMResultAddTab';
+import { ConsumptionWeldingMaterialsResultAddTab } from '../Tabs/AddTabs/ConsumptionWeldingMaterialsResultAddTab';
+import { SafetyResultAddTab } from '../Tabs/AddTabs/SafetyResultAddTab';
+import { TheoreticalResultAddTab } from '../Tabs/AddTabs/TheoreticalResultAddTab';
+import { VMCResultAddTab } from '../Tabs/AddTabs/VMCResultAddTab';
+import { WeldingTimeResultAddTab } from '../Tabs/AddTabs/WeldingTimeResultAddTab';
+import { RGMResultTab } from '../Tabs/ViewTabs/RGMResultTab';
+import { AssemblyKSSResultTab } from '../Tabs/ViewTabs/AssemblyKSSResultTab';
+import { ConsumptionWeldingMaterialsResultTab } from '../Tabs/ViewTabs/ConsumptionWeldingMaterialsResultTab';
+import { SafetyResultTab } from '../Tabs/ViewTabs/SafetyResultTab';
+import { TheoreticalResultTab } from '../Tabs/ViewTabs/TheoreticalResultTab';
+import { VMCResultTab } from '../Tabs/ViewTabs/VMCResultTab';
+import { WeldingTimeResultTab } from '../Tabs/ViewTabs/WeldingTimeResultTab';
+import { EvaluationResultTab } from '../Tabs/ViewTabs/EvaluationResultTab';
+import { ProtocolAddTab } from '../Tabs/AddTabs/ProtocolAddTab';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -136,6 +137,7 @@ export class ContestWorkPageView extends Component {
                         <Tab label="Оценки" />
                         <Tab label="Добавление оценок" />
                         <Tab label="Итоговый результат" />
+                        <Tab label="Фотография протокола" />
                     </Tabs>
                     <TabPanel value={this.props.currentTab} index={0}>
                         <Form validated={this.props.validated} onSubmit={this.props.handleSubmit}>
@@ -251,6 +253,23 @@ export class ContestWorkPageView extends Component {
                             <EvaluationResultTab contestWork={this.props.contestWork} />
                             : <p>Оценка не была сформирована!</p>
                             }
+                    </TabPanel>
+                    <TabPanel value={this.props.currentTab} index={4}>
+                        <img
+                            style={{
+                                width: "711px",
+                                height: "1000px",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                display: "grid"
+                            }}
+                            alt="Здесь будет фотография протокола"
+                            src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Протокол_${this.props.contestWork.contestant.rfid}.jpg`}
+                            onError={this.props.changeFlag}
+                        />
+                        {this.props.isAddingProtocol ? <ProtocolAddTab contestWork={ this.props.contestWork} /> : <div />}
                     </TabPanel>
                     <Button variant="outline-secondary" href="/ContestWorks" style={{ marginTop: "20px", display: "grid" }}>
                         Назад к конкурсным работам

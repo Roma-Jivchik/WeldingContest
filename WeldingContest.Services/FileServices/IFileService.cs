@@ -1,9 +1,13 @@
 ﻿using System.Threading.Tasks;
+using System.IO;
+using WeldingContest.Services.Entities.Files;
 
 namespace WeldingContest.Services.FileServices
 {
-    public interface IFileService<T> where T : class
+    public interface IFileService
     {
-        void Create(T entity);
+        void CreateRGMPhoto(RGMPhotoFile entity);
+
+        void CreateProtocolPhoto(ProtocolPhotoFile entity);
     }
 }

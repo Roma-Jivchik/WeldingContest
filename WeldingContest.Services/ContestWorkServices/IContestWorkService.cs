@@ -30,5 +30,6 @@ namespace WeldingContest.Services.ContestWorkServices
         Task<IList<ContestWork>> GetSortedByNominationTitle(string direction, int pageNumber, int rowsNumber);
         Task<IList<ContestWork>> GetSortedBySampleType(string direction, int pageNumber, int rowsNumber);
         Task<IList<ContestWork>> GetSortedByWeldingType(string direction, int pageNumber, int rowsNumber);
+        Task<int> GetContestWorkPosition(string id);
     }
 }

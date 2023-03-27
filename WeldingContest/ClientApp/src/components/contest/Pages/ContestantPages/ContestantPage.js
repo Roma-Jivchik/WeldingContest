@@ -10,6 +10,7 @@ export class ContestantPage extends Component {
 
         this.state = {
             contestant: {},
+            contestWorks: [],
             fullName: "",
             rfid: "",
             qr: "",
@@ -50,15 +51,29 @@ export class ContestantPage extends Component {
     async getObjectFromController(id) {
         const response = await fetch(`contestant/get-by-id?id=${id}`);
         const data = await response.json();
+
+        let contestWorks = data.contestWorks;
+
+        contestWorks.forEach(contestWork => {
+            fetch(`contestWork/get-position?id=${contestWork.id}`)
+                .then(response => response.json())
+                .then(data => contestWork.position = data);
+        })
+
         this.setState({
             contestant: data,
+            contestWorks: contestWorks,
             fullName: data.fullName,
             rfid: data.rfid,
             qr: data.qr,
             company: data.company,
-            loading: false
-        });
-        console.log(data);
+        },
+            () => {
+                setTimeout(
+                    () => {
+                        this.setState({ loading: false })
+                    }, 1000)
+            });
     }
 
     async putObjectToController(object) {
@@ -88,6 +103,7 @@ export class ContestantPage extends Component {
             return (
                 <ContestantPageView
                     contestant={this.state.contestant}
+                    contestWorks={this.state.contestWorks}
                     fullName={this.state.fullName}
                     rfid={this.state.rfid}
                     qr={this.state.qr}

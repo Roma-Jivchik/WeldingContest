@@ -260,7 +260,7 @@ namespace WeldingContest.Controllers
         [HttpGet]
         [Route("[controller]/searched/by-weldingType")]
         public async Task<IActionResult> GetSearchedByWeldingType(string weldingType, int pageNumber, int rowsNumber)
-        { 
+        {
             try
             {
                 var contestWorks = await _contestWorkService.GetSearchedByWeldingType(weldingType, pageNumber, rowsNumber);
@@ -316,7 +316,7 @@ namespace WeldingContest.Controllers
                 return Ok(contestWorks);
             }
             catch (Exception e)
-            {   
+            {
                 return StatusCode(500, $"{e.Message}");
             }
         }
@@ -394,6 +394,22 @@ namespace WeldingContest.Controllers
                 var contestWorks = await _contestWorkService.GetSortedByWeldingType(direction, pageNumber, rowsNumber);
 
                 return Ok(contestWorks);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-position")]
+        public async Task<IActionResult> GetContestWorkPosition(string id)
+        {
+            try
+            {
+                var result = await _contestWorkService.GetContestWorkPosition(id);
+
+                return Ok(result);
             }
             catch (Exception e)
             {

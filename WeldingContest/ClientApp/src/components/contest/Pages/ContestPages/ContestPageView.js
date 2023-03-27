@@ -42,11 +42,11 @@ export class ContestPageView extends Component {
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Дата начала конкурса</Form.Label>
-                            <Form.Control type="date" name="dateOfBegin" value={this.props.dateOfBegin} onChange={this.props.handleChangeInput} required />
+                            <Form.Control type="date" name="dateOfBegin" value={this.props.dateOfBegin.split("T")[0]} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Дата окончания конкурса</Form.Label>
-                            <Form.Control type="date" name="dateOfEnd" value={this.props.dateOfEnd} onChange={this.props.handleChangeInput} required />
+                            <Form.Control type="date" name="dateOfEnd" value={this.props.dateOfEnd.split("T")[0]} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
                     </fieldset>
                     <Stack direction="row" spacing={2} justifyContent="center">

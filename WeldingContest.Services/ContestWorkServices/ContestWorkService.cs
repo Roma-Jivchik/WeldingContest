@@ -422,5 +422,17 @@ namespace WeldingContest.Services.ContestWorkServices
                    .Take(rowsNumber)
                    .ToListAsync();
         }
+
+        public async Task<int> GetContestWorkPosition(string id)
+        {
+            var evaluationResults = await weldingContestContext.EvaluationResults
+                .OrderByDescending(_ => _.OverallMark)
+                .ToListAsync();
+
+            var evaluationResult = evaluationResults.FirstOrDefault(_ => _.ContestWorkID == id);
+
+            return evaluationResults.IndexOf(evaluationResult);
+
+        }
     }
 }

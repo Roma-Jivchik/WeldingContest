@@ -25,6 +25,7 @@ export class ContestWorkPage extends Component {
             contestAnchor: "",
             contestantAnchor: "",
             nominationAnchor: "",
+            isAddingProtocol: false,
         };
 
         this.clearState = this.clearState.bind(this);
@@ -42,6 +43,7 @@ export class ContestWorkPage extends Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChangeTab = this.handleChangeTab.bind(this);
+        this.changeFlag = this.changeFlag.bind(this);
     }
 
     clearState() {
@@ -107,7 +109,7 @@ export class ContestWorkPage extends Component {
         return (
             <ContestWorkPageView
                 currentTab={this.state.currentTab}
-                contestWork={ this.state.contestWork}
+                contestWork={this.state.contestWork}
                 contestAnchorOpen={this.state.contestAnchorOpen}
                 contestantAnchorOpen={this.state.contestantAnchorOpen}
                 nominationAnchorOpen={this.state.nominationAnchorOpen}
@@ -123,8 +125,8 @@ export class ContestWorkPage extends Component {
                 isUpdating={this.state.isUpdating}
                 validated={this.state.validated}
                 handleUpdate={this.handleUpdate}
-                handleDelete={ this.handleDelete}
-                handleCancel={ this.handleCancel}
+                handleDelete={this.handleDelete}
+                handleCancel={this.handleCancel}
                 handleSubmit={this.handleSubmit}
                 handleSelectContest={this.handleSelectContest}
                 handleSelectContestant={this.handleSelectContestant}
@@ -132,6 +134,8 @@ export class ContestWorkPage extends Component {
                 handleOpen={this.handleOpen}
                 handleClose={this.handleClose}
                 handleChangeTab={this.handleChangeTab}
+                isAddingProtocol={this.state.isAddingProtocol}
+                changeFlag={ this.changeFlag}
             />
             );
     }
@@ -210,5 +214,9 @@ export class ContestWorkPage extends Component {
 
     handleChangeTab(event, newTab) {
         this.setState({ currentTab: newTab });
+    }
+
+    changeFlag() {
+        this.setState({ isAddingProtocol: true });
     }
 }
