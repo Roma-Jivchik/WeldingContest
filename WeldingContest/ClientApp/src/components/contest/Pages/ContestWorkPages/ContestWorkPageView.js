@@ -3,24 +3,32 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from '@mui/material/Stack';
-import Popover from '@mui/material/Popover';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import CustomDataGrid from '../../sub-components/CustomDataGrid';
 import { AssemblyKSSResultAddTab } from '../Tabs/AddTabs/AssemblyKSSResultAddTab';
+import { ArmatureAssemblyKSSResultAddTab } from '../Tabs/AddTabs/ArmatureAssemblyKSSResultAddTab';
 import { RGMResultAddTab } from '../Tabs/AddTabs/RGMResultAddTab';
 import { ConsumptionWeldingMaterialsResultAddTab } from '../Tabs/AddTabs/ConsumptionWeldingMaterialsResultAddTab';
 import { SafetyResultAddTab } from '../Tabs/AddTabs/SafetyResultAddTab';
+import { ArmatureSafetyResultAddTab } from '../Tabs/AddTabs/ArmatureSafetyResultAddTab';
 import { TheoreticalResultAddTab } from '../Tabs/AddTabs/TheoreticalResultAddTab';
 import { VMCResultAddTab } from '../Tabs/AddTabs/VMCResultAddTab';
+import { ArmatureVMCResultAddTab } from '../Tabs/AddTabs/ArmatureVMCResultAddTab';
+import { MechanicalTestResultAddTab } from '../Tabs/AddTabs/MechanicalTestResultAddTab';
 import { WeldingTimeResultAddTab } from '../Tabs/AddTabs/WeldingTimeResultAddTab';
+
 import { RGMResultTab } from '../Tabs/ViewTabs/RGMResultTab';
 import { AssemblyKSSResultTab } from '../Tabs/ViewTabs/AssemblyKSSResultTab';
+import { ArmatureAssemblyKSSResultTab } from '../Tabs/ViewTabs/ArmatureAssemblyKSSResultTab';
 import { ConsumptionWeldingMaterialsResultTab } from '../Tabs/ViewTabs/ConsumptionWeldingMaterialsResultTab';
 import { SafetyResultTab } from '../Tabs/ViewTabs/SafetyResultTab';
+import { ArmatureSafetyResultTab } from '../Tabs/ViewTabs/ArmatureSafetyResultTab';
 import { TheoreticalResultTab } from '../Tabs/ViewTabs/TheoreticalResultTab';
 import { VMCResultTab } from '../Tabs/ViewTabs/VMCResultTab';
+import { ArmatureVMCResultTab } from '../Tabs/ViewTabs/ArmatureVMCResultTab';
+import { MechanicalTestResultTab } from '../Tabs/ViewTabs/MechanicalTestResultTab';
 import { WeldingTimeResultTab } from '../Tabs/ViewTabs/WeldingTimeResultTab';
+
 import { EvaluationResultTab } from '../Tabs/ViewTabs/EvaluationResultTab';
 import { ProtocolAddTab } from '../Tabs/AddTabs/ProtocolAddTab';
 
@@ -87,8 +95,14 @@ export class ContestWorkPageView extends Component {
                 case "rgm":
                     contentToView = <RGMResultTab contestWork={this.props.contestWork} />
                     break;
+                case "mechanicalTest":
+                    contentToView = <MechanicalTestResultTab contestWork={this.props.contestWork} />
+                    break;
                 case "assemblyKSS":
                     contentToView = <AssemblyKSSResultTab contestWork={this.props.contestWork} />
+                    break;
+                case "armatureAssemblyKSS":
+                    contentToView = <ArmatureAssemblyKSSResultTab contestWork={this.props.contestWork} />
                     break;
                 case "consumptionWeldingMaterials":
                     contentToView = <ConsumptionWeldingMaterialsResultTab contestWork={this.props.contestWork} />
@@ -96,11 +110,17 @@ export class ContestWorkPageView extends Component {
                 case "safety":
                     contentToView = <SafetyResultTab contestWork={this.props.contestWork} />
                     break;
+                case "armatureSafety":
+                    contentToView = <ArmatureSafetyResultTab contestWork={this.props.contestWork} />
+                    break;
                 case "theoretical":
                     contentToView = <TheoreticalResultTab contestWork={this.props.contestWork} />
                     break;
                 case "vmc":
                     contentToView = <VMCResultTab contestWork={this.props.contestWork} />
+                    break;
+                case "armatureVMC":
+                    contentToView = <ArmatureVMCResultTab contestWork={this.props.contestWork} />
                     break;
                 case "weldingTime":
                     contentToView = <WeldingTimeResultTab contestWork={this.props.contestWork} />
@@ -111,8 +131,14 @@ export class ContestWorkPageView extends Component {
                 case "rgm":
                     contentToAdd = <RGMResultAddTab contestWork={this.props.contestWork} />
                     break;
+                case "mechanicalTest":
+                    contentToAdd = <MechanicalTestResultAddTab contestWork={this.props.contestWork} />
+                    break;
                 case "assemblyKSS":
                     contentToAdd = <AssemblyKSSResultAddTab contestWork={this.props.contestWork} />
+                    break;
+                case "armatureAssemblyKSS":
+                    contentToAdd = <ArmatureAssemblyKSSResultAddTab contestWork={this.props.contestWork} />
                     break;
                 case "consumptionWeldingMaterials":
                     contentToAdd = <ConsumptionWeldingMaterialsResultAddTab contestWork={this.props.contestWork} />
@@ -120,11 +146,17 @@ export class ContestWorkPageView extends Component {
                 case "safety":
                     contentToAdd = <SafetyResultAddTab contestWork={this.props.contestWork} />
                     break;
+                case "armatureSafety":
+                    contentToAdd = <ArmatureSafetyResultAddTab contestWork={this.props.contestWork} />
+                    break;
                 case "theoretical":
                     contentToAdd = <TheoreticalResultAddTab contestWork={this.props.contestWork} />
                     break;
                 case "vmc":
                     contentToAdd = <VMCResultAddTab contestWork={this.props.contestWork} />
+                    break;
+                case "armatureVMC":
+                    contentToAdd = <ArmatureVMCResultAddTab contestWork={this.props.contestWork} />
                     break;
                 case "weldingTime":
                     contentToAdd = <WeldingTimeResultAddTab contestWork={this.props.contestWork} />
@@ -170,16 +202,32 @@ export class ContestWorkPageView extends Component {
                     </TabPanel>
                     <TabPanel value={this.props.currentTab} index={1}>
                         <Stack direction="row" spacing={2} justify="center" sx={{ marginTop: "20px" }}>
-                            {this.props.contestWork.assemblyKSSResults[0] != undefined ?
-                                <Button name="assemblyKSS" onClick={this.handleChooseResultToView}>
-                                    Оценка сборки и сварки
-                                </Button>
-                                : null}
-                            {this.props.contestWork.safetyResults[0] != undefined ?
-                                <Button name="safety" onClick={this.handleChooseResultToView}>
-                                    Оценка соблюдения правил охраны труда
-                                </Button>
-                                : null}
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.assemblyKSSResults[0] != undefined ?
+                                        <Button name="assemblyKSS" onClick={this.handleChooseResultToView}>
+                                            Оценка сборки и сварки
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureAssemblyKSSResults[0] != undefined ?
+                                        <Button name="armatureAssemblyKSS" onClick={this.handleChooseResultToView}>
+                                            Оценка сборки и сварки
+                                        </Button>
+                                        : null
+                            }
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.safetyResults[0] != undefined ?
+                                        <Button name="safety" onClick={this.handleChooseResultToView}>
+                                            Оценка соблюдения правил охраны труда
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureSafetyResults[0] != undefined ?
+                                        <Button name="armatureSafety" onClick={this.handleChooseResultToView}>
+                                            Оценка соблюдения правил охраны труда
+                                        </Button>
+                                        : null
+                            }
                             {this.props.contestWork.weldingTimeResults[0] != undefined ?
                                 <Button name="weldingTime" onClick={this.handleChooseResultToView}>
                                     Оценка времени сборки и сварки
@@ -190,16 +238,32 @@ export class ContestWorkPageView extends Component {
                                     Оценка расхода сварочных материалов
                                 </Button>
                                 : null}
-                            {this.props.contestWork.vmcResults[0] != undefined ?
-                                <Button name="vmc" onClick={this.handleChooseResultToView}>
-                                    Оценка по визуальному и измерительному контролю
-                                </Button>
-                                : null}
-                            {this.props.contestWork.rgmResults[0] != undefined ?
-                                <Button name="rgm" onClick={this.handleChooseResultToView}>
-                                    Оценка по радиографическому контролю
-                                </Button>
-                                : null}
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.vmcResults[0] != undefined ?
+                                        <Button name="vmc" onClick={this.handleChooseResultToView}>
+                                            Оценка по визуальному и измерительному контролю
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureVMCResults[0] != undefined ?
+                                        <Button name="armatureVMC" onClick={this.handleChooseResultToView}>
+                                            Оценка по визуальному и измерительному контролю
+                                        </Button>
+                                        : null
+                            }
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура" 
+                                    ? this.props.contestWork.rgmResults[0] != undefined ?
+                                        <Button name="rgm" onClick={this.handleChooseResultToView}>
+                                            Оценка по радиографическому контролю
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.mechanicalTestResults[0] != undefined ?
+                                        <Button name="mechanicalTest" onClick={this.handleChooseResultToView}>
+                                            Оценка по механическим испытаниям
+                                        </Button>
+                                        : null
+                            }
                             {this.props.contestWork.theoreticalResults[0] != undefined ?
                                 <Button name="theoretical" onClick={this.handleChooseResultToView}>
                                     Оценка теоретических знаний
@@ -210,16 +274,32 @@ export class ContestWorkPageView extends Component {
                     </TabPanel>
                     <TabPanel value={this.props.currentTab} index={2}>
                         <Stack direction="row" spacing={2} justify="cecnter" sx={{ marginTop: "20px" }}>
-                            {this.props.contestWork.assemblyKSSResults[0] == undefined ?
-                                <Button name="assemblyKSS" onClick={this.handleChooseResultToAdd}>
-                                    Оценка сборки и сварки
-                                </Button>
-                                : null}
-                            {this.props.contestWork.safetyResults[0] === undefined ?
-                                <Button name="safety" onClick={this.handleChooseResultToAdd}>
-                                    Оценка соблюдения правил охраны труда
-                                </Button>
-                                : null}
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.assemblyKSSResults[0] === undefined ?
+                                        <Button name="assemblyKSS" onClick={this.handleChooseResultToAdd}>
+                                            Оценка сборки и сварки
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureAssemblyKSSResults[0] === undefined ?
+                                        <Button name="armatureAssemblyKSS" onClick={this.handleChooseResultToAdd}>
+                                            Оценка сборки и сварки
+                                        </Button>
+                                        : null
+                            }
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.safetyResults[0] === undefined ?
+                                        <Button name="safety" onClick={this.handleChooseResultToAdd}>
+                                            Оценка соблюдения правил охраны труда
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureSafetyResults[0] === undefined ?
+                                        <Button name="armatureSafety" onClick={this.handleChooseResultToAdd}>
+                                            Оценка соблюдения правил охраны труда
+                                        </Button>
+                                        : null
+                            }
                             {this.props.contestWork.weldingTimeResults[0] === undefined ?
                                 <Button name="weldingTime" onClick={this.handleChooseResultToAdd}>
                                     Оценка времени сборки и сварки
@@ -230,16 +310,32 @@ export class ContestWorkPageView extends Component {
                                     Оценка расхода сварочных материалов
                                 </Button>
                                 : null}
-                            {this.props.contestWork.vmcResults[0] === undefined ?
-                                <Button name="vmc" onClick={this.handleChooseResultToAdd}>
-                                    Оценка по визуальному и измерительному контролю
-                                </Button>
-                                : null}
-                            {this.props.contestWork.rgmResults[0] === undefined ?
-                                <Button name="rgm" onClick={this.handleChooseResultToAdd}>
-                                    Оценка по радиографическому контролю
-                                </Button>
-                                : null}
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.vmcResults[0] === undefined ?
+                                        <Button name="vmc" onClick={this.handleChooseResultToAdd}>
+                                            Оценка по визуальному и измерительному контролю
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.armatureVMCResults[0] === undefined ?
+                                        <Button name="armatureVMC" onClick={this.handleChooseResultToAdd}>
+                                            Оценка по визуальному и измерительному контролю
+                                        </Button>
+                                        : null
+                            }
+                            {
+                                this.props.contestWork.nomination.sampleType != "Арматура"
+                                    ? this.props.contestWork.rgmResults[0] === undefined ?
+                                        <Button name="rgm" onClick={this.handleChooseResultToAdd}>
+                                            Оценка по радиографическому контролю
+                                        </Button>
+                                        : null
+                                    : this.props.contestWork.mechanicalTestResults[0] === undefined ?
+                                        <Button name="mechanicalTest" onClick={this.handleChooseResultToAdd}>
+                                            Оценка по механическим испытаниям
+                                        </Button>
+                                        : null
+                            }
                             {this.props.contestWork.theoreticalResults[0] === undefined ?
                                 <Button name="theoretical" onClick={this.handleChooseResultToAdd}>
                                     Оценка теоретических знаний

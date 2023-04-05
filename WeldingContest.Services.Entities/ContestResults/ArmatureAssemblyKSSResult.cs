@@ -8,7 +8,7 @@ namespace WeldingContest.Services.Entities.ContestResults
     {
         public string ID { get; set; }
         public string ContestWorkID { get; set; }
-        public bool SampleRepositioning { get; set; }
+        public int SampleRepositioning { get; set; }
         public int SeamsUncleaningCount { get; set; }
         public int TackDefectsCount { get; set; }
         public int NumberTacksChanges { get; set; }

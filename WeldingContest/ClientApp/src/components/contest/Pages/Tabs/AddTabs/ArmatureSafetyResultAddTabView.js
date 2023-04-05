@@ -1,0 +1,58 @@
+﻿import React, { Component } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Stack from '@mui/material/Stack';
+
+import '../../../stylesheets/Input.css';
+
+export class ArmatureSafetyResultAddTabView extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <>
+                <Form validated={this.props.validated} onSubmit={this.props.handleSubmit}>
+                    <Form.Group>
+                        <Form.Label className={this.props.wrongProtectiveClothesCount != 0 ? "check" : ''}>
+                            Защитная одежда не соответствует требованиям правл охраны труда (-3 балла)
+                        </Form.Label>
+                        <Form.Control type="number" name="wrongProtectiveClothesCount" value={this.props.wrongProtectiveClothesCount} onChange={ this.props.handleChangeInput} required/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label className={this.props.wrongGrinderCleaningCount != 0 ? "check" : ''}>
+                            Зачистка швов с шлиф. машинкой с плохим закреплением образца (-3 балла)
+                        </Form.Label>
+                        <Form.Control type="number" name="wrongGrinderCleaningCount" value={this.props.wrongGrinderCleaningCount} onChange={this.props.handleChangeInput} required />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label className={this.props.wrongEquipmentUsageCount != 0 ? "check" : ''}>
+                            Неправильное применение или неприменение средств защиты (сварочных масок, защитных очков и т. д.) (-5 баллов за каждое нарушение)
+                        </Form.Label>
+                        <Form.Control type="number" name="wrongEquipmentUsageCount" value={this.props.wrongEquipmentUsageCount} onChange={this.props.handleChangeInput} required />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Примечание</Form.Label>
+                        <Form.Control name="notes" value={this.props.notes} onChange={this.props.handleChangeInput}/>
+                    </Form.Group>
+                    <Stack direction="row" spacing={2}>
+                        <Form.Group>
+                            <Form.Label>Итоговое количество баллов (макс. 10 баллов)</Form.Label>
+                            <Form.Control disabled type="number" name="overallMark" value={this.props.overallMark} onChange={this.props.handleChangeInput} required />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Количество штрафных баллов</Form.Label>
+                            <Form.Control disabled type="number" name="penaltyMark" value={this.props.penaltyMark} onChange={this.props.handleChangeInput} required />
+                        </Form.Group>
+                    </Stack>
+                    <Stack direction="row" spacing={2} justifyContent="center">
+                        <Button style={{ margin: "10px 10px" }} type="submit">
+                        Добавить
+                        </Button>
+                        </Stack>
+                </Form>
+                </>
+            );
+    }
+}

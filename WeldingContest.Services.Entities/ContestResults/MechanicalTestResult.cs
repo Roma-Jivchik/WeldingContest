@@ -8,6 +8,10 @@ namespace WeldingContest.Services.Entities.ContestResults
     {
         public string ID { get; set; }
         public string ContestWorkID { get; set; }
+        public int DestructionWeldLessStrength { get; set; }
+        public int DestructionWeldEqualsStrength { get; set; }
+        public int DestructionHeatAffectedLessStrength { get; set; }
+        public int DestructionHeatAffectedEqualsStrength { get; set; }
         public int OverallMark { get; set; }
 
         public virtual ContestWork ContestWork { get; set; }

@@ -16,7 +16,7 @@ export class ConsumptionWeldingMaterialsResultAddTabView extends Component {
                 <Form validated={this.props.validated} onSubmit={this.props.handleSubmit}>
                     <Form.Group>
                         <Form.Label className={this.props.consumbleMaterialAmount != 0 ? "check" : ''}>
-                            Количество дополнительных сварочных материалов (норма: 111 (труба) - 5 электродов, Б-141 - 3 прутка) (-1 балл за каждый доп. материал)
+                            Количество дополнительных сварочных материалов (норма: 111 (труба) - 5 электродов, Б-141 - 3 прутка, B-2 (111) - 12 электродов) (-1 балл за каждый доп. материал)
                         </Form.Label>
                         <Form.Control type="number" name="consumbleMaterialAmount" value={this.props.consumbleMaterialAmount} onChange={ this.props.handleChangeInput} required/>
                     </Form.Group>
