@@ -46,12 +46,6 @@ export class ArmatureVMCResultTabView extends Component {
                             <Form.Control type="number" name="contiuousUndercutCount" value={this.props.contiuousUndercutCount}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label className={this.props.undercutFrom20mmCount != 0 ? "check" : ''}>
-                                Подрез длиной более 10 мм (-5 баллов)
-                            </Form.Label>
-                            <Form.Control type="number" name="undercutFrom20mmCount" value={this.props.undercutFrom20mmCount}/>
-                        </Form.Group>
-                        <Form.Group>
                             <Form.Label className={this.props.excessSeamWidthCount != 0 ? "check" : ''}>
                                 За каждый 1,0 мм недостаточного значения ширины сварного шва (-3 балла)
                             </Form.Label>
@@ -70,13 +64,13 @@ export class ArmatureVMCResultTabView extends Component {
                             <Form.Control type="number" name="roughTransitionCount" value={this.props.roughTransitionCount}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>
+                            <Form.Label className={this.props.otherWarningsCount != 0 ? "check" : ''}>
                                 За другие замечания (поры, шлаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (-3 балла за каждое замечание)
                             </Form.Label>
                             <Form.Control type="number" name="otherWarningsCount" value={this.props.otherWarningsCount}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>
+                            <Form.Label className={this.props.seamGeometryCount != 0 ? "check" : ''}>
                                 Геометрия сварного шва (отсутствие прямолинейности шва) (-5 баллов)
                             </Form.Label>
                             <Form.Control type="number" name="seamGeometryCount" value={this.props.seamGeometryCount}/>

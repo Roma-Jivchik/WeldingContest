@@ -63,13 +63,13 @@ export class ArmatureVMCResultAddTabView extends Component {
                         <Form.Control type="number" name="roughTransitionCount" value={this.props.roughTransitionCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>
+                        <Form.Label className={this.props.otherWarningsCount != 0 ? "check" : ''}>
                             За другие замечания (поры, шлаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (-3 балла за каждое замечание)
                         </Form.Label>
                         <Form.Control type="number" name="otherWarningsCount" value={this.props.otherWarningsCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>
+                        <Form.Label className={this.props.seamGeometryCount != 0 ? "check" : ''}>
                             Геометрия сварного шва (отсутствие прямолинейности шва) (-5 баллов)
                         </Form.Label>
                         <Form.Control type="number" name="seamGeometryCount" value={this.props.seamGeometryCount} onChange={this.props.handleChangeInput} required />

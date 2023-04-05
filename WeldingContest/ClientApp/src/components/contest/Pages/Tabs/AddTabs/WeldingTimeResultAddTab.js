@@ -72,7 +72,9 @@ export class WeldingTimeResultAddTab extends Component {
         let timeOfBegin = parseInt(this.state.timeOfBegin.split(":")[0]) * 60 + parseInt(this.state.timeOfBegin.split(":")[1]);
         let timeOfEnd = parseInt(this.state.timeOfEnd.split(":")[0]) * 60 + parseInt(this.state.timeOfEnd.split(":")[1]);
 
-        let penaltyMark = (Math.max((timeOfEnd - timeOfBegin) - 25, 0));
+        let timeToWeld = this.props.contestWork.nomination.sampleType == "Арматура" ? 20 : 25;
+
+        let penaltyMark = (Math.max((timeOfEnd - timeOfBegin) - timeToWeld, 0));
         let overallMark = 10 - penaltyMark;
 
         if (overallMark < 0) {

@@ -34,7 +34,7 @@ export class MechanicalTestResultAddTabView extends Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label className={this.props.destructionHeatAffectedEqualsStrength != 0 ? "check" : ''}>
-                            Разрушение в зоне термического влияния с разрушающей нагрузкой равной пределу прочности арматуры (-30 баллов)
+                            Разрушение в зоне термического влияния с разрушающей нагрузкой равной пределу прочности арматуры (-10 баллов)
                         </Form.Label>
                         <Form.Control type="number" name="destructionHeatAffectedEqualsStrength" value={this.props.destructionHeatAffectedEqualsStrength} onChange={this.props.handleChangeInput} required />
                     </Form.Group>

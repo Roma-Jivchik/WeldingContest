@@ -36,7 +36,7 @@ export class ArmatureVMCResultTab extends Component {
 
     render() {
         return (
-            <ArmatureVMCResultAddTabView
+            <ArmatureVMCResultTabView
                 craterPresenceCount={this.state.craterPresenceCount}
                 insufficientSeamLengthCount={this.state.insufficientSeamLengthCount}
                 undercutUpTo5mmCount={this.state.undercutUpTo5mmCount}

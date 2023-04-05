@@ -5,12 +5,12 @@ export class ArmatureSafetyResultTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            wrongProtectiveClothesCount: this.props.contestWork.safetyResults[0].wrongProtectiveClothesCount,
-            wrongGrinderCleaningCount: this.props.contestWork.safetyResults[0].wrongGrinderCleaningCount,
-            wrongEquipmentUsageCount: this.props.contestWork.safetyResults[0].wrongEquipmentUsageCount,
-            notes: this.props.contestWork.safetyResults[0].notes,
-            overallMark: this.props.contestWork.safetyResults[0].overallMark,
-            penaltyMark: 10 - this.props.contestWork.safetyResults[0].overallMark,
+            wrongProtectiveClothesCount: this.props.contestWork.armatureSafetyResults[0].wrongProtectiveClothesCount,
+            wrongGrinderCleaningCount: this.props.contestWork.armatureSafetyResults[0].wrongGrinderCleaningCount,
+            wrongEquipmentUsageCount: this.props.contestWork.armatureSafetyResults[0].wrongEquipmentUsageCount,
+            notes: this.props.contestWork.armatureSafetyResults[0].notes,
+            overallMark: this.props.contestWork.armatureSafetyResults[0].overallMark,
+            penaltyMark: 10 - this.props.contestWork.armatureSafetyResults[0].overallMark,
         }
 
         this.deleteObjectFromController = this.deleteObjectFromController.bind(this);

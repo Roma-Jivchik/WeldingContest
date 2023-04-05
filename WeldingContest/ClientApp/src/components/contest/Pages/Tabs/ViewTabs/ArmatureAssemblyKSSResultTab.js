@@ -5,9 +5,9 @@ export class ArmatureAssemblyKSSResultTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sampleRepositioningCount: this.props.contestWork.armatureAssemblyKSSResults[0].sampleRepositioningCount,
+            sampleRepositioningCount: this.props.contestWork.armatureAssemblyKSSResults[0].sampleRepositioning,
             seamsUncleaningCount: this.props.contestWork.armatureAssemblyKSSResults[0].seamsUncleaningCount,
-            tacksDefectCount: this.props.contestWork.armatureAssemblyKSSResults[0].tacksDefectCount,
+            tackDefectsCount: this.props.contestWork.armatureAssemblyKSSResults[0].tackDefectsCount,
             numberTacksChanges: this.props.contestWork.armatureAssemblyKSSResults[0].numberTacksChanges,
             unfinishedEdgesCount: this.props.contestWork.armatureAssemblyKSSResults[0].unfinishedEdgesCount,
             heatAffectedSeamZonesUncleaningCount: this.props.contestWork.armatureAssemblyKSSResults[0].heatAffectedSeamZonesUncleaningCount,
@@ -40,7 +40,7 @@ export class ArmatureAssemblyKSSResultTab extends Component {
                 sampleRepositioningCount={this.state.sampleRepositioningCount}
                 seamsUncleaningCount={this.state.seamsUncleaningCount}
                 tackDefectsCount={this.state.tackDefectsCount}
-                numberTacksChanges={this.numberTacksChanges}
+                numberTacksChanges={this.state.numberTacksChanges}
                 unfinishedEdgesCount={this.state.unfinishedEdgesCount}
                 heatAffectedSeamZonesUncleaningCount={this.state.heatAffectedSeamZonesUncleaningCount}
                 grinderCleaningCount={this.state.grinderCleaningCount}

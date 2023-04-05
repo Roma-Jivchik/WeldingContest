@@ -68,7 +68,7 @@ export class ArmatureAssemblyKSSResultAddTab extends Component {
             ContestWorkID: this.state.contestWorkID,
             SampleRepositioningCount: this.state.sampleRepositioningCount,
             SeamsUncleaningCount: this.state.seamsUncleaningCount,
-            TackDefectsCount: this.state.tacksDefectCount,
+            TackDefectsCount: this.state.tackDefectsCount,
             NumberTacksChanges: this.state.wpsNumberTacksChanges,
             UnfinishedEdgesCount: this.state.unfinishedEdgesCount,
             HeatAffectedSeamZonesUncleaningCount: this.state.heatAffectedSeamZonesUncleaningCount,
@@ -103,7 +103,7 @@ export class ArmatureAssemblyKSSResultAddTab extends Component {
                 this.state.sampleRepositioningCount * 10
                 + this.state.seamsUncleaningCount * 5
                 + this.state.unfinishedEdgesCount * 5
-                + this.state.tacksDefectCount * 5
+                + this.state.tackDefectsCount * 5
                 + this.state.numberTacksChanges * 5
                 + this.state.heatAffectedSeamZonesUncleaningCount * 5
                 + this.state.grinderCleaningCount * 10
