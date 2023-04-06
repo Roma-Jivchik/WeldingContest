@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+docker-compose/dbdata
+WeldingContest.DataAccess/bin
+WeldingContest.DataAccess/obj
+WeldingContest.Services/obj
+WeldingContest.Services.Entities/obj
+WeldingContest.Services.Entities/bin

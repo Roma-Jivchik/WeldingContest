@@ -9,13 +9,10 @@ namespace WeldingContest.DataAccess
 {
     public partial class WeldingContestContext : DbContext
     {
-        public WeldingContestContext()
-        {
-        }
-
         public WeldingContestContext(DbContextOptions<WeldingContestContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<ArmatureAssemblyKSSResult> ArmatureAssemblyKSSResults { get; set; }
@@ -37,14 +34,6 @@ namespace WeldingContest.DataAccess
         public virtual DbSet<TheoreticalResult> TheoreticalResults { get; set; }
         public virtual DbSet<VMCResult> VMCResults { get; set; }
         public virtual DbSet<WeldingTimeResult> WeldingTimeResults { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=localhost;Database=WeldingContest;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

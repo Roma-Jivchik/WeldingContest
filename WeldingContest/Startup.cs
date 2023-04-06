@@ -20,6 +20,9 @@ namespace WeldingContest
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDataLayer(connectionString);
 
             services.AddControllersWithViews();
 
