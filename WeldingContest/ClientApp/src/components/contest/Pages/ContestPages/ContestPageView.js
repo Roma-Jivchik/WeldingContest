@@ -24,7 +24,7 @@ export class ContestPageView extends Component {
                 { field: 'weldingTimeMark', width: 180, headerName: 'Время сборки и сварки', sortable: false },
                 { field: 'consumptionWeldingMaterialsMark', width: 240, headerName: 'Расход сварочных материалов', sortable: false },
                 { field: 'vmcMark', width: 50, headerName: 'ВИК', sortable: false },
-                { field: 'rgmMark', width: 230, headerName: 'Радиографический контроль', sortable: false },
+                { field: 'rgmMark', width: 230, headerName: 'РК/МИ', sortable: false },
                 { field: 'theoreticalMark', width: 80, headerName: 'Теория', sortable: false },
                 { field: 'overallMark', width: 80, headerName: 'Итого', sortable: false },
             ],

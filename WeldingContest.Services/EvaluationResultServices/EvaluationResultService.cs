@@ -200,6 +200,9 @@ namespace WeldingContest.Services.EvaluationResultServices
         public async Task<IList<EvaluationResult>> CreateAll()
         {
             var contestWorks = await weldingContestContext.ContestWorks
+                .Include(_ => _.ArmatureAssemblyKSSResults)
+                .Include(_ => _.ArmatureSafetyResults)
+                .Include(_ => _.ArmatureVMCResults)
                 .Include(_ => _.AssemblyKSSResults)
                 .Include(_ => _.ConsumptionWeldingMaterialsResults)
                 .Include(_ => _.MechanicalTestResults)
@@ -220,10 +223,16 @@ namespace WeldingContest.Services.EvaluationResultServices
                     evaluationResult.ContestWorkID = contestWork.ID;
 
                     evaluationResult.AssemblyKSSMark = contestWork.AssemblyKSSResults.Count != 0 
-                        ? contestWork.AssemblyKSSResults.ElementAt(0).OverallMark : 0;
+                        ? contestWork.AssemblyKSSResults.ElementAt(0).OverallMark 
+                        : contestWork.ArmatureAssemblyKSSResults.Count != 0 
+                        ? contestWork.ArmatureAssemblyKSSResults.ElementAt(0).OverallMark
+                        : 0;
 
                     evaluationResult.SafetyMark = contestWork.SafetyResults.Count != 0 
-                        ? contestWork.SafetyResults.ElementAt(0).OverallMark : 0;
+                        ? contestWork.SafetyResults.ElementAt(0).OverallMark
+                        : contestWork.ArmatureSafetyResults.Count != 0
+                        ? contestWork.ArmatureSafetyResults.ElementAt(0).OverallMark
+                        : 0;
 
                     evaluationResult.WeldingTimeMark = contestWork.WeldingTimeResults.Count != 0 
                         ? contestWork.WeldingTimeResults.ElementAt(0).OverallMark : 0;
@@ -232,10 +241,16 @@ namespace WeldingContest.Services.EvaluationResultServices
                         ? contestWork.ConsumptionWeldingMaterialsResults.ElementAt(0).OverallMark : 0;
 
                     evaluationResult.VMCMark = contestWork.VMCResults.Count != 0 
-                        ? contestWork.VMCResults.ElementAt(0).OverallMark : 0;
+                        ? contestWork.VMCResults.ElementAt(0).OverallMark
+                        : contestWork.ArmatureVMCResults.Count != 0
+                        ? contestWork.ArmatureVMCResults.ElementAt(0).OverallMark
+                        : 0;
 
                     evaluationResult.RGMMark = contestWork.RGMResults.Count != 0 
-                        ? contestWork.RGMResults.ElementAt(0).OverallMark : 0;
+                        ? contestWork.RGMResults.ElementAt(0).OverallMark 
+                        : contestWork.MechanicalTestResults.Count != 0
+                        ? contestWork.MechanicalTestResults.ElementAt(0).OverallMark
+                        : 0;
 
                     evaluationResult.TheoreticalMark = contestWork.TheoreticalResults.Count != 0 
                         ? contestWork.TheoreticalResults.ElementAt(0).OverallMark : 0;
