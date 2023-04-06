@@ -6,11 +6,13 @@ export class RGMResultTab extends Component {
         super(props);
         this.state = {
             overallMark: this.props.contestWork.rgmResults[0].overallMark,
-            penaltyMark: 30 - this.props.contestWork.rgmResults[0].overallMark
+            penaltyMark: 30 - this.props.contestWork.rgmResults[0].overallMark,
+            isHidden: false
         }
 
         this.deleteObjectFromController = this.deleteObjectFromController.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.hideImage = this.hideImage.bind(this);
     }
 
     async deleteObjectFromController(id) {
@@ -26,12 +28,13 @@ export class RGMResultTab extends Component {
     render() {
         return (
             <RGMResultTabView
-                contestWork={ this.props.contestWork}
+                contestWork={this.props.contestWork}
                 overallMark={this.state.overallMark}
                 penaltyMark={this.state.penaltyMark}
                 handleSubmit={this.handleSubmit}
                 handleChangeInput={this.handleChangeInput}
                 handleDelete={this.handleDelete}
+                hideImage={ this.hideImage}
             />
             );
     }
@@ -42,5 +45,9 @@ export class RGMResultTab extends Component {
 
             setTimeout(() => { window.location.reload(true) }, 1000);
         }
+    }
+
+    hideImage() {
+        this.setState({ isHidden: true });
     }
 }

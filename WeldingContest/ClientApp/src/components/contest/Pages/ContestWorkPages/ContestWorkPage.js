@@ -44,6 +44,17 @@ export class ContestWorkPage extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChangeTab = this.handleChangeTab.bind(this);
         this.changeFlag = this.changeFlag.bind(this);
+        this.checkFolderForPhotos = this.checkFolderForPhotos.bind(this);
+    }
+
+    async checkFolderForPhotos() {
+        try {
+            const response = await fetch(`/Фото/${this.state.contestWork.contest.name}/${this.state.contestWork.nomination.title}/${this.state.contestWork.contestant.rfid}/Рентген_${this.state.contestWork.contestant.rfid}.jpg`);
+
+            console.log("good");
+        } catch (err) {
+            console.log("not good");
+        }
     }
 
     clearState() {
@@ -69,7 +80,7 @@ export class ContestWorkPage extends Component {
             contest: data.contest,
             contestant: data.contestant,
             nomination: data.nomination,
-        });
+        }, () => { this.checkFolderForPhotos()});
         console.log(data);
     }
 

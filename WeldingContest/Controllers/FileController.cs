@@ -20,7 +20,7 @@ namespace WeldingContest.Controllers
         [HttpPost]
         [Route("[controller]/create/rgm")]
         [ProducesResponseType(typeof(RGMPhotoFile), StatusCodes.Status200OK)]
-        public IActionResult CreateRGMPhoto()
+        public async Task<IActionResult> CreateRGMPhoto()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace WeldingContest.Controllers
                 rgmPhotoFile.NominationTitle = Request.Form["nominationTitle"];
                 rgmPhotoFile.File = Request.Form.Files[0].OpenReadStream();
 
-                _fileService.CreateRGMPhoto(rgmPhotoFile);
+                await _fileService.CreateRGMPhoto(rgmPhotoFile);
 
                 return Ok();
             }
@@ -44,7 +44,7 @@ namespace WeldingContest.Controllers
         [HttpPost]
         [Route("[controller]/create/protocol")]
         [ProducesResponseType(typeof(ProtocolPhotoFile), StatusCodes.Status200OK)]
-        public IActionResult CreateProtocol()
+        public async Task<IActionResult> CreateProtocol()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace WeldingContest.Controllers
                 protocolPhotoFile.NominationTitle = Request.Form["nominationTitle"];
                 protocolPhotoFile.File = Request.Form.Files[0].OpenReadStream();
 
-                _fileService.CreateProtocolPhoto(protocolPhotoFile);
+                await _fileService.CreateProtocolPhoto(protocolPhotoFile);
 
                 return Ok();
             }

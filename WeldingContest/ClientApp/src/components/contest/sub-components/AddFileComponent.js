@@ -9,7 +9,6 @@ export class AddFileComponent extends Component {
         super(props);
 
         this.state = {
-            imagePreviewUrl: null,
             file: ""
         }
     }
@@ -22,7 +21,6 @@ export class AddFileComponent extends Component {
             this.props.handleFile(file);
             this.setState({
                 file: file,
-                imagePreviewUrl: reader.result
             });
         }
 
@@ -31,20 +29,10 @@ export class AddFileComponent extends Component {
 
 
     render() {
-        let { imagePreviewUrl } = this.state;
-        let $imagePreview = null;
-            if (imagePreviewUrl) {
-                $imagePreview = (<img style={{ width: "300px", height: "400px" }} src={imagePreviewUrl} />);
-            } else {
-                $imagePreview = (<Form.Label>Здесь будет фотография</Form.Label>);
-            }
         return (
             <Form.Group className="mb-3">
                 <Form.Label>Выберите файл для загрузки</Form.Label>
                 <Form.Control type="file" onChange={(e) => this.handleFileChange(e)} required/>
-                <p style={{ textAlign: "center" }}>
-                    {$imagePreview}
-                </p>
                 <Form.Control.Feedback type="invalid">
                     Пожалуйста, загрузите фотографию
                 </Form.Control.Feedback>

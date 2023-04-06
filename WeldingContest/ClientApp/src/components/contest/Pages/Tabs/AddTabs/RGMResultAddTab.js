@@ -8,7 +8,8 @@ export class RGMResultAddTab extends Component {
             contestWorkID: this.props.contestWork.id,
             overallMark: 30,
             penaltyMark: 0,
-            file: null,
+            fileFirst: null,
+            fileSecond: null,
             validated: false,
         }
 
@@ -16,7 +17,8 @@ export class RGMResultAddTab extends Component {
         this.postFileToController = this.postFileToController.bind(this);
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleFile = this.handleFile.bind(this);
+        this.handleFileFirst = this.handleFileFirst.bind(this);
+        this.handleFileSecond = this.handleFileSecond.bind(this);
         this.countOverallMark = this.countOverallMark.bind(this);
     }
 
@@ -40,11 +42,13 @@ export class RGMResultAddTab extends Component {
     render() {
         return (
             <RGMResultAddTabView
+                contestWork={this.props.contestWork}
                 overallMark={this.state.overallMark}
                 penaltyMark={this.state.penaltyMark}
                 handleSubmit={this.handleSubmit}
                 handleChangeInput={this.handleChangeInput}
-                handleFile={this.handleFile}
+                handleFileFirst={this.handleFileFirst}
+                handleFileSecond={ this.handleFileSecond}
             />
             );
     }
@@ -58,12 +62,18 @@ export class RGMResultAddTab extends Component {
             OverallMark: this.state.overallMark,
         }
 
-        let file = new FormData();
+        let fileFirst = new FormData();
+        let fileSecond = new FormData();
 
-        file.append("ContestName", this.props.contestWork.contest.name);
-        file.append("NominationTitle", this.props.contestWork.nomination.title);
-        file.append("ContestantRFID", this.props.contestWork.contestant.rfid);
-        file.append("File", this.state.file);
+        fileFirst.append("ContestName", this.props.contestWork.contest.name);
+        fileFirst.append("NominationTitle", this.props.contestWork.nomination.title);
+        fileFirst.append("ContestantRFID", this.props.contestWork.contestant.rfid);
+        fileFirst.append("File", this.state.fileFirst);
+
+        fileSecond.append("ContestName", this.props.contestWork.contest.name);
+        fileSecond.append("NominationTitle", this.props.contestWork.nomination.title);
+        fileSecond.append("ContestantRFID", this.props.contestWork.contestant.rfid);
+        fileSecond.append("File", this.state.fileSecond);
         const form = event.target;
 
         if (form.checkValidity() === false) {
@@ -71,7 +81,8 @@ export class RGMResultAddTab extends Component {
         } else {
             this.setState({ validated: true });
             this.postObjectToController(object);
-            this.postFileToController(file);
+            this.postFileToController(fileFirst);
+            this.postFileToController(fileSecond);
         }
 
         setTimeout(() => { window.location.reload() }, 500);
@@ -101,7 +112,11 @@ export class RGMResultAddTab extends Component {
         console.log(overallMark);
     }
 
-    handleFile(file) {
-        this.setState({ file: file });
+    handleFileFirst(file) {
+        this.setState({ fileFirst: file });
+    }
+
+    handleFileSecond(file) {
+        this.setState({ fileSecond: file });
     }
 }

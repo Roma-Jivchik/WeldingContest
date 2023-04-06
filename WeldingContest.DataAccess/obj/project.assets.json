@@ -1472,7 +1472,10 @@
         },
         "runtime": {
           "bin/placeholder/WeldingContest.Services.Entities.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -5546,19 +5549,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Max\\.nuget\\packages\\": {}
+    "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
       "projectName": "WeldingContest.DataAccess",
-      "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
-      "packagesPath": "C:\\Users\\Max\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\obj\\",
+      "projectPath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\WeldingContest.DataAccess.csproj",
+      "packagesPath": "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Max\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AcedoraDynkan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5572,8 +5575,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
-              "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj"
+            "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj": {
+              "projectPath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj"
             }
           }
         }
@@ -5624,20 +5627,15 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Ошибка чтения файла кэша C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.DataAccess\\obj\\project.nuget.cache: Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

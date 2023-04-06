@@ -23,7 +23,8 @@ export class RGMResultAddTabView extends Component {
                             <Form.Control disabled type="number" name="penaltyMark" value={this.props.penaltyMark} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
                     </Stack>
-                    <AddFileComponent handleFile={ this.props.handleFile}/>
+                    <AddFileComponent handleFile={this.props.handleFileFirst} />
+                    <AddFileComponent hidden={ this.props.contestWork.nomination.sampleType == "Пластина"} handleFile={this.props.handleFileSecond} />
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button style={{ margin: "10px 10px" }} type="submit">
                         Добавить

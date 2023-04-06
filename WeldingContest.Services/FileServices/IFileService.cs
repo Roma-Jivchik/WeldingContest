@@ -6,8 +6,8 @@ namespace WeldingContest.Services.FileServices
 {
     public interface IFileService
     {
-        void CreateRGMPhoto(RGMPhotoFile entity);
+        Task CreateRGMPhoto(RGMPhotoFile entity);
 
-        void CreateProtocolPhoto(ProtocolPhotoFile entity);
+        Task CreateProtocolPhoto(ProtocolPhotoFile entity);
     }
 }

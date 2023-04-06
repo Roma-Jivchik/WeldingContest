@@ -19,7 +19,7 @@ namespace WeldingContest.Services.FileServices
             _location = location + @"\Фото\";
         }
 
-        public void CreateRGMPhoto(RGMPhotoFile entity)
+        public async Task CreateRGMPhoto(RGMPhotoFile entity)
         {
             string filePath = _location + $@"{entity.ContestName}\{entity.NominationTitle}\{entity.ContestantRFID}\";
 
@@ -28,11 +28,13 @@ namespace WeldingContest.Services.FileServices
             Directory.CreateDirectory(filePath);
             filePath += fileName;
             byte[] fileBytes = new byte[entity.File.Length];
-            entity.File.Read(fileBytes, 0, (int)entity.File.Length);
-            File.WriteAllBytes(filePath, fileBytes);
+
+            await entity.File.ReadAsync(fileBytes, 0, (int)entity.File.Length);
+            
+            await File.WriteAllBytesAsync(filePath, fileBytes);
         }
 
-        public void CreateProtocolPhoto(ProtocolPhotoFile entity)
+        public async Task CreateProtocolPhoto(ProtocolPhotoFile entity)
         {
             string filePath = _location + $@"{entity.ContestName}\{entity.NominationTitle}\{entity.ContestantRFID}\";
 
@@ -41,8 +43,10 @@ namespace WeldingContest.Services.FileServices
             Directory.CreateDirectory(filePath);
             filePath += fileName;
             byte[] fileBytes = new byte[entity.File.Length];
-            entity.File.Read(fileBytes, 0, (int)entity.File.Length);
-            File.WriteAllBytes(filePath, fileBytes);
+
+            await entity.File.ReadAsync(fileBytes, 0, (int)entity.File.Length);
+
+            await File.WriteAllBytesAsync(filePath, fileBytes);
         }
     }
 }

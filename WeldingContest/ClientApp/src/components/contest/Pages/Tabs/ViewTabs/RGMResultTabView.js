@@ -33,7 +33,21 @@ export class RGMResultTabView extends Component {
                             display: "grid"
                         }}
                         alt="Темплейт"
-                        src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Рентген_${this.props.contestWork.contestant.rfid}.jpg`}
+                        src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Рентген_${this.props.contestWork.contestant.rfid}_1.jpg`}
+                    />
+                    <img
+                        hidden={this.props.isHidden}
+                        style={{
+                            width: "1000px",
+                            height: "700px",
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            display: "grid"
+                        }}
+                        src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Рентген_${this.props.contestWork.contestant.rfid}_2.jpg`}
+                        onError={ this.props.hideImage}
                     />
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button variant="danger" style={{ margin: "10px 10px" }} onClick={ this.props.handleDelete}>

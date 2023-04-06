@@ -5525,19 +5525,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Max\\.nuget\\packages\\": {}
+    "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+      "projectUniqueName": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
       "projectName": "WeldingContest.Services.Entities",
-      "projectPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
-      "packagesPath": "C:\\Users\\Max\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
+      "projectPath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
+      "packagesPath": "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Max\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AcedoraDynkan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5599,20 +5599,15 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Ошибка чтения файла кэша C:\\Users\\Max\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\obj\\project.nuget.cache: Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
