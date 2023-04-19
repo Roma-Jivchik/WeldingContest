@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System;
 using System.Threading.Tasks;
 using WeldingContest.Services.Entities.ContestMembers;
@@ -10,9 +11,9 @@ namespace WeldingContest.Controllers
     [ApiController]
     public class ProtocolController : ControllerBase
     {
-        private readonly IProtocolServiceBase<Contest> _protocolService;
+        private readonly IProtocolService<Contest> _protocolService;
 
-        public ProtocolController(IProtocolServiceBase<Contest> protocolService)
+        public ProtocolController(IProtocolService<Contest> protocolService)
         {
             _protocolService = protocolService;
         }
@@ -20,11 +21,13 @@ namespace WeldingContest.Controllers
         [HttpPost]
         [Route("[controller]/create")]
         [ProducesResponseType(typeof(Contest), StatusCodes.Status200OK)]
-        public IActionResult Create([FromBody] Contest entity)
+        public async Task<IActionResult> Create([FromBody] Contest entity)
         {
             try
             {
-                _protocolService.CreateProtocol(entity);
+                var protocol = await _protocolService.Create(entity);
+
+                System.IO.File.WriteAllBytes(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol.xlsx", protocol);
 
                 return Ok();
             }
