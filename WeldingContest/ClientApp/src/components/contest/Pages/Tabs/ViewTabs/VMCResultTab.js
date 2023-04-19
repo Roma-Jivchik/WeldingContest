@@ -18,6 +18,7 @@ export class VMCResultTab extends Component {
             excessSeamConvexityCount: this.props.contestWork.vmcResults[0].excessSeamConvexityCount,
             excessSeamScalingCount: this.props.contestWork.vmcResults[0].excessSeamScalingCount,
             roughTransitionCount: this.props.contestWork.vmcResults[0].roughTransitionCount,
+            poresAndSludgeCount: this.props.contestWork.vmcResults[0].poresAndSludgeCount,
             otherWarningsCount: this.props.contestWork.vmcResults[0].otherWarningsCount,
             seamGeometryCount: this.props.contestWork.vmcResults[0].seamGeometryCount,
             pipeSeamsDisplacement: this.props.contestWork.vmcResults[0].pipeSeamsDisplacement,
@@ -56,6 +57,7 @@ export class VMCResultTab extends Component {
                 excessSeamConvexityCount={this.state.excessSeamConvexityCount}
                 excessSeamScalingCount={this.state.excessSeamScalingCount}
                 roughTransitionCount={this.state.roughTransitionCount}
+                poresAndSludgeCount={this.state.poresAndSludgeCount}
                 otherWarningsCount={this.state.otherWarningsCount}
                 seamGeometryCount={this.state.seamGeometryCount}
                 pipeSeamsDisplacement={this.state.pipeSeamsDisplacement}

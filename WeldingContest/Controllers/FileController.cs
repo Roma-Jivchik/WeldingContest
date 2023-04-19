@@ -64,5 +64,45 @@ namespace WeldingContest.Controllers
                 return StatusCode(500, $"{e.Message}");
             }
         }
+
+        [HttpPost]
+        [Route("[controller]/create")]
+        [ProducesResponseType(typeof(ProtocolPhotoFile), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateFile()
+        {
+            try
+            {
+                var file = new CustomFile();
+
+                file.FilePath = Request.Form["filePath"];
+                file.Filename = Request.Form["filename"];
+                file.FileStream = Request.Form.Files[0].OpenReadStream();
+
+                await _fileService.Create(file);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpDelete]
+        [Route("[controller]/delete")]
+        [ProducesResponseType(typeof(ProtocolPhotoFile), StatusCodes.Status200OK)]
+        public IActionResult Delete([FromBody]string filePath)
+        {
+            try
+            {
+                _fileService.Delete(filePath);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
     }
 }

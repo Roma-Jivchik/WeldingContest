@@ -94,8 +94,14 @@ export class VMCResultTabView extends Component {
                             <Form.Control type="number" name="roughTransitionCount" value={this.props.roughTransitionCount} />
                         </Form.Group>
                         <Form.Group>
+                            <Form.Label className={this.props.poresAndSludgeCount != 0 ? "check" : ''}>
+                                Поры, шлаки (-3 балла)
+                            </Form.Label>
+                            <Form.Control type="number" name="poresAndSludgeCount" value={this.props.poresAndSludgeCount} />
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label className={this.props.otherWarningsCount != 0 ? "check" : ''}>
-                                За другие замечания (поры, шлаки, отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (-3 балла за каждое замечание)
+                                За другие замечания (отсутствие зачистки ОШЗ, не удаление шлака с корня шва, случайная дуга и др.) (-3 балла за каждое замечание)
                             </Form.Label>
                             <Form.Control type="number" name="otherWarningsCount" value={this.props.otherWarningsCount} />
                         </Form.Group>

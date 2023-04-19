@@ -21,6 +21,7 @@ namespace WeldingContest.Services.Entities.ContestResults
         public int ExcessSeamConvexityCount { get; set; }
         public int ExcessSeamScalingCount { get; set; }
         public int RoughTransitionCount { get; set; }
+        public int PoresAndSludgeCount { get; set; }
         public int OtherWarningsCount { get; set; }
         public int SeamGeometryCount { get; set; }
         public int PipeSeamsDisplacement { get; set; }

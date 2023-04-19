@@ -9,6 +9,8 @@ export class MechanicalTestResultTab extends Component {
             destructionWeldEqualsStrength: this.props.contestWork.mechanicalTestResults[0].destructionWeldEqualsStrength,
             destructionHeatAffectedLessStrength: this.props.contestWork.mechanicalTestResults[0].destructionHeatAffectedLessStrength,
             destructionHeatAffectedEqualsStrength: this.props.contestWork.mechanicalTestResults[0].destructionHeatAffectedEqualsStrength,
+            destructionBaseMetal: this.props.contestWork.mechanicalTestResults[0].destructionBaseMetal,
+            notes: this.props.contestWork.mechanicalTestResults[0].notes,
             overallMark: this.props.contestWork.mechanicalTestResults[0].overallMark,
             penaltyMark: 30 - this.props.contestWork.mechanicalTestResults[0].overallMark,
         }
@@ -34,6 +36,8 @@ export class MechanicalTestResultTab extends Component {
                 destructionWeldEqualsStrength={this.state.destructionWeldEqualsStrength}
                 destructionHeatAffectedLessStrength={this.state.destructionHeatAffectedLessStrength}
                 destructionHeatAffectedEqualsStrength={this.state.destructionHeatAffectedEqualsStrength}
+                destructionBaseMetal={this.state.destructionBaseMetal}
+                notes={ this.state.notes}
                 overallMark={this.state.overallMark}
                 penaltyMark={this.state.penaltyMark}
                 handleDelete={this.handleDelete}

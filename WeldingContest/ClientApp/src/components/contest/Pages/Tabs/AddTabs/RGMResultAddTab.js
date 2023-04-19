@@ -6,6 +6,17 @@ export class RGMResultAddTab extends Component {
         super(props);
         this.state = {
             contestWorkID: this.props.contestWork.id,
+            poresAndSludgeCount: 0,
+            rootConcavityCount: 0,
+            lackOfPenetrationCount: 0,
+            defectsGroupCount: 0,
+            defectsBetween1n4mmCount: 0,
+            defectsBetween4n15mmCount: 0,
+            defectsBetween15n40mmCount: 0,
+            defectsOver40mmCount: 0,
+            nonFusionsCount: 0,
+            lackOfPenetrationOver25Count: 0,
+            notes: "",
             overallMark: 30,
             penaltyMark: 0,
             fileFirst: null,
@@ -33,7 +44,7 @@ export class RGMResultAddTab extends Component {
     }
 
     async postFileToController(file) {
-        const response = await fetch('file/create/rgm', {
+        const response = await fetch('file/create', {
             method: 'POST',
             body: file
         });
@@ -43,6 +54,17 @@ export class RGMResultAddTab extends Component {
         return (
             <RGMResultAddTabView
                 contestWork={this.props.contestWork}
+                poresAndSludgeCount={this.state.poresAndSludgeCount}
+                rootConcavityCount={this.state.rootConcavityCount}
+                lackOfPenetrationCount={this.state.lackOfPenetrationCount}
+                defectsGroupCount={this.state.defectsGroupCount}
+                defectsBetween1n4mmCount={this.state.defectsBetween1n4mmCount}
+                defectsBetween4n15mmCount={this.state.defectsBetween4n15mmCount}
+                defectsBetween15n40mmCount={this.state.defectsBetween15n40mmCount}
+                defectsOver40mmCount={this.state.defectsOver40mmCount}
+                nonFusionsCount={this.state.nonFusionsCount}
+                lackOfPenetrationOver25Count={this.state.lackOfPenetrationOver25Count}
+                notes={this.state.notes}
                 overallMark={this.state.overallMark}
                 penaltyMark={this.state.penaltyMark}
                 handleSubmit={this.handleSubmit}
@@ -59,21 +81,31 @@ export class RGMResultAddTab extends Component {
         let object = {
             ID: "_",
             ContestWorkID: this.state.contestWorkID,
+            PoresAndSludgeCount: this.state.poresAndSludgeCount,
+            RootConcavityCount: this.state.rootConcavityCount,
+            LackOfPenetrationCount: this.state.lackOfPenetrationCount,
+            DefectsGroupCount: this.state.defectsGroupCount,
+            DefectsBetween1n4mmCount: this.state.defectsBetween1n4mmCount,
+            DefectsBetween4n15mmCount: this.state.defectsBetween4n15mmCount,
+            DefectsBetween15n40mmCount: this.state.defectsBetween15n40mmCount,
+            DefectsOver40mmCount: this.state.defectsOver40mmCount,
+            NonFusionsCount: this.state.nonFusionsCount,
+            LackOfPenetrationOver25Count: this.state.lackOfPenetrationOver25Count,
+            Notes: this.state.notes,
             OverallMark: this.state.overallMark,
         }
 
         let fileFirst = new FormData();
         let fileSecond = new FormData();
 
-        fileFirst.append("ContestName", this.props.contestWork.contest.name);
-        fileFirst.append("NominationTitle", this.props.contestWork.nomination.title);
-        fileFirst.append("ContestantRFID", this.props.contestWork.contestant.rfid);
+        fileFirst.append("FilePath", `${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/`);
+        fileFirst.append("Filename", `Рентген_${this.props.contestWork.contestant.rfid}_1.jpg`);
         fileFirst.append("File", this.state.fileFirst);
 
-        fileSecond.append("ContestName", this.props.contestWork.contest.name);
-        fileSecond.append("NominationTitle", this.props.contestWork.nomination.title);
-        fileSecond.append("ContestantRFID", this.props.contestWork.contestant.rfid);
+        fileSecond.append("FilePath", `${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/`);
+        fileSecond.append("Filename", `Рентген_${this.props.contestWork.contestant.rfid}_2.jpg`);
         fileSecond.append("File", this.state.fileSecond);
+
         const form = event.target;
 
         if (form.checkValidity() === false) {
@@ -95,15 +127,18 @@ export class RGMResultAddTab extends Component {
     }
 
     countOverallMark() {
-        let penaltyMark = 30 - this.state.overallMark;
-        let overallMark = this.state.overallMark;
+        let penaltyMark =
+            (this.state.defectsGroupCount * 3
+                + this.state.defectsBetween1n4mmCount * 3
+                + this.state.defectsBetween4n15mmCount * 5
+                + this.state.defectsBetween15n40mmCount * 8
+                + this.state.defectsOver40mmCount * 13
+                + this.state.nonFusionsCount * 15
+                + this.state.lackOfPenetrationOver25Count * 15
+            );
+        let overallMark = 30 - penaltyMark;
 
-        if (this.state.overallMark > 30) {
-            overallMark = 30;
-            penaltyMark = 0;
-        }
-
-        if (this.state.overallMark < 0) {
+        if (overallMark < 0) {
             overallMark = 0;
             penaltyMark = 30;
         }

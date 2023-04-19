@@ -10,14 +10,14 @@ namespace WeldingContest.Services.EvaluationResultServices
         Task<EvaluationResult> GetByContestantRFIDAsync(string RFID);
         Task<IList<EvaluationResult>> GetRangeByContestantSurnameAsync(string surname, int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByContestantCompanyAsync(string company, int rowsNumber, int pageNumber);
-        Task<IList<EvaluationResult>> GetRangeByNominationTitleAsync(string title, int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByWeldingTypeAsync(string weldingType, int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeBySampleTypeAsync(string sampleType, int rowsNumber, int pageNumber);
         Task<int> GetPagesNumber(int rowsNumber);
+        Task<int> GetPagesNumberByNominationTitle(string nominationTitle, int rowsNumber);
         Task<IList<EvaluationResult>> GetRangeByContestTitle(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByContestantSurname(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByContestantCompany(int rowsNumber, int pageNumber);
-        Task<IList<EvaluationResult>> GetRangeByNominationTitle(int rowsNumber, int pageNumber);
+        Task<IList<EvaluationResult>> GetSearchedByNominationTitle(string nominationTitle, int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeByWeldingType(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> GetRangeBySampleType(int rowsNumber, int pageNumber);
         Task<IList<EvaluationResult>> CreateAll(); //Выпилить

@@ -351,6 +351,7 @@ export class ContestWorkPageView extends Component {
                             }
                     </TabPanel>
                     <TabPanel value={this.props.currentTab} index={4}>
+                        {this.props.isAddingProtocol ? <ProtocolAddTab contestWork={this.props.contestWork} /> :
                         <img
                             style={{
                                 width: "711px",
@@ -364,8 +365,7 @@ export class ContestWorkPageView extends Component {
                             alt="Здесь будет фотография протокола"
                             src={`/Фото/${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/Протокол_${this.props.contestWork.contestant.rfid}.jpg`}
                             onError={this.props.changeFlag}
-                        />
-                        {this.props.isAddingProtocol ? <ProtocolAddTab contestWork={ this.props.contestWork} /> : <div />}
+                        />}
                     </TabPanel>
                     <Button variant="outline-secondary" href="/ContestWorks" style={{ marginTop: "20px", display: "grid" }}>
                         Назад к конкурсным работам

@@ -130,22 +130,6 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-range-by-nomination-title")]
-        public async Task<IActionResult> GetRangeByNominationTitle(string title, int rowsNumber, int pageNumber)
-        {
-            try
-            {
-                var evaluationResult = await _evaluationResultService.GetRangeByNominationTitleAsync(title, rowsNumber, pageNumber);
-
-                return Ok(evaluationResult);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"{e.Message}");
-            }
-        }
-
-        [HttpGet]
         [Route("[controller]/get-range-by-sample-type")]
         public async Task<IActionResult> GetRangeBySampleType(string sampleType, int rowsNumber, int pageNumber)
         {
@@ -226,12 +210,28 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/get-by-nomination-title")]
-        public async Task<IActionResult> GetRangeByNominationTitle(int rowsNumber, int pageNumber)
+        [Route("[controller]/get-pages-number/by-nominationTitle")]
+        public async Task<IActionResult> GetPagesNumberByNominationTitle(string nominationTitle, int rowsNumber)
         {
             try
             {
-                var evaluationResult = await _evaluationResultService.GetRangeByNominationTitle(rowsNumber, pageNumber);
+                var pagesNumber = await _evaluationResultService.GetPagesNumberByNominationTitle(nominationTitle, rowsNumber);
+
+                return Ok(pagesNumber);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/searched/by-nominationTitle")]
+        public async Task<IActionResult> GetSearchedByNominationTitle(string nominationTitle, int pageNumber, int rowsNumber)
+        {
+            try
+            {
+                var evaluationResult = await _evaluationResultService.GetSearchedByNominationTitle(nominationTitle, pageNumber, rowsNumber);
 
                 return Ok(evaluationResult);
             }

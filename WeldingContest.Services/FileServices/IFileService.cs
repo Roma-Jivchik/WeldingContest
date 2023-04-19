@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.IO;
 using WeldingContest.Services.Entities.Files;
 
 namespace WeldingContest.Services.FileServices
@@ -9,5 +8,9 @@ namespace WeldingContest.Services.FileServices
         Task CreateRGMPhoto(RGMPhotoFile entity);
 
         Task CreateProtocolPhoto(ProtocolPhotoFile entity);
+
+        Task Create(CustomFile entity);
+
+        void Delete(string filePath);
     }
 }

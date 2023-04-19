@@ -54,7 +54,7 @@ export class ContestWorkMainPageView extends Component {
                 },
                 {
                     field: 'nominationWeldingType',
-                    headerName: 'Тип сварки',
+                    headerName: 'Процесс сварки',
                     width: 150,
                     valueGetter: (params) =>
                         `${params.row.nomination.weldingType}`,
@@ -77,7 +77,7 @@ export class ContestWorkMainPageView extends Component {
                 { value: 'searched/by-contestantCompany', label: 'По компании конкурсанта' },
                 { value: 'searched/by-nominationTitle', label: 'По названию номинации' },
                 { value: 'searched/by-sampleType', label: 'По типу образца' },
-                { value: 'searched/by-weldingType', label: 'По типу сварки' }
+                { value: 'searched/by-weldingType', label: 'По процессу сварки' }
             ],
 
             sortingMenuItems: [
@@ -91,8 +91,8 @@ export class ContestWorkMainPageView extends Component {
                 { value: 'sorted/by-nomination-title/?direction=down', label: 'По названию номинации(Вниз)' },
                 { value: 'sorted/by-sample-type/?direction=up', label: 'По типу образца(Вверх)' },
                 { value: 'sorted/by-sample-type/?direction=down', label: 'По типу образца(Вниз)' },
-                { value: 'sorted/by-welding-type/?direction=up', label: 'По типу сварки(Вверх)' },
-                { value: 'sorted/by-welding-type/?direction=down', label: 'По типу сварки(Вниз)' }
+                { value: 'sorted/by-welding-type/?direction=up', label: 'По процессу сварки(Вверх)' },
+                { value: 'sorted/by-welding-type/?direction=down', label: 'По процессу сварки(Вниз)' }
             ]
         }
     }

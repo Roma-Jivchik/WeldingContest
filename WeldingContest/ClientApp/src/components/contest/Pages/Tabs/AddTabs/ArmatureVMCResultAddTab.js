@@ -14,6 +14,7 @@ export class ArmatureVMCResultAddTab extends Component {
             excessSeamWidthCount: 0,
             leakCount: 0,
             roughTransitionCount: 0,
+            poresAndSludgeCount: 0,
             otherWarningsCount: 0,
             seamGeometryCount: 0,
             notes: "",
@@ -49,6 +50,7 @@ export class ArmatureVMCResultAddTab extends Component {
                 excessSeamWidthCount={this.state.excessSeamWidthCount}
                 leakCount={this.state.leakCount}
                 roughTransitionCount={this.state.roughTransitionCount}
+                poresAndSludgeCount={this.state.poresAndSludgeCount}
                 otherWarningsCount={this.state.otherWarningsCount}
                 seamGeometryCount={this.state.seamGeometryCount}
                 notes={this.state.notes}
@@ -75,6 +77,7 @@ export class ArmatureVMCResultAddTab extends Component {
             LeakCount: this.state.leakCount,
             SinkingCount: this.state.sinkingCount,
             RoughTransitionCount: this.state.roughTransitionCount,
+            PoresAndSludgeCount: this.state.poresAndSludgeCount,
             OtherWarningsCount: this.state.otherWarningsCount,
             SeamGeometryCount: this.state.seamGeometryCount,
             Notes: this.state.notes,
@@ -109,6 +112,7 @@ export class ArmatureVMCResultAddTab extends Component {
                 + this.state.excessSeamWidthCount * 3
                 + this.state.leakCount * 5
                 + this.state.roughTransitionCount * 10
+                + this.state.poresAndSludgeCount * 3
                 + this.state.otherWarningsCount * 3
                 + this.state.seamGeometryCount * 5);
         let overallMark = 30 - penaltyMark;

@@ -19,6 +19,7 @@ export class VMCResultAddTab extends Component {
             excessSeamConvexityCount: 0,
             excessSeamScalingCount: 0,
             roughTransitionCount: 0,
+            poresAndSludgeCount: 0,
             otherWarningsCount: 0,
             seamGeometryCount: 0,
             pipeSeamsDisplacement: 0,
@@ -60,6 +61,7 @@ export class VMCResultAddTab extends Component {
                 excessSeamConvexityCount={this.state.excessSeamConvexityCount}
                 excessSeamScalingCount={this.state.excessSeamScalingCount}
                 roughTransitionCount={this.state.roughTransitionCount}
+                poresAndSludgeCount={this.state.poresAndSludgeCount}
                 otherWarningsCount={this.state.otherWarningsCount}
                 seamGeometryCount={this.state.seamGeometryCount}
                 pipeSeamsDisplacement={this.state.pipeSeamsDisplacement}
@@ -91,6 +93,7 @@ export class VMCResultAddTab extends Component {
             ExcessSeamConvexityCount: this.state.excessSeamConvexityCount,
             ExcessSeamScalingCount: this.state.excessSeamScalingCount,
             RoughTransitionCount: this.state.roughTransitionCount,
+            PoresAndSludgeCount: this.state.poresAndSludgeCount,
             OtherWarningsCount: this.state.otherWarningsCount,
             SeamGeometryCount: this.state.seamGeometryCount,
             PipeSeamsDisplacement: this.state.pipeSeamsDisplacement,
@@ -130,6 +133,7 @@ export class VMCResultAddTab extends Component {
                 + this.state.excessSeamConvexityCount * 5
                 + this.state.excessSeamScalingCount * 3
                 + this.state.roughTransitionCount * 10
+                + this.state.poresAndSludgeCount * 3
                 + this.state.otherWarningsCount * 3
                 + this.state.seamGeometryCount * 5
                 + this.state.pipeSeamsDisplacement * 5);

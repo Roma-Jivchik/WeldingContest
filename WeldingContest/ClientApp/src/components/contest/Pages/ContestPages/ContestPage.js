@@ -12,9 +12,10 @@ export class ContestPage extends Component {
             dateOfEnd: "",
             isUpdating: false,
             validated: false,
-            pagesNumber: 0,
+            pagesNumber: 1,
             pageNumber: 0,
             evaluationResults: [],
+            dataUrl: '?nominationTitle=А 135',
         };
 
         this.clearState = this.clearState.bind(this);
@@ -35,6 +36,8 @@ export class ContestPage extends Component {
         this.getCollectionFromController = this.getCollectionFromController.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+
+        this.handleChangeSelectValue = this.handleChangeSelectValue.bind(this);
     }
 
     clearState() {
@@ -42,6 +45,8 @@ export class ContestPage extends Component {
             name: this.state.contest.name,
             dateOfBegin: this.state.contest.dateOfBegin,
             dateOfEnd: this.state.contest.dateOfEnd,
+            pagesUrl: "",
+            dataUrl: "",
             isUpdating: false,
             validated: false,
         });
@@ -52,17 +57,17 @@ export class ContestPage extends Component {
         this.getObjectFromController(this.props.id);
 
         this.getPagesNumber();
-        this.getCollectionFromController(1, 10);
+        this.getCollectionFromController(1);
     }
 
     async getPagesNumber() {
-        const response = await fetch(`evaluationResult/get-pages-number/?rowsNumber=10`);
+        const response = await fetch(`evaluationResult/get-pages-number/by-nominationTitle/${this.state.dataUrl}&rowsNumber=10`);
         const data = await response.json();
         this.setState({ pagesNumber: data });
     }
 
     async getCollectionFromController(pageNumber) {
-        const response = await fetch(`evaluationResult/get-range/?pageNumber=${pageNumber}&rowsNumber=10`);
+        const response = await fetch(`evaluationResult/searched/by-nominationTitle/${this.state.dataUrl}&pageNumber=${pageNumber}&rowsNumber=10`);
         const data = await response.json();
         this.setState({ evaluationResults: data });
         console.log(data);
@@ -140,7 +145,9 @@ export class ContestPage extends Component {
                 pagesNumber={this.state.pagesNumber}
                 pageNumber={this.state.pageNumber}
                 handleSelect={this.handleSelect}
-                evaluationResults={ this.state.evaluationResults}
+                evaluationResults={this.state.evaluationResults}
+                selectValue={this.state.dataUrl}
+                handleChangeSelectValue={this.handleChangeSelectValue}
             />
             );
     }
@@ -200,5 +207,15 @@ export class ContestPage extends Component {
 
     handleSelect(evaluationResult) {
        window.location = (`/ContestWorks/ContestWork/${evaluationResult.row.contestWorkID}`);
+    }
+
+    handleChangeSelectValue(event, value) {
+        this.setState({
+            dataUrl: value.props.value,
+            pageNumber: 1,
+        }, () => {
+            this.getPagesNumber();
+            this.getCollectionFromController(this.state.pageNumber)
+        });
     }
 }

@@ -48,5 +48,21 @@ namespace WeldingContest.Services.FileServices
 
             await File.WriteAllBytesAsync(filePath, fileBytes);
         }
+
+        public async Task Create(CustomFile entity)
+        {
+            Directory.CreateDirectory(_location + entity.FilePath);
+
+            byte[] fileBytes = new byte[entity.FileStream.Length];
+
+            await entity.FileStream.ReadAsync(fileBytes, 0, (int)entity.FileStream.Length);
+
+            await File.WriteAllBytesAsync(_location + entity.FilePath + entity.Filename, fileBytes);
+        }
+
+        public void Delete(string filePath)
+        {
+            File.Delete(filePath);
+        }
     }
 }

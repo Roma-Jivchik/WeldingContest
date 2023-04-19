@@ -198,6 +198,10 @@ namespace WeldingContest.Services.Entities.ContestResults
                     .IsUnicode(false)
                     .HasColumnName("ContestWorkID");
 
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.ContestWork)
                     .WithMany(p => p.MechanicalTestResults)
                     .HasForeignKey(d => d.ContestWorkID)
@@ -218,6 +222,10 @@ namespace WeldingContest.Services.Entities.ContestResults
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("ContestWorkID");
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.ContestWork)
                     .WithMany(p => p.RGMResults)

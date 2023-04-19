@@ -45,14 +45,15 @@ export class ContestWorkPage extends Component {
         this.handleChangeTab = this.handleChangeTab.bind(this);
         this.changeFlag = this.changeFlag.bind(this);
         this.checkFolderForPhotos = this.checkFolderForPhotos.bind(this);
+        this.deleteFileFromController = this.deleteFileFromController.bind(this);
     }
 
     async checkFolderForPhotos() {
-        try {
-            const response = await fetch(`/Фото/${this.state.contestWork.contest.name}/${this.state.contestWork.nomination.title}/${this.state.contestWork.contestant.rfid}/Рентген_${this.state.contestWork.contestant.rfid}.jpg`);
+        const response = await fetch(`/Фото/${this.state.contestWork.contest.name}/${this.state.contestWork.nomination.title}/${this.state.contestWork.contestant.rfid}/Рентген_${this.state.contestWork.contestant.rfid}_1.jpg`);
 
+        if (response.status == 200) {
             console.log("good");
-        } catch (err) {
+        } else {
             console.log("not good");
         }
     }
@@ -111,6 +112,17 @@ export class ContestWorkPage extends Component {
         });
         const data = await response.json();
         this.props.getMessage(data);
+    }
+
+    async deleteFileFromController(filepath) {
+        const response = await fetch('file/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(filepath)
+        });
+
+        const data = await response.json();
+        console.log(data);
     }
 
     render() {
@@ -173,6 +185,8 @@ export class ContestWorkPage extends Component {
     handleDelete() {
         if (confirm("Вы действительно хотите удалить данную конкурсную работу?")) {
             this.deleteObjectFromController(this.state.contestWork.id);
+            this.deleteFileFromController(`wwwroot\\Фото\\${this.state.contestWork.contest.name}\\${this.state.contestWork.nomination.title}\\${this.state.contestWork.contestant.rfid}\\Протокол_${this.state.contestWork.contestant.rfid}.jpg`);
+
             setTimeout(() => { window.location = ('/ContestWorks') }, 1000);
         }
     }

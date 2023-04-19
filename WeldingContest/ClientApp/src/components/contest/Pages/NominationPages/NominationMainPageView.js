@@ -13,7 +13,7 @@ export class NominationMainPageView extends Component {
                 { field: 'size', headerName: 'Размер образца', width: 200, sortable: false  },
                 { field: 'thickness', headerName: 'Толщина образца', width: 200, sortable: false },
                 { field: 'material', headerName: 'Материал образца', width: 200, sortable: false },
-                { field: 'weldingType', headerName: 'Тип сварки', width: 200, sortable: false },
+                { field: 'weldingType', headerName: 'Процесс сварки', width: 200, sortable: false },
                 { field: 'sampleType', headerName: 'Тип образца', width: 200, sortable: false },
             ],
         }

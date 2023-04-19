@@ -12,6 +12,8 @@ namespace WeldingContest.Services.Entities.ContestResults
         public int DestructionWeldEqualsStrength { get; set; }
         public int DestructionHeatAffectedLessStrength { get; set; }
         public int DestructionHeatAffectedEqualsStrength { get; set; }
+        public int DestructionBaseMetalCount { get; set; }
+        public string Notes { get; set; }
         public int OverallMark { get; set; }
 
         public virtual ContestWork ContestWork { get; set; }

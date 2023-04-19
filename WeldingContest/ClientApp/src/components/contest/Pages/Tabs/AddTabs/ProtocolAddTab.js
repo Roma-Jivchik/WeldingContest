@@ -16,7 +16,7 @@ export class ProtocolAddTab extends Component {
     }
 
     async postFileToController(file) {
-        const response = await fetch('file/create/protocol', {
+        const response = await fetch('file/create', {
             method: 'POST',
             body: file
         });
@@ -36,12 +36,11 @@ export class ProtocolAddTab extends Component {
 
         let file = new FormData();
 
-        file.append("ContestName", this.props.contestWork.contest.name);
-        file.append("NominationTitle", this.props.contestWork.nomination.title);
-        file.append("ContestantRFID", this.props.contestWork.contestant.rfid);
+        file.append("FilePath", `${this.props.contestWork.contest.name}/${this.props.contestWork.nomination.title}/${this.props.contestWork.contestant.rfid}/`);
+        file.append("Filename", `Протокол_${this.props.contestWork.contestant.rfid}.jpg`);
         file.append("File", this.state.file);
 
-            this.postFileToController(file);
+        this.postFileToController(file);
 
         setTimeout(() => { window.location.reload() }, 500);
     }

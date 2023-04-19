@@ -30,7 +30,7 @@ export class NominationPageView extends Component {
                             <Form.Control name="material" value={this.props.material} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Тип сварки</Form.Label>
+                            <Form.Label>Процесс сварки</Form.Label>
                             <Form.Control name="weldingType" value={this.props.weldingType} onChange={this.props.handleChangeInput} required />
                         </Form.Group>
                         <Form.Group>

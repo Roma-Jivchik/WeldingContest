@@ -425,13 +425,18 @@ namespace WeldingContest.Services.ContestWorkServices
 
         public async Task<int> GetContestWorkPosition(string id)
         {
-            var evaluationResults = await weldingContestContext.EvaluationResults
-                .OrderByDescending(_ => _.OverallMark)
-                .ToListAsync();
+            var evaluationResults = weldingContestContext.EvaluationResults
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Nomination);
 
             var evaluationResult = evaluationResults.FirstOrDefault(_ => _.ContestWorkID == id);
 
-            return evaluationResults.IndexOf(evaluationResult);
+            var evaluationResultsInNomination = await evaluationResults
+                .Where(_ => _.ContestWork.Nomination.Title == evaluationResult.ContestWork.Nomination.Title)
+                .OrderByDescending(_ => _.OverallMark)
+                .ToListAsync();
+
+            return evaluationResultsInNomination.IndexOf(evaluationResult) + 1;
 
         }
     }

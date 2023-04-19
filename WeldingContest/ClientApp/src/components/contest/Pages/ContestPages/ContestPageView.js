@@ -4,6 +4,10 @@ import Button from 'react-bootstrap/Button';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import CustomDataGrid from '../../sub-components/CustomDataGrid';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
 export class ContestPageView extends Component {
     constructor(props) {
@@ -28,6 +32,13 @@ export class ContestPageView extends Component {
                 { field: 'theoreticalMark', width: 80, headerName: 'Теория', sortable: false },
                 { field: 'overallMark', width: 80, headerName: 'Итого', sortable: false },
             ],
+
+            nominations: [
+                { value: '?nominationTitle=А 135', label: 'А 135' },
+                { value: '?nominationTitle=Б-141', label: 'Б-141' },
+                { value: '?nominationTitle=В-1 (111)', label: 'В-1 (111)' },
+                { value: '?nominationTitle=В-2 (111)', label: 'В-2 (111)' },
+            ]
         }
     }
 
@@ -61,7 +72,7 @@ export class ContestPageView extends Component {
                         </Button>
                         <Button style={{ margin: "10px 10px" }} hidden={this.props.isUpdating} href={`/ContestWorks/${this.props.contest.id}`}>
                             Перейти к конкурсным работам
-                            </Button>
+                        </Button>
                         <Button style={{ margin: "10px 10px" }} hidden={!this.props.isUpdating} onClick={this.props.handleCancel}>
                             Отмена
                         </Button>
@@ -70,15 +81,31 @@ export class ContestPageView extends Component {
                         </Button>
                     </Stack>
                     <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button hidden={this.props.isUpdating} onClick={this.props.handleFormProtocol} >
-                        Сформировать протокол по результатам конкурса
+                        <Button hidden={this.props.isUpdating} onClick={this.props.handleFormProtocol} >
+                            Сформировать протокол по результатам конкурса
                         </Button>
                         <Button onClick={this.props.handleFormEvaluationResults} >
                             Сформировать общие оценки для конкурсных работ
                         </Button>
                     </Stack>
                 </Form>
-                <p>Результаты конкурса</p>
+                <Stack direction="column">
+                    <p>Результаты конкурса</p>
+                    <FormControl sx={{ minWidth: 200 }} fullwidth="true">
+                        <InputLabel id="demo-simple-select-label">Выберите номинацию</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={this.props.selectValue}
+                            onChange={this.props.handleChangeSelectValue}
+                            label="Выберите номинацию"
+                        >
+                            {this.state.nominations.map((nomination) => (
+                                <MenuItem key={nomination.value} value={nomination.value}>{nomination.label}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Stack>
                 <CustomDataGrid
                     columns={this.state.columns}
                     rows={this.props.evaluationResults}

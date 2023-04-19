@@ -64,6 +64,15 @@ namespace WeldingContest.Services.EvaluationResultServices
             return await weldingContestContext.EvaluationResults.CountAsync() / rowsNumber;
         }
 
+        public async Task<int> GetPagesNumberByNominationTitle(string nominationTitle, int rowsNumber)
+        {
+            return await weldingContestContext.EvaluationResults
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Nomination)
+                .Where(_ => _.ContestWork.Nomination.Title == nominationTitle)
+                .CountAsync() / rowsNumber;
+        }
+
         public async Task<IList<EvaluationResult>> GetRangeByContestantCompanyAsync(string company, int rowsNumber, int pageNumber)
         {
             return await weldingContestContext.EvaluationResults
@@ -91,10 +100,15 @@ namespace WeldingContest.Services.EvaluationResultServices
                 .ToListAsync();
         }
 
-        public async Task<IList<EvaluationResult>> GetRangeByNominationTitleAsync(string title, int rowsNumber, int pageNumber)
+        public async Task<IList<EvaluationResult>> GetSearchedByNominationTitle(string nominationTitle, int pageNumber, int rowsNumber)
         {
             return await weldingContestContext.EvaluationResults
-                .Where(_ => _.ContestWork.Nomination.Title.Contains(title))
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Nomination)
+                .Include(_ => _.ContestWork)
+                .ThenInclude(_ => _.Contestant)
+                .Where(_ => _.ContestWork.Nomination.Title == nominationTitle)
+                .OrderByDescending(_ => _.OverallMark)
                 .Skip(rowsNumber * (pageNumber - 1))
                 .Take(rowsNumber)
                 .ToListAsync();
@@ -212,7 +226,7 @@ namespace WeldingContest.Services.EvaluationResultServices
                 .Include(_ => _.VMCResults)
                 .Include(_ => _.WeldingTimeResults)
                 .Include(_ => _.EvaluationResults)
-                .Where(_ => _.EvaluationResults.Count() == 0)
+                .Where(_ => _.EvaluationResults.Count == 0)
                 .ToListAsync();
 
             foreach (var contestWork in contestWorks)

@@ -10,6 +10,8 @@ export class MechanicalTestResultAddTab extends Component {
             destructionWeldEqualsStrength: 0,
             destructionHeatAffectedLessStrength: 0,
             destructionHeatAffectedEqualsStrength: 0,
+            destructionBaseMetal: 0,
+            notes: "",
             overallMark: 30,
             penaltyMark: 0,
             validated: false,
@@ -38,6 +40,7 @@ export class MechanicalTestResultAddTab extends Component {
                 destructionWeldEqualsStrength={this.state.destructionWeldEqualsStrength}
                 destructionHeatAffectedLessStrength={this.state.destructionHeatAffectedLessStrength}
                 destructionHeatAffectedEqualsStrength={this.state.destructionHeatAffectedEqualsStrength}
+                notes={ this.state.notes}
                 overallMark={this.state.overallMark}
                 penaltyMark={this.state.penaltyMark}
                 handleSubmit={this.handleSubmit}
@@ -56,6 +59,7 @@ export class MechanicalTestResultAddTab extends Component {
             DestructionWeldEqualsStrength: this.state.destructionWeldEqualsStrength,
             DestructionHeatAffectedLessStrength: this.state.destructionHeatAffectedLessStrength,
             DestructionHeatAffectedEqualsStrength: this.state.destructionHeatAffectedEqualsStrength,
+            DestructionBaseMetal: this.state.destructionBaseMetal,
             Notes: this.state.notes,
             OverallMark: this.state.overallMark,
         }

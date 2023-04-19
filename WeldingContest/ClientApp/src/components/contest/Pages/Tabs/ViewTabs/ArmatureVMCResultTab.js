@@ -13,6 +13,7 @@ export class ArmatureVMCResultTab extends Component {
             excessSeamWidthCount: this.props.contestWork.armatureVMCResults[0].excessSeamWidthCount,
             leakCount: this.props.contestWork.armatureVMCResults[0].leakCount,
             roughTransitionCount: this.props.contestWork.armatureVMCResults[0].roughTransitionCount,
+            poresAndSludgeCount: this.props.contestWork.armatureVMCResults[0].poresAndSludgeCount,
             otherWarningsCount: this.props.contestWork.armatureVMCResults[0].otherWarningsCount,
             seamGeometryCount: this.props.contestWork.armatureVMCResults[0].seamGeometryCount,
             notes: this.props.contestWork.armatureVMCResults[0].notes,
@@ -45,6 +46,7 @@ export class ArmatureVMCResultTab extends Component {
                 excessSeamWidthCount={this.state.excessSeamWidthCount}
                 leakCount={this.state.leakCount}
                 roughTransitionCount={this.state.roughTransitionCount}
+                poresAndSludgeCount={this.state.poresAndSludgeCount}
                 otherWarningsCount={this.state.otherWarningsCount}
                 seamGeometryCount={this.state.seamGeometryCount}
                 notes={this.state.notes}
