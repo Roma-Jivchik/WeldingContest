@@ -47,7 +47,7 @@ namespace WeldingContest.Services
             serviceCollection.AddScoped<IVMCResultService, VMCResultService>();
             serviceCollection.AddScoped<IWeldingTimeResultService, WeldingTimeResultService>();
             serviceCollection.AddScoped<IFileService, FileService>();
-            serviceCollection.AddScoped<IProtocolServiceBase<Contest>, OverallContestProtocolService>();
+            serviceCollection.AddScoped<IProtocolService<Contest>, OverallContestProtocolService>();
         }
     }
 }

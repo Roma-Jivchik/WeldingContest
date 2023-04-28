@@ -1,19 +1,16 @@
-﻿using Microsoft.Office.Interop.Excel;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
+﻿using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WeldingContest.DataAccess;
+using WeldingContest.Services.Entities;
 using WeldingContest.Services.Entities.ContestMembers;
 using WeldingContest.Services.Entities.ContestWorks;
-using WeldingContest.Services.Entities.ContestResults;
 
 namespace WeldingContest.Services.ProtocolServices
 {
-    class OverallContestProtocolService : IProtocolServiceBase<Contest>
+    class OverallContestProtocolService : IProtocolService<Contest>
     {
         private readonly WeldingContestContext weldingContestContext;
 
@@ -22,20 +19,27 @@ namespace WeldingContest.Services.ProtocolServices
             this.weldingContestContext = weldingContestContext;
         }
 
-        public void CreateProtocol(Contest entity)
+        public async Task<byte[]> Create(Contest entity)
         {
-            var excelApplication = new Application();
+            var package = new ExcelPackage();
 
-            Workbook xlWorkBook;
-            Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
+            var book = package.Workbook;
 
-            xlWorkBook = excelApplication.Workbooks.Open(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol");
-            xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            var sheet = book.Worksheets.Add($"Общий протокол {entity.Name}");
 
-            InputDataWithoutBorders(xlWorkSheet, "D2", "Q2", $"Анализ результатов {entity.Name}");
+            InputHeaderText(sheet);
+
+            InputColumnsText(sheet);
+
+            MergeColumns(sheet);
+
+            CreateColumnBorders(sheet);
+
+            CenterText(sheet);
+
+            InputDataWithoutBorders(sheet, "D2", "Q2", $"Анализ результатов {entity.Name}");
             int currentRow = 6;
-            var nominations = weldingContestContext.Nominations.ToList();
+            var nominations = await weldingContestContext.Nominations.ToListAsync();
             var nominationsMarksList = new List<List<int>>();
 
             foreach (var nomination in nominations)
@@ -51,30 +55,56 @@ namespace WeldingContest.Services.ProtocolServices
 
                 nominationsMarksList.Add(resultsCount);
 
-                InputData(xlWorkSheet, $"B{currentRow}", $"B{currentRow}", nomination.Title);
-                InputData(xlWorkSheet, $"C{currentRow}", $"C{currentRow}", contestWorks.Count().ToString());
-                InputData(xlWorkSheet, $"D{currentRow}", $"D{currentRow}", resultsCount.ElementAt(0).ToString());
-                InputData(xlWorkSheet, $"E{currentRow}", $"E{currentRow}", resultsCount.ElementAt(1).ToString());
-                InputData(xlWorkSheet, $"F{currentRow}", $"F{currentRow}", resultsCount.ElementAt(2).ToString());
-                InputData(xlWorkSheet, $"G{currentRow}", $"G{currentRow}", resultsCount.ElementAt(3).ToString());
-                InputData(xlWorkSheet, $"H{currentRow}", $"H{currentRow}", resultsCount.ElementAt(4).ToString());
-                InputData(xlWorkSheet, $"I{currentRow}", $"I{currentRow}", resultsCount.ElementAt(5).ToString());
-                InputData(xlWorkSheet, $"J{currentRow}", $"J{currentRow}", resultsCount.ElementAt(6).ToString());
-                InputData(xlWorkSheet, $"K{currentRow}", $"K{currentRow}", resultsCount.ElementAt(7).ToString());
-                InputData(xlWorkSheet, $"L{currentRow}", $"L{currentRow}", resultsCount.ElementAt(8).ToString());
-                InputData(xlWorkSheet, $"N{currentRow}", $"N{currentRow}", resultsCount.ElementAt(9).ToString());
-                InputData(xlWorkSheet, $"O{currentRow}", $"O{currentRow}", resultsCount.ElementAt(10).ToString());
+                InputData(sheet, $"B{currentRow}", $"B{currentRow}", nomination.Title);
+                InputData(sheet, $"C{currentRow}", $"C{currentRow}", contestWorks.Count.ToString());
+                InputData(sheet, $"D{currentRow}", $"D{currentRow}", resultsCount.ElementAt(0).ToString());
+                InputData(sheet, $"E{currentRow}", $"E{currentRow}", resultsCount.ElementAt(1).ToString());
+                InputData(sheet, $"F{currentRow}", $"F{currentRow}", resultsCount.ElementAt(2).ToString());
+                InputData(sheet, $"G{currentRow}", $"G{currentRow}", resultsCount.ElementAt(3).ToString());
+                InputData(sheet, $"H{currentRow}", $"H{currentRow}", resultsCount.ElementAt(4).ToString());
+                InputData(sheet, $"I{currentRow}", $"I{currentRow}", resultsCount.ElementAt(5).ToString());
+                InputData(sheet, $"J{currentRow}", $"J{currentRow}", resultsCount.ElementAt(6).ToString());
+                InputData(sheet, $"K{currentRow}", $"K{currentRow}", resultsCount.ElementAt(7).ToString());
+                InputData(sheet, $"L{currentRow}", $"L{currentRow}", resultsCount.ElementAt(8).ToString());
+                InputData(sheet, $"N{currentRow}", $"N{currentRow}", resultsCount.ElementAt(9).ToString());
+                InputData(sheet, $"O{currentRow}", $"O{currentRow}", resultsCount.ElementAt(10).ToString());
 
                 currentRow++;
             }
 
+            var nominationsMarksListSum = GetNominationsMarksSum(nominationsMarksList);
+
+            var contestWorksAll = await weldingContestContext.ContestWorks
+                .Include(_ => _.VMCResults)
+                .Where(_ => _.VMCResults.Count != 0)
+                .ToListAsync();
+
+            InputData(sheet, $"B{currentRow}", $"B{currentRow}", "Итого");
+            InputData(sheet, $"C{currentRow}", $"C{currentRow}", contestWorksAll.Count.ToString());
+            InputData(sheet, $"D{currentRow}", $"D{currentRow}", nominationsMarksListSum.ElementAt(0).ToString());
+            InputData(sheet, $"E{currentRow}", $"E{currentRow}", nominationsMarksListSum.ElementAt(1).ToString());
+            InputData(sheet, $"F{currentRow}", $"F{currentRow}", nominationsMarksListSum.ElementAt(2).ToString());
+            InputData(sheet, $"G{currentRow}", $"G{currentRow}", nominationsMarksListSum.ElementAt(3).ToString());
+            InputData(sheet, $"H{currentRow}", $"H{currentRow}", nominationsMarksListSum.ElementAt(4).ToString());
+            InputData(sheet, $"I{currentRow}", $"I{currentRow}", nominationsMarksListSum.ElementAt(5).ToString());
+            InputData(sheet, $"J{currentRow}", $"J{currentRow}", nominationsMarksListSum.ElementAt(6).ToString());
+            InputData(sheet, $"K{currentRow}", $"K{currentRow}", nominationsMarksListSum.ElementAt(7).ToString());
+            InputData(sheet, $"L{currentRow}", $"L{currentRow}", nominationsMarksListSum.ElementAt(8).ToString());
+            InputData(sheet, $"N{currentRow}", $"N{currentRow}", nominationsMarksListSum.ElementAt(9).ToString());
+            InputData(sheet, $"O{currentRow}", $"O{currentRow}", nominationsMarksListSum.ElementAt(10).ToString());
+
+            return package.GetAsByteArray();
+        }
+
+        static List<int> GetNominationsMarksSum(List<List<int>> nominationsMarksList)
+        {
             var nominationsMarksListSum = new List<int>();
 
-            for (var i=0; i< nominationsMarksList.ElementAt(0).Count(); i++)
+            for (var i = 0; i < nominationsMarksList.ElementAt(0).Count; i++)
             {
                 var count = 0;
 
-                foreach(var list in nominationsMarksList)
+                foreach (var list in nominationsMarksList)
                 {
                     count += list.ElementAt(i);
                 }
@@ -82,130 +112,109 @@ namespace WeldingContest.Services.ProtocolServices
                 nominationsMarksListSum.Add(count);
             }
 
-            var contestWorksAll = weldingContestContext.ContestWorks
-                .Include(_ => _.VMCResults)
-                .Where(_ => _.VMCResults.Count != 0);
-
-            InputData(xlWorkSheet, $"B{currentRow}", $"B{currentRow}", "Итого");
-            InputData(xlWorkSheet, $"C{currentRow}", $"C{currentRow}", contestWorksAll.Count().ToString());
-            InputData(xlWorkSheet, $"D{currentRow}", $"D{currentRow}", nominationsMarksListSum.ElementAt(0).ToString());
-            InputData(xlWorkSheet, $"E{currentRow}", $"E{currentRow}", nominationsMarksListSum.ElementAt(1).ToString());
-            InputData(xlWorkSheet, $"F{currentRow}", $"F{currentRow}", nominationsMarksListSum.ElementAt(2).ToString());
-            InputData(xlWorkSheet, $"G{currentRow}", $"G{currentRow}", nominationsMarksListSum.ElementAt(3).ToString());
-            InputData(xlWorkSheet, $"H{currentRow}", $"H{currentRow}", nominationsMarksListSum.ElementAt(4).ToString());
-            InputData(xlWorkSheet, $"I{currentRow}", $"I{currentRow}", nominationsMarksListSum.ElementAt(5).ToString());
-            InputData(xlWorkSheet, $"J{currentRow}", $"J{currentRow}", nominationsMarksListSum.ElementAt(6).ToString());
-            InputData(xlWorkSheet, $"K{currentRow}", $"K{currentRow}", nominationsMarksListSum.ElementAt(7).ToString());
-            InputData(xlWorkSheet, $"L{currentRow}", $"L{currentRow}", nominationsMarksListSum.ElementAt(8).ToString());
-            InputData(xlWorkSheet, $"N{currentRow}", $"N{currentRow}", nominationsMarksListSum.ElementAt(9).ToString());
-            InputData(xlWorkSheet, $"O{currentRow}", $"O{currentRow}", nominationsMarksListSum.ElementAt(10).ToString());
-
-            xlWorkBook.SaveAs(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-            xlWorkBook.Close(true, misValue, misValue);
-            excelApplication.Quit();
+            return nominationsMarksListSum;
         }
 
-        private void InputData(Worksheet xlWorkSheet, string startCell, string endCell, string data)
+        static void CenterText(ExcelWorksheet sheet)
         {
-            List<string> alphabet = new List<string>()
-            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            sheet.Cells["B4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["B4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-            object misValue = System.Reflection.Missing.Value;
+            sheet.Cells["C4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["C4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-            xlWorkSheet.Range[startCell, endCell].Merge(misValue);
-            xlWorkSheet.Range[startCell, endCell].BorderAround2(XlLineStyle.xlContinuous, XlBorderWeight.xlThin, XlColorIndex.xlColorIndexAutomatic);
-            int firstCellIndexRow = int.Parse(startCell.Substring(1, startCell.Length - 1));
-            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
-            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn] = data;
+            sheet.Cells["B5:AB5"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["B5:AB5"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Column(2).Width = 20;
+            sheet.Column(3).Width = 20;
+
+            sheet.Cells["C4"].Style.WrapText = true;
+            sheet.Cells["P4"].Style.WrapText = true;
+            sheet.Cells["U5:Y5"].Style.WrapText = true;
         }
 
-        private void InputDataWithoutBorders(Worksheet xlWorkSheet, string startCell, string endCell, string data)
+        static void CreateColumnBorders(ExcelWorksheet sheet)
         {
-            List<string> alphabet = new List<string>()
-            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            sheet.Cells["B4:B5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["C4:C5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["D4:O4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["Q4:S4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["U4:Y4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
-            object misValue = System.Reflection.Missing.Value;
+            sheet.Cells["D5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
-            xlWorkSheet.Range[startCell, endCell].Merge(misValue);
-            xlWorkSheet.Range[startCell, endCell].WrapText = true;
-            int firstCellIndexRow = int.Parse(startCell.Substring(1, startCell.Length - 1));
-            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
-            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn] = data;
-        }
-        private int CountUpperData(Worksheet xlWorkSheet, string column, int startRow, int rowsCount)
-        {
-            List<string> alphabet = new List<string>()
-            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-            int columnIndex = alphabet.FindIndex(_ => _ ==column) + 1;
-
-            var counter = 0;
-
-            for (var i = startRow; i < rowsCount; i++)
+            for (var i = 0; i < Resources.ExcelAlphabet.Count; i++)
             {
-                counter += int.Parse((string)(((Microsoft.Office.Interop.Excel.Range)xlWorkSheet.Cells[i, columnIndex]).Text));
+                string index = Resources.ExcelAlphabet[i];
+
+                sheet.Cells[$"{index}5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
             }
 
-            return counter;
+
+            sheet.Cells["P4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["T4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+            sheet.Cells["Z4:AB4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
         }
 
-        //private List<int> CountMarks(List<ContestWork> contestWorks)
-        //{
-        //    List<int> result = new List<int>();
+        static void InputHeaderText(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4"].Value = "Номинация";
+            sheet.Cells["C4"].Value = "Количество участников конкурса";
+            sheet.Cells["D4"].Value = "Количество выявленных дефектов при визуально-измерительном контроле";
+            sheet.Cells["P4"].Value = "RT";
+            sheet.Cells["Q4"].Value = "Радиографический контроль";
+            sheet.Cells["T4"].Value = "МИ";
+            sheet.Cells["U4"].Value = "Механическиe испытания (для арматуры)";
+        }
 
-        //    int counter = 0;
-        //    int countLackOfPenetration = 0;
-        //    int countEdgeOffset = 0;
-        //    int countUndercut = 0;
-        //    int countSinking = 0;
-        //    int countExcessPenetration = 0;
-        //    int countExcessSeamWidth = 0;
-        //    int countExcessSeamConvexity = 0;
-        //    int countExcessSeamScaling = 0;
-        //    int countRoughTransition = 0;
-        //    int countSeamGeometry = 0;
-        //    int countOtherWarnings = 0;
+        static void InputColumnsText(ExcelWorksheet excelWorksheet)
+        {
+            for (int i = 0; i < Resources.ExcelAlphabet.Count; i++)
+            {
+                string index = Resources.ExcelAlphabet[i];
 
-        //    foreach (var contestWork in contestWorks)
-        //    {
-        //        var vmcResult = contestWork.VMCResults.ElementAt(0);
+                string text = Resources.ExcelColumnsText[i];
 
-        //        countLackOfPenetration += vmcResult.LackOfPenetrationUpTo10mmCount
-        //            + vmcResult.LackOfPenetrationFrom10mmTo20mmCount
-        //            + vmcResult.LackOfPenetrationFrom20mmCount;
-        //        countEdgeOffset += vmcResult.EdgeOffsetCount;
-        //        countUndercut += vmcResult.UndercutUpTo10mmCount
-        //            + vmcResult.UndercutFrom20mmCount
-        //            + vmcResult.UndercutRemovalCount;
-        //        countSinking += vmcResult.SinkingCount;
-        //        countExcessPenetration += vmcResult.ExcessPenetrationCount;
-        //        countExcessSeamWidth += vmcResult.ExcessSeamWidthCount;
-        //        countExcessSeamConvexity += vmcResult.ExcessSeamConvexityCount;
-        //        countExcessSeamScaling += vmcResult.ExcessSeamScalingCount;
-        //        countRoughTransition += vmcResult.RoughTransitionCount;
-        //        countSeamGeometry += vmcResult.SeamGeometryCount;
-        //        countOtherWarnings += vmcResult.OtherWarningsCount;
+                excelWorksheet.Cells[$"{index}5"].Value = text;
+            }
 
-        //        counter++;
-        //    }
+            excelWorksheet.Cells["D5:AB5"].Style.TextRotation = 180;
+        }
 
-        //    result.Add(countLackOfPenetration);
-        //    result.Add(countEdgeOffset);
-        //    result.Add(countUndercut);
-        //    result.Add(countSinking);
-        //    result.Add(countExcessPenetration);
-        //    result.Add(countExcessSeamWidth);
-        //    result.Add(countExcessSeamConvexity);
-        //    result.Add(countExcessSeamScaling);
-        //    result.Add(countRoughTransition);
-        //    result.Add(countSeamGeometry);
-        //    result.Add(countOtherWarnings);
+        static void MergeColumns(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4:B5"].Merge = true;
+            sheet.Cells["C4:C5"].Merge = true;
+            sheet.Cells["D4:O4"].Merge = true;
+            sheet.Cells["Q4:S4"].Merge = true;
+            sheet.Cells["U4:Y4"].Merge = true;
+            sheet.Cells["Z4:AB4"].Merge = true;
+        }
 
-        //    return result;
-        //}
+        static void InputData(ExcelWorksheet xlWorkSheet, string startCell, string endCell, string data)
+        {
+            List<string> alphabet = new List<string>()
+            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+            int firstCellIndexRow = int.Parse(startCell[1..]);
+            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
+            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Value = data;
+            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+        }
+
+        static void InputDataWithoutBorders(ExcelWorksheet xlWorkSheet, string startCell, string endCell, string data)
+        {
+            List<string> alphabet = new List<string>()
+            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+            int firstCellIndexRow = int.Parse(startCell[1..]);
+            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
+            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Value = data;
+        }
 
         private List<int> CountMarks(List<ContestWork> contestWorks)
         {

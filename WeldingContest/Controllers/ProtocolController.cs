@@ -10,9 +10,9 @@ namespace WeldingContest.Controllers
     [ApiController]
     public class ProtocolController : ControllerBase
     {
-        private readonly IProtocolServiceBase<Contest> _protocolService;
+        private readonly IProtocolService<Contest> _protocolService;
 
-        public ProtocolController(IProtocolServiceBase<Contest> protocolService)
+        public ProtocolController(IProtocolService<Contest> protocolService)
         {
             _protocolService = protocolService;
         }
@@ -20,13 +20,13 @@ namespace WeldingContest.Controllers
         [HttpPost]
         [Route("[controller]/create")]
         [ProducesResponseType(typeof(Contest), StatusCodes.Status200OK)]
-        public IActionResult Create([FromBody] Contest entity)
+        public async Task<IActionResult> Create([FromBody] Contest entity)
         {
             try
             {
-                _protocolService.CreateProtocol(entity);
+                var result = await _protocolService.Create(entity);
 
-                return Ok();
+                return Ok(result);
             }
             catch (Exception e)
             {
