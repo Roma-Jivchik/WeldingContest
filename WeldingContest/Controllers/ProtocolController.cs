@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using WeldingContest.Services.Entities.ContestMembers;
 using WeldingContest.Services.ProtocolServices;
@@ -25,6 +27,8 @@ namespace WeldingContest.Controllers
             try
             {
                 var result = await _protocolService.Create(entity);
+
+                await System.IO.File.WriteAllBytesAsync(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol.xlsx", result);
 
                 return Ok(result);
             }
