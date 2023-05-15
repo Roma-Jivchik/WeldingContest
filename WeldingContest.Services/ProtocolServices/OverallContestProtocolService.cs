@@ -22,360 +22,414 @@ namespace WeldingContest.Services.ProtocolServices
 
         public async Task<byte[]> Create(Contest entity)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             using var package = new ExcelPackage();
 
             var book = package.Workbook;
 
+            var nominations = await weldingContestContext.Nominations.ToListAsync();
+
+            #region Первый лист
+
             var sheet = book.Worksheets.Add($"Общий протокол {entity.Name}");
 
-            InputHeaderText(sheet);
+            InputHeaderTextOverallProtocol(sheet);
 
-            InputColumnsText(sheet);
+            InputColumnsTextOverallProtocol(sheet);
 
-            MergeColumns(sheet);
+            MergeColumnsOverallProtocol(sheet);
 
-            CreateColumnBorders(sheet);
+            CreateColumnBordersOverallProtocol(sheet);
 
-            CenterText(sheet);
+            CenterTextOverallProtocol(sheet);
 
             InputDataWithoutBorders(sheet, "D2", "Q2", $"Анализ результатов {entity.Name}");
-            int currentRow = 6;
-            var nominations = await weldingContestContext.Nominations.ToListAsync();
-            var nominationsMarksList = new List<List<int>>();
-            var evaluationResults = await weldingContestContext.EvaluationResults.ToListAsync();
 
-            foreach (var nomination in nominations)
-            {
-                var contestWorks = weldingContestContext.ContestWorks
-                    .Include(_ => _.Nomination)
-                    .Include(_ => _.VMCResults)
-                    .Where(_ => _.Nomination == nomination)
-                    .Where(_ => _.VMCResults.Count != 0)
-                    .ToList();
-
-                var resultsCount = CountVMCMarks(contestWorks);
-
-                nominationsMarksList.Add(resultsCount);
-
-                InputData(sheet, $"B{currentRow}", $"B{currentRow}", nomination.Title);
-                InputData(sheet, $"C{currentRow}", $"C{currentRow}", contestWorks.Count.ToString());
-                InputData(sheet, $"D{currentRow}", $"D{currentRow}", resultsCount.ElementAt(0).ToString());
-                InputData(sheet, $"E{currentRow}", $"E{currentRow}", resultsCount.ElementAt(1).ToString());
-                InputData(sheet, $"F{currentRow}", $"F{currentRow}", resultsCount.ElementAt(2).ToString());
-                InputData(sheet, $"G{currentRow}", $"G{currentRow}", resultsCount.ElementAt(3).ToString());
-                InputData(sheet, $"H{currentRow}", $"H{currentRow}", resultsCount.ElementAt(4).ToString());
-                InputData(sheet, $"I{currentRow}", $"I{currentRow}", resultsCount.ElementAt(5).ToString());
-                InputData(sheet, $"J{currentRow}", $"J{currentRow}", resultsCount.ElementAt(6).ToString());
-                InputData(sheet, $"K{currentRow}", $"K{currentRow}", resultsCount.ElementAt(7).ToString());
-                InputData(sheet, $"L{currentRow}", $"L{currentRow}", resultsCount.ElementAt(8).ToString());
-                InputData(sheet, $"M{currentRow}", $"M{currentRow}", resultsCount.ElementAt(9).ToString());
-                InputData(sheet, $"N{currentRow}", $"N{currentRow}", resultsCount.ElementAt(10).ToString());
-                InputData(sheet, $"O{currentRow}", $"O{currentRow}", resultsCount.ElementAt(11).ToString());
-
-                currentRow++;
-            }
-
-            var nominationsMarksListSum = GetNominationsMarksSum(nominationsMarksList);
-
-            var contestWorksAll = await weldingContestContext.ContestWorks
+            var contestWorksWithVMC = await weldingContestContext.ContestWorks
                 .Include(_ => _.VMCResults)
                 .Where(_ => _.VMCResults.Count != 0)
                 .ToListAsync();
 
-            InputData(sheet, $"B{currentRow}", $"B{currentRow}", "Итого");
-            InputData(sheet, $"C{currentRow}", $"C{currentRow}", contestWorksAll.Count.ToString());
-            InputData(sheet, $"D{currentRow}", $"D{currentRow}", nominationsMarksListSum.ElementAt(0).ToString());
-            InputData(sheet, $"E{currentRow}", $"E{currentRow}", nominationsMarksListSum.ElementAt(1).ToString());
-            InputData(sheet, $"F{currentRow}", $"F{currentRow}", nominationsMarksListSum.ElementAt(2).ToString());
-            InputData(sheet, $"G{currentRow}", $"G{currentRow}", nominationsMarksListSum.ElementAt(3).ToString());
-            InputData(sheet, $"H{currentRow}", $"H{currentRow}", nominationsMarksListSum.ElementAt(4).ToString());
-            InputData(sheet, $"I{currentRow}", $"I{currentRow}", nominationsMarksListSum.ElementAt(5).ToString());
-            InputData(sheet, $"J{currentRow}", $"J{currentRow}", nominationsMarksListSum.ElementAt(6).ToString());
-            InputData(sheet, $"K{currentRow}", $"K{currentRow}", nominationsMarksListSum.ElementAt(7).ToString());
-            InputData(sheet, $"L{currentRow}", $"L{currentRow}", nominationsMarksListSum.ElementAt(8).ToString());
-            InputData(sheet, $"M{currentRow}", $"M{currentRow}", nominationsMarksListSum.ElementAt(9).ToString());
-            InputData(sheet, $"N{currentRow}", $"N{currentRow}", nominationsMarksListSum.ElementAt(10).ToString());
-            InputData(sheet, $"O{currentRow}", $"O{currentRow}", nominationsMarksListSum.ElementAt(11).ToString());
+            int currentRow = 6;
+            InputVMCData(nominations, contestWorksWithVMC, sheet, currentRow);
 
-            InputRGMData(evaluationResults, sheet, currentRow);
+            var contestWorksWithRGM = await weldingContestContext.ContestWorks
+                .Include(_ => _.RGMResults)
+                .Where(_ => _.RGMResults.Count != 0)
+                .ToListAsync();
 
-            return package.GetAsByteArray();
-        }
+            currentRow = 6;
+            InputRGMData(nominations, contestWorksWithRGM, sheet, currentRow);
 
-        static void InputRGMData(List<EvaluationResult> evaluationResults, ExcelWorksheet excelWorksheet, int currentRow)
-        {
-            var RGMContestWorks = CountRGMContestWorks(evaluationResults);
+            var contestWorksWithMT = await weldingContestContext.ContestWorks
+                .Include(_ => _.MechanicalTestResults)
+                .Where(_ => _.MechanicalTestResults.Count != 0)
+                .ToListAsync();
 
-            excelWorksheet.Cells["P6"].Value = RGMContestWorks.ElementAt(0);
-            excelWorksheet.Cells["P8"].Value = RGMContestWorks.ElementAt(1);
-            excelWorksheet.Cells["P9"].Value = RGMContestWorks.ElementAt(2);
-            excelWorksheet.Cells["P7"].Value = "X";
-            excelWorksheet.Cells["P10"].Value = RGMContestWorks.ElementAt(3);
-        }
+            currentRow = 6;
+            InputMTData(nominations, contestWorksWithMT, sheet, currentRow);
 
-        static void InputRGMMarks(List<ContestWork> contestWorks, ExcelWorksheet sheet, int currentRow)
-        {
-            var RGMMarks = CountRGMMarks(contestWorks);
+            currentRow = 6;
+            InputStatisticalData(nominations, sheet, currentRow);
 
-            sheet.Cells["Q6"].Value = RGMMarks.ElementAt(0);
-            sheet.Cells["Q8"].Value = RGMMarks.ElementAt(1);
-            sheet.Cells["Q9"].Value = RGMMarks.ElementAt(2);
-            sheet.Cells["R6"].Value = RGMMarks.ElementAt(3);
-            sheet.Cells["R8"].Value = RGMMarks.ElementAt(4);
-            sheet.Cells["R9"].Value = RGMMarks.ElementAt(5);
-            sheet.Cells["S6"].Value = RGMMarks.ElementAt(6);
-            sheet.Cells["S8"].Value = RGMMarks.ElementAt(7);
-            sheet.Cells["S9"].Value = RGMMarks.ElementAt(8);
+            #endregion
 
-            sheet.Cells["Q7"].Value = "X";
-            sheet.Cells["R7"].Value = "X";
-            sheet.Cells["S7"].Value = "X";
+            #region Номинации
 
-            sheet.Cells["Q10"].Value = RGMMarks.ElementAt(9);
-            sheet.Cells["S10"].Value = RGMMarks.ElementAt(10);
-            sheet.Cells["R10"].Value = RGMMarks.ElementAt(11);
-        }
-
-        static List<int> GetNominationsMarksSum(List<List<int>> nominationsMarksList)
-        {
-            var nominationsMarksListSum = new List<int>();
-
-            for (var i = 0; i < nominationsMarksList.ElementAt(0).Count; i++)
+            foreach (var nomination in nominations)
             {
-                var count = 0;
+                var sheetNomination = book.Worksheets.Add($"{nomination.Title}");
 
-                foreach (var list in nominationsMarksList)
+                StyleColumnsNomination(sheetNomination);
+
+                CreateHeaderNomination(sheetNomination, entity, nomination);
+
+                if (nomination.SampleType == "Арматура")
                 {
-                    count += list.ElementAt(i);
+                    var contestWorks = await weldingContestContext.ContestWorks
+                        .Include(_ => _.Nomination)
+                        .Where(_ => _.Nomination == nomination)
+                        .Include(_ => _.Contestant)
+                        .Include(_ => _.ArmatureVMCResults)
+                        .Include(_ => _.MechanicalTestResults)
+                        .OrderBy(_ => _.Contestant.RFID)
+                        .ToListAsync();
+
+                    StyleColumnsMTNomination(sheetNomination);
+
+                    InputVMCDataNomination(sheetNomination, contestWorks);
+
+                    InputMTDataNomination(sheetNomination, contestWorks);
+                }
+                else
+                {
+                    var contestWorks = await weldingContestContext.ContestWorks
+                        .Include(_ => _.Nomination)
+                        .Where(_ => _.Nomination == nomination)
+                        .Include(_ => _.Contestant)
+                        .Include(_ => _.VMCResults)
+                        .Include(_ => _.RGMResults)
+                        .OrderBy(_ => _.Contestant.RFID)
+                        .ToListAsync();
+
+                    StyleColumnsRGMNomination(sheetNomination);
+
+                    InputVMCDataNomination(sheetNomination, contestWorks);
+
+                    InputRGMDataNomination(sheetNomination, contestWorks);
+                }
+            }
+
+            #endregion
+
+            return await package.GetAsByteArrayAsync();
+        }
+
+        #region Первый лист
+
+        //Метод работает некорректно, почему - не понятно
+        async void CreateOverallProtocol(ExcelWorkbook book, Contest entity)
+        {
+            var sheet = book.Worksheets.Add($"Общий протокол {entity.Name}");
+
+            InputHeaderTextOverallProtocol(sheet);
+
+            InputColumnsTextOverallProtocol(sheet);
+
+            MergeColumnsOverallProtocol(sheet);
+
+            CreateColumnBordersOverallProtocol(sheet);
+
+            CenterTextOverallProtocol(sheet);
+
+            InputDataWithoutBorders(sheet, "D2", "Q2", $"Анализ результатов {entity.Name}");
+
+            var nominations = await weldingContestContext.Nominations.ToListAsync();
+
+            var contestWorksWithVMC = await weldingContestContext.ContestWorks
+                .Include(_ => _.VMCResults)
+                .Where(_ => _.VMCResults.Count != 0)
+                .ToListAsync();
+
+            int currentRow = 6;
+            InputVMCData(nominations, contestWorksWithVMC, sheet, currentRow);
+
+            var contestWorksWithRGM = await weldingContestContext.ContestWorks
+                .Include(_ => _.RGMResults)
+                .Where(_ => _.RGMResults.Count != 0)
+                .ToListAsync();
+
+            currentRow = 6;
+            InputRGMData(nominations, contestWorksWithRGM, sheet, currentRow);
+
+            var contestWorksWithMT = await weldingContestContext.ContestWorks
+                .Include(_ => _.MechanicalTestResults)
+                .Where(_ => _.MechanicalTestResults.Count != 0)
+                .ToListAsync();
+
+            currentRow = 6;
+            InputMTData(nominations, contestWorksWithMT, sheet, currentRow);
+
+            currentRow = 6;
+            InputStatisticalData(nominations, sheet, currentRow);
+        }
+
+        static void InputVMCData(List<Nomination> nominations, List<ContestWork> contestWorks, ExcelWorksheet sheet, int currentRow)
+        {
+            var contestWorksAllCount = 0;
+            var lackOfPenetrationAllCount = 0;
+            var edgeOffsetAllCount = 0;
+            var undercutAllCount = 0;
+            var sinkingAllCount = 0;
+            var excessPenetrationAllCount = 0;
+            var excessSeamWidthAllCount = 0;
+            var excessSeamConvexityAllCount = 0;
+            var excessSeamScalingAllCount = 0;
+            var roughTransitionAllCount = 0;
+            var seamGeometryAllCount = 0;
+            var otherWarningsAllCount = 0;
+            var poresAndSludgeAllCount = 0;
+
+            foreach(var nomination in nominations)
+            {
+                var contestWorksInNomination = contestWorks.Where(_ => _.Nomination == nomination).ToList();
+                var vmcMarks = CountVMCMarks(contestWorksInNomination);
+
+                InputData(sheet, $"B{currentRow}", nomination.Title);
+                InputData(sheet, $"C{currentRow}", contestWorksInNomination.Count());
+
+                InputVMCMarks(vmcMarks, sheet, currentRow);
+
+                contestWorksAllCount += contestWorksInNomination.Count();
+                lackOfPenetrationAllCount += vmcMarks.ElementAt(0);
+                edgeOffsetAllCount += vmcMarks.ElementAt(1);
+                undercutAllCount += vmcMarks.ElementAt(2);
+                sinkingAllCount += vmcMarks.ElementAt(3);
+                excessPenetrationAllCount += vmcMarks.ElementAt(4);
+                excessSeamWidthAllCount += vmcMarks.ElementAt(5);
+                excessSeamConvexityAllCount += vmcMarks.ElementAt(6);
+                excessSeamScalingAllCount += vmcMarks.ElementAt(7);
+                roughTransitionAllCount += vmcMarks.ElementAt(8);
+                seamGeometryAllCount += vmcMarks.ElementAt(9);
+                otherWarningsAllCount += vmcMarks.ElementAt(10);
+                poresAndSludgeAllCount += vmcMarks.ElementAt(11);
+
+                currentRow++;
+            }
+
+            InputData(sheet, $"B{currentRow}", "Итого");
+            InputData(sheet, $"C{currentRow}", contestWorksAllCount);
+            InputData(sheet, $"D{currentRow}", lackOfPenetrationAllCount);
+            InputData(sheet, $"E{currentRow}", edgeOffsetAllCount);
+            InputData(sheet, $"F{currentRow}", undercutAllCount);
+            InputData(sheet, $"G{currentRow}", sinkingAllCount);
+            InputData(sheet, $"H{currentRow}", excessPenetrationAllCount);
+            InputData(sheet, $"I{currentRow}", excessSeamWidthAllCount);
+            InputData(sheet, $"J{currentRow}", excessSeamConvexityAllCount);
+            InputData(sheet, $"K{currentRow}", excessSeamScalingAllCount);
+            InputData(sheet, $"L{currentRow}", roughTransitionAllCount);
+            InputData(sheet, $"M{currentRow}", seamGeometryAllCount);
+            InputData(sheet, $"N{currentRow}", otherWarningsAllCount);
+            InputData(sheet, $"O{currentRow}", poresAndSludgeAllCount);
+        }
+
+        static void InputRGMData(List<Nomination> nominations, List<ContestWork> contestWorks, ExcelWorksheet sheet, int currentRow)
+        {
+            var contestWorksAllCount = 0;
+            var poresAndSludgeAllCount = 0;
+            var rootConcavityAllCount = 0;
+            var lackOfPenetrationAllCount = 0;
+
+            foreach (var nomination in nominations)
+            {
+                if (nomination.SampleType != "Арматура")
+                {
+                    var contestWorksInNomination = contestWorks.Where(_ => _.Nomination == nomination).ToList();
+                    var rgmMarks = CountRGMMarks(contestWorksInNomination);
+
+                    InputData(sheet, $"P{currentRow}", contestWorksInNomination.Count());
+
+                    InputRGMMarks(rgmMarks, sheet, currentRow);
+
+                    contestWorksAllCount += contestWorksInNomination.Count();
+                    poresAndSludgeAllCount += rgmMarks.ElementAt(0);
+                    rootConcavityAllCount += rgmMarks.ElementAt(1);
+                    lackOfPenetrationAllCount += rgmMarks.ElementAt(2);
+                }
+                else
+                {
+                    InputData(sheet, $"P{currentRow}", "X");
+                    InputData(sheet, $"Q{currentRow}", "X");
+                    InputData(sheet, $"R{currentRow}", "X");
+                    InputData(sheet, $"S{currentRow}", "X");
                 }
 
-                nominationsMarksListSum.Add(count);
+                currentRow++;
             }
 
-            return nominationsMarksListSum;
+            InputData(sheet, $"P{currentRow}", contestWorksAllCount);
+            InputData(sheet, $"Q{currentRow}", poresAndSludgeAllCount);
+            InputData(sheet, $"R{currentRow}", rootConcavityAllCount);
+            InputData(sheet, $"S{currentRow}", lackOfPenetrationAllCount);
         }
 
-        static void CenterText(ExcelWorksheet sheet)
+        static void InputMTData(List<Nomination> nominations, List<ContestWork> contestWorks, ExcelWorksheet sheet, int currentRow)
         {
-            sheet.Cells["B4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-            sheet.Cells["B4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            var contestWorksAllCount = 0;
+            var destructionWeldLessStrengthAllCount = 0;
+            var destructionWeldEqualsStrengthAllCount = 0;
+            var destructionHeatAffectedLessStrengthAllCount = 0;
+            var destructionHeatAffectedEqualsStrengthAllCount = 0;
+            var destructionBaseMetalAllCount = 0;
 
-            sheet.Cells["C4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-            sheet.Cells["C4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-            sheet.Cells["B5:AB5"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-            sheet.Cells["B5:AB5"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-            sheet.Column(2).Width = 20;
-            sheet.Column(3).Width = 20;
-
-            sheet.Cells["C4"].Style.WrapText = true;
-            sheet.Cells["P4"].Style.WrapText = true;
-            sheet.Cells["P5"].Style.WrapText = true;
-            sheet.Cells["T5"].Style.WrapText = true;
-            sheet.Cells["U5:Y5"].Style.WrapText = true;
-        }
-
-        static void CreateColumnBorders(ExcelWorksheet sheet)
-        {
-            sheet.Cells["B4:B5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-            sheet.Cells["C4:C5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-            sheet.Cells["D4:O4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-            sheet.Cells["Q4:S4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-            sheet.Cells["U4:Y4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-
-            sheet.Cells["D5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-
-            for (var i = 0; i < Resources.ExcelAlphabet.Count; i++)
+            foreach (var nomination in nominations)
             {
-                string index = Resources.ExcelAlphabet[i];
+                if (nomination.SampleType == "Арматура")
+                {
+                    var contestWorksInNomination = contestWorks.Where(_ => _.Nomination == nomination).ToList();
+                    var mtMarks = CountMTMarks(contestWorksInNomination);
 
-                sheet.Cells[$"{index}5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    InputData(sheet, $"T{currentRow}", contestWorksInNomination.Count());
+
+                    InputMTMarks(mtMarks, sheet, currentRow);
+
+                    contestWorksAllCount += contestWorksInNomination.Count();
+                    destructionWeldLessStrengthAllCount += mtMarks.ElementAt(0);
+                    destructionWeldEqualsStrengthAllCount += mtMarks.ElementAt(1);
+                    destructionHeatAffectedLessStrengthAllCount += mtMarks.ElementAt(2);
+                    destructionHeatAffectedEqualsStrengthAllCount += mtMarks.ElementAt(3);
+                    destructionBaseMetalAllCount += mtMarks.ElementAt(4);
+                }
+                else
+                {
+                    InputData(sheet, $"T{currentRow}", "X");
+                    InputData(sheet, $"U{currentRow}", "X");
+                    InputData(sheet, $"V{currentRow}", "X");
+                    InputData(sheet, $"W{currentRow}", "X");
+                    InputData(sheet, $"X{currentRow}", "X");
+                    InputData(sheet, $"Y{currentRow}", "X");
+                }
+
+                currentRow++;
             }
 
-            sheet.Cells["P4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-            sheet.Cells["T4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-
-            sheet.Cells["Z4:AB4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            InputData(sheet, $"T{currentRow}", contestWorksAllCount);
+            InputData(sheet, $"U{currentRow}", destructionWeldLessStrengthAllCount);
+            InputData(sheet, $"V{currentRow}", destructionWeldEqualsStrengthAllCount);
+            InputData(sheet, $"W{currentRow}", destructionHeatAffectedLessStrengthAllCount);
+            InputData(sheet, $"X{currentRow}", destructionHeatAffectedEqualsStrengthAllCount);
+            InputData(sheet, $"Y{currentRow}", destructionBaseMetalAllCount);
         }
 
-        static void InputHeaderText(ExcelWorksheet sheet)
+        static void InputVMCMarks(List<int> marks, ExcelWorksheet sheet, int currentRow)
         {
-            sheet.Cells["B4"].Value = "Номинация";
-            sheet.Cells["C4"].Value = "Количество участников конкурса";
-            sheet.Cells["D4"].Value = "Количество выявленных дефектов при визуально-измерительном контроле";
-            sheet.Cells["P4"].Value = "RT";
-            sheet.Cells["Q4"].Value = "Радиографический контроль";
-            sheet.Cells["T4"].Value = "МИ";
-            sheet.Cells["U4"].Value = "Механическиe испытания (для арматуры)";
+            InputData(sheet, $"D{currentRow}", marks.ElementAt(0));
+            InputData(sheet, $"E{currentRow}", marks.ElementAt(1));
+            InputData(sheet, $"F{currentRow}", marks.ElementAt(2));
+            InputData(sheet, $"G{currentRow}", marks.ElementAt(3));
+            InputData(sheet, $"H{currentRow}", marks.ElementAt(4));
+            InputData(sheet, $"I{currentRow}", marks.ElementAt(5));
+            InputData(sheet, $"J{currentRow}", marks.ElementAt(6));
+            InputData(sheet, $"K{currentRow}", marks.ElementAt(7));
+            InputData(sheet, $"L{currentRow}", marks.ElementAt(8));
+            InputData(sheet, $"M{currentRow}", marks.ElementAt(9));
+            InputData(sheet, $"N{currentRow}", marks.ElementAt(10));
+            InputData(sheet, $"O{currentRow}", marks.ElementAt(11));
         }
 
-        static void InputColumnsText(ExcelWorksheet excelWorksheet)
+        static void InputRGMMarks(List<int> marks, ExcelWorksheet sheet, int currentRow)
         {
-            for (int i = 0; i < Resources.ExcelAlphabet.Count; i++)
+            InputData(sheet, $"Q{currentRow}", marks.ElementAt(0));
+            InputData(sheet, $"R{currentRow}", marks.ElementAt(1));
+            InputData(sheet, $"S{currentRow}", marks.ElementAt(2));
+        }
+
+        static void InputMTMarks(List<int> marks, ExcelWorksheet sheet, int currentRow)
+        {
+            InputData(sheet, $"U{currentRow}", marks.ElementAt(0));
+            InputData(sheet, $"V{currentRow}", marks.ElementAt(1));
+            InputData(sheet, $"W{currentRow}", marks.ElementAt(2));
+            InputData(sheet, $"X{currentRow}", marks.ElementAt(3));
+            InputData(sheet, $"Y{currentRow}", marks.ElementAt(4));
+        }
+
+        static void InputStatisticalData(List<Nomination> nominations, ExcelWorksheet sheet, int currentRow)
+        {
+            foreach (var nomination in nominations)
             {
-                string index = Resources.ExcelAlphabet[i];
+                var seamLength = 179;
 
-                string text = Resources.ExcelColumnsText[i];
+                if (nomination.Title == "A 135")
+                {
+                    seamLength = 400;
+                }
 
-                excelWorksheet.Cells[$"{index}5"].Value = text;
+                var result = CountStatisticalMarks(sheet, currentRow, seamLength);
+
+                sheet.Cells[$"Z{currentRow}"].Value = result.ElementAt(0);
+                sheet.Cells[$"AA{currentRow}"].Value = result.ElementAt(1);
+                sheet.Cells[$"AB{currentRow}"].Value = result.ElementAt(2);
+
+                sheet.Cells[$"Z{currentRow}"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                sheet.Cells[$"AA{currentRow}"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                sheet.Cells[$"AB{currentRow}"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+                currentRow++;
             }
-
-            excelWorksheet.Cells["D5:AB5"].Style.TextRotation = 180;
-        }
-
-        static void MergeColumns(ExcelWorksheet sheet)
-        {
-            sheet.Cells["B4:B5"].Merge = true;
-            sheet.Cells["C4:C5"].Merge = true;
-            sheet.Cells["D4:O4"].Merge = true;
-            sheet.Cells["Q4:S4"].Merge = true;
-            sheet.Cells["U4:Y4"].Merge = true;
-            sheet.Cells["Z4:AB4"].Merge = true;
-        }
-
-        static void InputData(ExcelWorksheet xlWorkSheet, string startCell, string endCell, string data)
-        {
-            List<string> alphabet = new List<string>()
-            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-            int firstCellIndexRow = int.Parse(startCell[1..]);
-            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
-            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Value = data;
-            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-        }
-
-        static void InputDataWithoutBorders(ExcelWorksheet xlWorkSheet, string startCell, string endCell, string data)
-        {
-            List<string> alphabet = new List<string>()
-            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-            int firstCellIndexRow = int.Parse(startCell[1..]);
-            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
-            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Value = data;
         }
 
         static List<int> CountRGMMarks(List<ContestWork> contestWorks)
         {
             List<int> result = new();
 
-            int A135poresAndSludgeCount = 0;
-            int B141poresAndSludgeCount = 0;
-            int B111poresAndSludgeCount = 0;
-            int A135rootConcavityCount = 0;
-            int B141rootConcavityCount = 0;
-            int B111rootConcavityCount = 0;
-            int A135lackOfPenetrationCount = 0;
-            int B141lackOfPenetrationCount = 0;
-            int B111lackOfPenetrationCount = 0;
-
-            int overallPoresAndSludgeCount = 0;
-            int overallRootConcavityCount = 0;
-            int overallLackOfPenetrationCount = 0;
+            var poresAndSludgeCount = 0;
+            var rootConcavityCount = 0;
+            var lackOfPenetrationCount = 0;
 
             foreach (var contestWork in contestWorks)
             {
-                var title = contestWork.Nomination.Title;
                 var RGMResult = contestWork.RGMResults.ElementAt(0);
 
-                if (title == "A 135")
+                if (RGMResult.PoresAndSludgeCount != 0)
                 {
-                    A135poresAndSludgeCount += RGMResult.PoresAndSludgeCount;
-                    A135lackOfPenetrationCount += RGMResult.LackOfPenetrationCount;
-                    A135rootConcavityCount += RGMResult.RootConcavityCount;
-                }
-                else if (title == "Б-141")
-                {
-                    B141lackOfPenetrationCount += RGMResult.LackOfPenetrationCount;
-                    B141poresAndSludgeCount += RGMResult.PoresAndSludgeCount;
-                    B141rootConcavityCount += RGMResult.RootConcavityCount;
-                }
-                else if (title == "В-1 (111)")
-                {
-                    B111lackOfPenetrationCount += RGMResult.LackOfPenetrationCount;
-                    B111poresAndSludgeCount += RGMResult.PoresAndSludgeCount;
-                    B111rootConcavityCount += RGMResult.RootConcavityCount;
+                    poresAndSludgeCount++;
                 }
 
-                overallLackOfPenetrationCount += RGMResult.LackOfPenetrationCount;
-                overallPoresAndSludgeCount += RGMResult.PoresAndSludgeCount;
-                overallRootConcavityCount += RGMResult.RootConcavityCount;
+                if (RGMResult.RootConcavityCount != 0)
+                {
+                    rootConcavityCount++;
+                }
+
+                if (RGMResult.LackOfPenetrationCount != 0)
+                {
+                    lackOfPenetrationCount++;
+                }
             }
 
-            result.Add(A135poresAndSludgeCount);
-            result.Add(B141poresAndSludgeCount);
-            result.Add(B111poresAndSludgeCount);
-            result.Add(A135lackOfPenetrationCount);
-            result.Add(B141lackOfPenetrationCount);
-            result.Add(B111lackOfPenetrationCount);
-            result.Add(A135rootConcavityCount);
-            result.Add(B141rootConcavityCount);
-            result.Add(B111rootConcavityCount);
-            result.Add(overallPoresAndSludgeCount);
-            result.Add(overallRootConcavityCount);
-            result.Add(overallLackOfPenetrationCount);
+            result.Add(poresAndSludgeCount);
+            result.Add(rootConcavityCount);
+            result.Add(lackOfPenetrationCount);
 
             return result;
-        }
-
-        static List<int> CountRGMContestWorks(List<EvaluationResult> evaluationResults)
-        {
-            List<int> RGMContestWorksCount = new();
-
-            var A135Count = 0;
-            var B141Count = 0;
-            var B111PipesCount = 0;
-            var overallCount = 0;
-
-            if (evaluationResults.Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "A 135") is not null)
-            {
-                A135Count = evaluationResults
-                 .Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "A 135")
-                 .Count();
-            }
-
-            if(evaluationResults.Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "Б-141") is not null)
-            {
-                B141Count = evaluationResults
-                 .Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "Б-141")
-                 .Count();
-            }
-
-            if(evaluationResults.Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "В-1 (111)") is not null)
-            {
-                B111PipesCount = evaluationResults
-                 .Where(_ => _.RGMMark != 0 && _.ContestWork.Nomination.Title == "В-1 (111)")
-                 .Count();
-            }
-
-            overallCount += A135Count += B111PipesCount += B141Count;
-
-            RGMContestWorksCount.Add(A135Count);
-            RGMContestWorksCount.Add(B141Count);
-            RGMContestWorksCount.Add(B111PipesCount);
-            RGMContestWorksCount.Add(overallCount);
-
-            return RGMContestWorksCount;
         }
 
         static List<int> CountVMCMarks(List<ContestWork> contestWorks)
         {
             List<int> result = new List<int>();
 
-            int countLackOfPenetration = 0;
-            int countEdgeOffset = 0;
-            int countUndercut = 0;
-            int countSinking = 0;
-            int countExcessPenetration = 0;
-            int countExcessSeamWidth = 0;
-            int countExcessSeamConvexity = 0;
-            int countExcessSeamScaling = 0;
-            int countRoughTransition = 0;
-            int countSeamGeometry = 0;
-            int countOtherWarnings = 0;
-            int countPoresAndSludge = 0;
+            var countLackOfPenetration = 0;
+            var countEdgeOffset = 0;
+            var countUndercut = 0;
+            var countSinking = 0;
+            var countExcessPenetration = 0;
+            var countExcessSeamWidth = 0;
+            var countExcessSeamConvexity = 0;
+            var countExcessSeamScaling = 0;
+            var countRoughTransition = 0;
+            var countSeamGeometry = 0;
+            var countOtherWarnings = 0;
+            var countPoresAndSludge = 0;
 
             foreach (var contestWork in contestWorks)
             {
@@ -436,7 +490,7 @@ namespace WeldingContest.Services.ProtocolServices
                     countOtherWarnings++;
                 }
 
-                if(vmcResult.PoresAndSludgeCount != 0)
+                if (vmcResult.PoresAndSludgeCount != 0)
                 {
                     countPoresAndSludge++;
                 }
@@ -456,6 +510,701 @@ namespace WeldingContest.Services.ProtocolServices
             result.Add(countOtherWarnings);
 
             return result;
+        }
+
+        static List<int> CountMTMarks(List<ContestWork> contestWorks)
+        {
+            List<int> result = new();
+
+            var destructionWeldLessStrengthCount = 0;
+            var destructionWeldEqualsStrengthCount = 0;
+            var destructionHeatAffectedLessStrengthCount = 0;
+            var destructionHeatAffectedEqualsStrengthCount = 0;
+            var destructionBaseMetalCount = 0;
+
+            foreach (var contestWork in contestWorks)
+            {
+                var MTResult = contestWork.MechanicalTestResults.ElementAt(0);
+
+                if (MTResult.DestructionWeldLessStrength != 0)
+                {
+                    destructionWeldLessStrengthCount++;
+                }
+
+                if (MTResult.DestructionWeldEqualsStrength != 0)
+                {
+                    destructionWeldEqualsStrengthCount++;
+                }
+
+                if (MTResult.DestructionHeatAffectedLessStrength != 0)
+                {
+                    destructionHeatAffectedLessStrengthCount++;
+                }
+
+                if (MTResult.DestructionHeatAffectedEqualsStrength != 0)
+                {
+                    destructionHeatAffectedEqualsStrengthCount++;
+                }
+
+                if (MTResult.DestructionBaseMetalCount != 0)
+                {
+                    destructionBaseMetalCount++;
+                }
+            }
+
+            result.Add(destructionWeldLessStrengthCount);
+            result.Add(destructionWeldEqualsStrengthCount);
+            result.Add(destructionHeatAffectedLessStrengthCount);
+            result.Add(destructionHeatAffectedEqualsStrengthCount);
+            result.Add(destructionBaseMetalCount);
+
+            return result;
+        }
+
+        static List<double> CountStatisticalMarks(ExcelWorksheet sheet, int currentRow, int seamLength)
+        {
+            double invalidDefectsCount = 1;
+            double invalidDefectsPerSeam = 1;
+            double invalidDefectsPer100mm = 1;
+
+            invalidDefectsCount = sheet.Cells[$"D{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"E{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"F{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"G{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"H{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"I{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"J{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"K{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"L{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"M{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"N{currentRow}"].GetCellValue<int>()
+                + sheet.Cells[$"O{currentRow}"].GetCellValue<int>();
+
+            invalidDefectsPerSeam = invalidDefectsCount / sheet.Cells[$"C{currentRow}"].GetCellValue<int>();
+            invalidDefectsPer100mm = 100 * invalidDefectsPerSeam / seamLength;
+
+            var result = new List<double>();
+
+            result.Add(invalidDefectsCount);
+            result.Add(invalidDefectsPerSeam);
+            result.Add(invalidDefectsPer100mm);
+
+            return result;
+        }
+
+        static void CenterTextOverallProtocol(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["B4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["C4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["C4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["B5:AB5"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["B5:AB5"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Column(2).Width = 20;
+            sheet.Column(3).Width = 20;
+
+            sheet.Cells["C4"].Style.WrapText = true;
+            sheet.Cells["P4"].Style.WrapText = true;
+            sheet.Cells["P5"].Style.WrapText = true;
+            sheet.Cells["T5"].Style.WrapText = true;
+            sheet.Cells["U5:Y5"].Style.WrapText = true;
+        }
+
+        static void CreateColumnBordersOverallProtocol(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4:B5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["C4:C5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["D4:O4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["Q4:S4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["U4:Y4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+            sheet.Cells["D5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+            for (var i = 0; i < Resources.ExcelAlphabet.Count; i++)
+            {
+                string index = Resources.ExcelAlphabet[i];
+
+                sheet.Cells[$"{index}5"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            }
+
+            sheet.Cells["P4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells["T4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+            sheet.Cells["Z4:AB4"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+        }
+
+        static void InputHeaderTextOverallProtocol(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4"].Value = "Номинация";
+            sheet.Cells["C4"].Value = "Количество участников конкурса";
+            sheet.Cells["D4"].Value = "Количество выявленных дефектов при визуально-измерительном контроле";
+            sheet.Cells["P4"].Value = "RT";
+            sheet.Cells["Q4"].Value = "Радиографический контроль";
+            sheet.Cells["T4"].Value = "МИ";
+            sheet.Cells["U4"].Value = "Механическиe испытания (для арматуры)";
+        }
+
+        static void InputColumnsTextOverallProtocol(ExcelWorksheet excelWorksheet)
+        {
+            for (int i = 0; i < Resources.ExcelAlphabet.Count; i++)
+            {
+                string index = Resources.ExcelAlphabet[i];
+
+                string text = Resources.ExcelColumnsText[i];
+
+                excelWorksheet.Cells[$"{index}5"].Value = text;
+            }
+
+            excelWorksheet.Cells["D5:AB5"].Style.TextRotation = 90;
+        }
+
+        static void MergeColumnsOverallProtocol(ExcelWorksheet sheet)
+        {
+            sheet.Cells["B4:B5"].Merge = true;
+            sheet.Cells["C4:C5"].Merge = true;
+            sheet.Cells["D4:O4"].Merge = true;
+            sheet.Cells["Q4:S4"].Merge = true;
+            sheet.Cells["U4:Y4"].Merge = true;
+            sheet.Cells["Z4:AB4"].Merge = true;
+        }
+
+        #endregion
+
+        #region Номинации
+
+        static void StyleColumnsNomination(ExcelWorksheet sheet)
+        {
+            //Заголовок
+            sheet.Cells["F1:O1"].Merge = true;
+            sheet.Cells["F2:O2"].Merge = true;
+
+            sheet.Cells["F1:O2"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["F1:O2"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["F1:O1"].Style.Font.Bold = true;
+
+            //Визуально-измерительный контроль
+            sheet.Cells["A3:A4"].Merge = true;
+            sheet.Cells["B3:B4"].Merge = true;
+            sheet.Cells["C3:N3"].Merge = true;
+
+            sheet.Cells["A3:N4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["A3:N4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["A3:B4"].Style.Font.Bold = true;
+
+            sheet.Cells["C4:N4"].Style.Font.Bold = true;
+
+            sheet.Cells["A3:N4"].Style.WrapText = true;
+
+            sheet.Cells["B3"].Style.TextRotation = 90;
+            sheet.Cells["C4:N4"].Style.TextRotation = 90;
+
+            //Рентген-механика
+            sheet.Cells["O3:O4"].Merge = true;
+
+            sheet.Cells["O3:O4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["O3:O4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["O3:O4"].Style.Font.Bold = true;
+
+            sheet.Cells["O3:O4"].Style.WrapText = true;
+
+            sheet.Cells["O3:O4"].Style.TextRotation = 90;
+        }
+
+        static void StyleColumnsRGMNomination(ExcelWorksheet sheet)
+        {
+            sheet.Cells["P3:R3"].Merge = true;
+
+            sheet.Cells["P3:R4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["P3:R4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["P4:R4"].Style.Font.Bold = true;
+
+            sheet.Cells["P3:R4"].Style.WrapText = true;
+
+            sheet.Cells["P4:R4"].Style.TextRotation = 90;
+        }
+
+        static void StyleColumnsMTNomination(ExcelWorksheet sheet)
+        {
+            sheet.Cells["P3:T3"].Merge = true;
+
+            sheet.Cells["P3:T4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            sheet.Cells["P3:T4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+            sheet.Cells["P4:T4"].Style.Font.Bold = true;
+
+            sheet.Cells["P3:T4"].Style.WrapText = true;
+
+            sheet.Cells["P4:T4"].Style.TextRotation = 90;
+        }
+
+        static void CreateHeaderNomination(ExcelWorksheet sheet, Contest contest, Nomination nomination)
+        {
+            sheet.Cells["F1"].Value = $"Результаты {contest.Name}";
+            sheet.Cells["F2"].Value = $"НОМИНАЦИЯ {nomination.Title} - {nomination.WeldingType} ({nomination.SampleType})";
+
+            InputData(sheet, "A3:A4", "Номер регистрации");
+            InputData(sheet, "B3:B4", "Количество штрафных баллов по визуальному контролю");
+            InputData(sheet, "C3:N3", "Количество выявленных дефектов при визуально-измерительном контроле");
+
+            for (var i = 0; i < 12; i++)
+            {
+                InputData(sheet, $"{Resources.ExcelNominationVMCColumns.ElementAt(i)}4", Resources.ExcelNominationVMCColumnsText.ElementAt(i));
+            }
+
+            if (nomination.SampleType == "Арматура")
+            {
+                InputData(sheet, "P3:T3", "Механические испытания");
+                InputData(sheet, "O3:O4", "количество штрафных баллов по механическим испытаниям");
+
+                for (var i = 0; i < 5; i++)
+                {
+                    InputData(sheet, $"{Resources.ExcelNominationMTColumns.ElementAt(i)}4", Resources.ExcelNominationMTColumnsText.ElementAt(i));
+                }
+            }
+            else
+            {
+                InputData(sheet, "P3:R3", "Радиографический контроль");
+                InputData(sheet, "O3:O4", "количество штрафных баллов по радиографическому контролю");
+
+                for (var i = 0; i < 3; i++)
+                {
+                    InputData(sheet, $"{Resources.ExcelNominationRGMColumns.ElementAt(i)}4", Resources.ExcelNominationRGMColumnsText.ElementAt(i));
+                }
+            }
+        }
+
+        static void InputVMCDataNomination(ExcelWorksheet sheet, List<ContestWork> contestWorks)
+        {
+            var currentRow = 5;
+
+            foreach (var contestWork in contestWorks)
+            {
+                InputData(sheet, $"A{currentRow}", contestWork.Contestant.RFID);
+
+                if (contestWork.Nomination.SampleType != "Арматура")
+                {
+                    if (contestWork.VMCResults.Count() == 0)
+                    {
+                        InputData(sheet, $"B{currentRow}", 50);
+                        sheet.Cells[$"C{currentRow}:N{currentRow}"].Merge = true;
+                        InputData(sheet, $"C{currentRow}:N{currentRow}", "не варил");
+                    }
+                    else
+                    {
+                        InputData(sheet, $"B{currentRow}", 50 - contestWork.VMCResults.ElementAt(0).OverallMark);
+                        InputVMCMarksNomination(sheet, contestWork.VMCResults.ElementAt(0), currentRow);
+                    }
+                }
+                else
+                {
+                    if (contestWork.ArmatureVMCResults.Count() == 0)
+                    {
+                        InputData(sheet, $"B{currentRow}", 50 );
+                        sheet.Cells[$"C{currentRow}:N{currentRow}"].Merge = true;
+                        InputData(sheet, $"C{currentRow}:N{currentRow}", "не варил");
+                    }
+                    else
+                    {
+                        InputData(sheet, $"B{currentRow}", 50 - contestWork.ArmatureVMCResults.ElementAt(0).OverallMark);
+                        InputVMCMarksNomination(sheet, contestWork.ArmatureVMCResults.ElementAt(0), currentRow);
+                    }
+                }
+
+                currentRow++;
+            }
+
+            sheet.Cells[$"C{currentRow}"].Formula = $"=SUM(C5:C{currentRow - 1})";
+            sheet.Cells[$"D{currentRow}"].Formula = $"=SUM(D5:D{currentRow - 1})";
+            sheet.Cells[$"E{currentRow}"].Formula = $"=SUM(E5:E{currentRow - 1})";
+            sheet.Cells[$"F{currentRow}"].Formula = $"=SUM(F5:F{currentRow - 1})";
+            sheet.Cells[$"G{currentRow}"].Formula = $"=SUM(G5:G{currentRow - 1})";
+            sheet.Cells[$"H{currentRow}"].Formula = $"=SUM(H5:H{currentRow - 1})";
+            sheet.Cells[$"I{currentRow}"].Formula = $"=SUM(I5:I{currentRow - 1})";
+            sheet.Cells[$"J{currentRow}"].Formula = $"=SUM(J5:J{currentRow - 1})";
+            sheet.Cells[$"K{currentRow}"].Formula = $"=SUM(K5:K{currentRow - 1})";
+            sheet.Cells[$"L{currentRow}"].Formula = $"=SUM(L5:L{currentRow - 1})";
+            sheet.Cells[$"M{currentRow}"].Formula = $"=SUM(M5:M{currentRow - 1})";
+            sheet.Cells[$"N{currentRow}"].Formula = $"=SUM(N5:N{currentRow - 1})";
+        }
+
+        static void InputRGMDataNomination(ExcelWorksheet sheet, List<ContestWork> contestWorks)
+        {
+            var currentRow = 5;
+
+            foreach (var contestWork in contestWorks)
+            {
+                if (contestWork.RGMResults.Count() == 0)
+                {
+                    InputData(sheet, $"O{currentRow}", 30);
+                    sheet.Cells[$"P{currentRow}:R{currentRow}"].Merge = true;
+                    InputData(sheet, $"P{currentRow}:R{currentRow}", "не проводился");
+                }
+                else
+                {
+                    InputData(sheet, $"O{currentRow}", 30 - contestWork.RGMResults.ElementAt(0).OverallMark);
+                    InputRGMMarksNomination(sheet, contestWork.RGMResults.ElementAt(0), currentRow);
+                }
+
+                currentRow++;
+            }
+
+            sheet.Cells[$"P{currentRow}"].Formula = $"=SUM(P5:P{currentRow - 1})";
+            sheet.Cells[$"Q{currentRow}"].Formula = $"=SUM(Q5:Q{currentRow - 1})";
+            sheet.Cells[$"R{currentRow}"].Formula = $"=SUM(R5:R{currentRow - 1})";
+        }
+
+        static void InputMTDataNomination(ExcelWorksheet sheet, List<ContestWork> contestWorks)
+        {
+            var currentRow = 5;
+
+            foreach (var contestWork in contestWorks)
+            {
+                if (contestWork.MechanicalTestResults.Count() == 0)
+                {
+                    InputData(sheet, $"O{currentRow}", 50);
+                    sheet.Cells[$"P{currentRow}:T{currentRow}"].Merge = true;
+                    InputData(sheet, $"P{currentRow}:T{currentRow}", "не проводился");
+                }
+                else
+                {
+                    InputData(sheet, $"O{currentRow}", 50 - contestWork.MechanicalTestResults.ElementAt(0).OverallMark);
+                    InputMTMarksNomination(sheet, contestWork.MechanicalTestResults.ElementAt(0), currentRow);
+                }
+
+                currentRow++;
+            }
+
+            sheet.Cells[$"P{currentRow}"].Formula = $"=SUM(P5:P{currentRow - 1})";
+            sheet.Cells[$"Q{currentRow}"].Formula = $"=SUM(Q5:Q{currentRow - 1})";
+            sheet.Cells[$"R{currentRow}"].Formula = $"=SUM(R5:R{currentRow - 1})";
+            sheet.Cells[$"S{currentRow}"].Formula = $"=SUM(S5:S{currentRow - 1})";
+            sheet.Cells[$"T{currentRow}"].Formula = $"=SUM(T5:T{currentRow - 1})";
+        }
+
+        static void InputVMCMarksNomination(ExcelWorksheet sheet, VMCResult result, int currentRow)
+        {
+            var lackOfPenetrationCount = result.LackOfPenetrationUpTo10mmCount
+                + result.LackOfPenetrationFrom10mmTo20mmCount
+                + result.LackOfPenetrationFrom20mmCount;
+
+            var edgeOffsetCount = result.EdgeOffsetCount;
+            var undercutCount = result.UndercutUpTo10mmCount 
+                + result.UndercutFrom20mmCount
+                + result.UndercutRemovalCount;
+            var sinkingCount = result.SinkingCount;
+            var excessPenetrationCount = result.ExcessPenetrationCount;
+            var excessSeamWidthCount = result.ExcessSeamWidthCount;
+            var excessSeamConvexityCount = result.ExcessSeamConvexityCount;
+            var excessSeamScalingCount = result.ExcessSeamScalingCount;
+            var roughTransitionCount = result.RoughTransitionCount;
+            var seamGeometryCount = result.SeamGeometryCount;
+            var otherWarningsCount = result.OtherWarningsCount;
+            var poresAndSludgeCount = result.PoresAndSludgeCount;
+
+            if (lackOfPenetrationCount == 0)
+            {
+                InputData(sheet, $"C{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"C{currentRow}", 1);
+            }
+
+            if (edgeOffsetCount == 0)
+            {
+                InputData(sheet, $"D{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"D{currentRow}", 1);
+            }
+
+            if (undercutCount == 0)
+            {
+                InputData(sheet, $"E{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"E{currentRow}", 1);
+            }
+
+            if (sinkingCount == 0)
+            {
+                InputData(sheet, $"F{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"F{currentRow}", 1);
+            }
+
+            if (excessPenetrationCount == 0)
+            {
+                InputData(sheet, $"G{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"G{currentRow}", 1);
+            }
+
+            if (excessSeamWidthCount == 0)
+            {
+                InputData(sheet, $"H{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"H{currentRow}", 1);
+            }
+
+            if (excessSeamConvexityCount == 0)
+            {
+                InputData(sheet, $"I{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"I{currentRow}", 1);
+            }
+
+            if (excessSeamScalingCount == 0)
+            {
+                InputData(sheet, $"J{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"J{currentRow}", 1);
+            }
+
+            if (roughTransitionCount == 0)
+            {
+                InputData(sheet, $"K{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"K{currentRow}", 1);
+            }
+
+            if (poresAndSludgeCount == 0)
+            {
+                InputData(sheet, $"L{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"L{currentRow}", 1);
+            }
+
+            if (seamGeometryCount == 0)
+            {
+                InputData(sheet, $"M{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"M{currentRow}", 1);
+            }
+
+            if (otherWarningsCount == 0)
+            {
+                InputData(sheet, $"N{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"N{currentRow}", 1);
+            }
+        }
+
+        static void InputVMCMarksNomination(ExcelWorksheet sheet, ArmatureVMCResult result, int currentRow)
+        {
+            var undercutCount = result.UndercutUpTo5mmCount
+                + result.UndercutFrom5mmCount
+                + result.ContiuousUndercutCount;
+            var excessSeamWidthCount = result.ExcessSeamWidthCount;
+            var roughTransitionCount = result.RoughTransitionCount;
+            var seamGeometryCount = result.SeamGeometryCount;
+            var otherWarningsCount = result.OtherWarningsCount;
+            var poresAndSludgeCount = result.PoresAndSludgeCount;
+
+            InputData(sheet, $"C{currentRow}", "");
+            InputData(sheet, $"D{currentRow}", "");
+
+            if (undercutCount == 0)
+            {
+                InputData(sheet, $"E{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"E{currentRow}", 1);
+            }
+
+            InputData(sheet, $"F{currentRow}", "");
+            InputData(sheet, $"G{currentRow}", "");
+
+            if (excessSeamWidthCount == 0)
+            {
+                InputData(sheet, $"H{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"H{currentRow}", 1);
+            }
+
+            InputData(sheet, $"I{currentRow}", "");
+            InputData(sheet, $"J{currentRow}", "");
+
+            if (roughTransitionCount == 0)
+            {
+                InputData(sheet, $"K{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"K{currentRow}", 1);
+            }
+
+            if (poresAndSludgeCount == 0)
+            {
+                InputData(sheet, $"L{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"L{currentRow}", 1);
+            }
+
+            if (seamGeometryCount == 0)
+            {
+                InputData(sheet, $"M{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"M{currentRow}", 1);
+            }
+
+            if (otherWarningsCount == 0)
+            {
+                InputData(sheet, $"N{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"N{currentRow}", 1);
+            }
+        }
+
+        static void InputRGMMarksNomination(ExcelWorksheet sheet, RGMResult result, int currentRow)
+        {
+            var poresAndSludgeCount = result.PoresAndSludgeCount;
+            var lackOfPenetrationCount = result.LackOfPenetrationCount;
+            var rootConcavityCount = result.RootConcavityCount;
+
+            if (poresAndSludgeCount == 0)
+            {
+                InputData(sheet, $"P{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"P{currentRow}", 1);
+            }
+
+            if (lackOfPenetrationCount == 0)
+            {
+                InputData(sheet, $"Q{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"Q{currentRow}", 1);
+            }
+
+            if (rootConcavityCount == 0)
+            {
+                InputData(sheet, $"R{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"R{currentRow}", 1);
+            }
+        }
+
+        static void InputMTMarksNomination(ExcelWorksheet sheet, MechanicalTestResult result, int currentRow)
+        {
+            var destructionWeldLessStrength = result.DestructionWeldLessStrength;
+            var destructionWeldEqualsStrength = result.DestructionWeldEqualsStrength;
+            var destructionHeatAffectedLessStrength = result.DestructionHeatAffectedLessStrength;
+            var destructionHeatAffectedEqualsStrength = result.DestructionHeatAffectedEqualsStrength;
+            var destructionBaseMetalCount = result.DestructionBaseMetalCount;
+
+            if (destructionWeldLessStrength == 0)
+            {
+                InputData(sheet, $"P{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"P{currentRow}", 1);
+            }
+
+            if (destructionWeldEqualsStrength == 0)
+            {
+                InputData(sheet, $"Q{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"Q{currentRow}", 1);
+            }
+
+            if (destructionHeatAffectedLessStrength == 0)
+            {
+                InputData(sheet, $"R{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"R{currentRow}", 1);
+            }
+
+            if (destructionHeatAffectedEqualsStrength == 0)
+            {
+                InputData(sheet, $"S{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"S{currentRow}", 1);
+            }
+
+            if (destructionBaseMetalCount == 0)
+            {
+                InputData(sheet, $"T{currentRow}", "");
+            }
+            else
+            {
+                InputData(sheet, $"T{currentRow}", 1);
+            }
+        }
+
+        #endregion
+
+        static void InputData(ExcelWorksheet sheet, string cell, string data)
+        {
+            sheet.Cells[cell].Value = data;
+            sheet.Cells[cell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells[cell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        }
+
+        static void InputData(ExcelWorksheet sheet, string cell, int data)
+        {
+            sheet.Cells[cell].Value = data;
+            sheet.Cells[cell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            sheet.Cells[cell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        }
+
+        static void InputDataWithoutBorders(ExcelWorksheet xlWorkSheet, string startCell, string endCell, string data)
+        {
+            List<string> alphabet = new List<string>()
+            { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+            int firstCellIndexRow = int.Parse(startCell[1..]);
+            int firstCellIndexColumn = alphabet.FindIndex(_ => _ == startCell.Substring(0, 1)) + 1;
+            xlWorkSheet.Cells[firstCellIndexRow, firstCellIndexColumn].Value = data;
         }
     }
 }

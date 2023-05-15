@@ -121,13 +121,11 @@ namespace WeldingContest.Services.NominationServices
 
         public async Task<Nomination> Update(Nomination entity)
         {
-            await Remove(entity.ID);
-
-            await Create(entity);
+            var result = weldingContestContext.Nominations.Update(entity);
 
             await SaveChanges();
 
-            return entity;
+            return result.Entity;
         }
     }
 }

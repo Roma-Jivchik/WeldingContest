@@ -19,7 +19,6 @@ C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\bin\Debug\net5.0\WeldingContest.Services.Entities.dll
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\bin\Debug\net5.0\ref\WeldingContest.Services.Entities.dll
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\bin\Debug\net5.0\WeldingContest.Services.Entities.pdb
-C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.csproj.AssemblyReference.cache
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.AssemblyInfoInputs.cache
 C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.AssemblyInfo.cs
@@ -58,3 +57,4 @@ C:\Users\AcedoraDynkan\Desktop\Repository\WeldingContest\WeldingContest.Services
 C:\Users\AcedoraDynkan\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\ref\WeldingContest.Services.Entities.dll
 C:\Users\AcedoraDynkan\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.pdb
 C:\Users\AcedoraDynkan\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.genruntimeconfig.cache
+C:\Users\Max\Desktop\Repository\WeldingContest\WeldingContest.Services.Entities\obj\Debug\net5.0\WeldingContest.Services.Entities.csproj.AssemblyReference.cache
