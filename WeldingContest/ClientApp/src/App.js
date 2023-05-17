@@ -9,6 +9,7 @@ import { ContestWorkRouter } from './components/contest/Pages/ContestWorkPages/C
 
 import './custom.css';
 import './components/contest/stylesheets/Layout.css';
+import { MainPage } from './components/contest/Pages/MainPages/MainPage';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -28,6 +29,7 @@ export default class App extends Component {
             <Layout pageTitle={this.state.pageTitle}>
                 <Router>
                     <Routes>
+                        <Route path='/' element={<ContestRouter changePageTitle={this.changePageTitle} />} />
                         <Route path='/Contestants/*' element={<ContestantRouter changePageTitle={this.changePageTitle}/>} />
                         <Route path='/Contests/*' element={<ContestRouter changePageTitle={this.changePageTitle} />} />
                         <Route path='/Nominations/*' element={<NominationRouter changePageTitle={this.changePageTitle} />} />

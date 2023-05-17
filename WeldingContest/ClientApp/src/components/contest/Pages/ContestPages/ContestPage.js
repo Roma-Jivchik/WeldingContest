@@ -15,7 +15,7 @@ export class ContestPage extends Component {
             pagesNumber: 1,
             pageNumber: 0,
             evaluationResults: [],
-            dataUrl: '?nominationTitle=А 135',
+            dataUrl: '?nominationTitle=А (135)',
         };
 
         this.clearState = this.clearState.bind(this);

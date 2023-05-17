@@ -28,16 +28,20 @@ export class ContestPageView extends Component {
                 { field: 'weldingTimeMark', width: 180, headerName: 'Время сборки и сварки', sortable: false },
                 { field: 'consumptionWeldingMaterialsMark', width: 240, headerName: 'Расход сварочных материалов', sortable: false },
                 { field: 'vmcMark', width: 50, headerName: 'ВИК', sortable: false },
-                { field: 'rgmMark', width: 230, headerName: 'РК/МИ', sortable: false },
+                { field: 'rgmMark', width: 180, headerName: 'РК/МИ', sortable: false },
                 { field: 'theoreticalMark', width: 80, headerName: 'Теория', sortable: false },
                 { field: 'overallMark', width: 80, headerName: 'Итого', sortable: false },
             ],
 
             nominations: [
-                { value: '?nominationTitle=А 135', label: 'А 135' },
-                { value: '?nominationTitle=Б-141', label: 'Б-141' },
+                { value: '?nominationTitle=А (135)', label: 'А (135)' },
+                { value: '?nominationTitle=А (135) ЛМС', label: 'А (135) ЛМС' },
+                { value: '?nominationTitle=Б (141)', label: 'Б (141)' },
+                { value: '?nominationTitle=Б (141) ЛМС', label: 'Б (141) ЛМС' },
                 { value: '?nominationTitle=В-1 (111)', label: 'В-1 (111)' },
+                { value: '?nominationTitle=В-1 (111) ЛМС', label: 'В-1 (111) ЛМС' },
                 { value: '?nominationTitle=В-2 (111)', label: 'В-2 (111)' },
+                { value: '?nominationTitle=В-2 (111) ЛМС', label: 'В-2 (111) ЛМС' },
             ]
         }
     }
@@ -110,6 +114,7 @@ export class ContestPageView extends Component {
                     columns={this.state.columns}
                     rows={this.props.evaluationResults}
                     handleSelect={this.props.handleSelect}
+                    getRowId={ (row)=>row.code}
                 />
                 <Pagination count={this.props.pagesNumber} page={this.props.pageNumber} onChange={this.props.handleChangePage} />
             </div>

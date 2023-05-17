@@ -117,7 +117,7 @@ export class RGMResultAddTab extends Component {
             this.postFileToController(fileSecond);
         }
 
-        //setTimeout(() => { window.location.reload() }, 500);
+        setTimeout(() => { window.location.reload() }, 500);
     }
 
     handleChangeInput() {

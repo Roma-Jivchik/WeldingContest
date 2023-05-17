@@ -28,7 +28,7 @@ namespace WeldingContest.Services.ProtocolServices
 
             var book = package.Workbook;
 
-            var nominations = await weldingContestContext.Nominations.ToListAsync();
+            var nominations = await weldingContestContext.Nominations.OrderBy(_ => _.Title).ToListAsync();
 
             #region Первый лист
 
@@ -48,7 +48,8 @@ namespace WeldingContest.Services.ProtocolServices
 
             var contestWorksWithVMC = await weldingContestContext.ContestWorks
                 .Include(_ => _.VMCResults)
-                .Where(_ => _.VMCResults.Count != 0)
+                .Include(_ => _.ArmatureVMCResults)
+                .Where(_ => _.VMCResults.Count != 0 || _.ArmatureVMCResults.Count != 0)
                 .ToListAsync();
 
             int currentRow = 6;
@@ -433,66 +434,103 @@ namespace WeldingContest.Services.ProtocolServices
 
             foreach (var contestWork in contestWorks)
             {
-                var vmcResult = contestWork.VMCResults.ElementAt(0);
-
-                if (vmcResult.LackOfPenetrationUpTo10mmCount != 0 || vmcResult.LackOfPenetrationFrom10mmTo20mmCount != 0 || vmcResult.LackOfPenetrationFrom20mmCount != 0)
+                if (contestWork.Nomination.SampleType != "Арматура")
                 {
-                    countLackOfPenetration++;
+                    var vmcResult = contestWork.VMCResults.ElementAt(0);
+
+                    if (vmcResult.LackOfPenetrationUpTo10mmCount != 0 || vmcResult.LackOfPenetrationFrom10mmTo20mmCount != 0 || vmcResult.LackOfPenetrationFrom20mmCount != 0)
+                    {
+                        countLackOfPenetration++;
+                    }
+
+                    if (vmcResult.EdgeOffsetCount != 0)
+                    {
+                        countEdgeOffset++;
+                    }
+
+                    if (vmcResult.UndercutUpTo10mmCount != 0 || vmcResult.UndercutFrom20mmCount != 0 || vmcResult.UndercutRemovalCount != 0)
+                    {
+                        countUndercut++;
+                    }
+
+                    if (vmcResult.SinkingCount != 0)
+                    {
+                        countSinking++;
+                    }
+
+                    if (vmcResult.ExcessPenetrationCount != 0)
+                    {
+                        countExcessPenetration++;
+                    }
+
+                    if (vmcResult.ExcessSeamWidthCount != 0)
+                    {
+                        countExcessSeamWidth++;
+                    }
+
+                    if (vmcResult.ExcessSeamConvexityCount != 0)
+                    {
+                        countExcessSeamConvexity++;
+                    }
+
+                    if (vmcResult.ExcessSeamScalingCount != 0)
+                    {
+                        countExcessSeamScaling++;
+                    }
+
+                    if (vmcResult.RoughTransitionCount != 0)
+                    {
+                        countRoughTransition++;
+                    }
+
+                    if (vmcResult.SeamGeometryCount != 0)
+                    {
+                        countSeamGeometry++;
+                    }
+
+                    if (vmcResult.OtherWarningsCount != 0)
+                    {
+                        countOtherWarnings++;
+                    }
+
+                    if (vmcResult.PoresAndSludgeCount != 0)
+                    {
+                        countPoresAndSludge++;
+                    }
                 }
-
-                if (vmcResult.EdgeOffsetCount != 0)
+                else
                 {
-                    countEdgeOffset++;
-                }
+                    var vmcResult = contestWork.ArmatureVMCResults.ElementAt(0);
 
-                if (vmcResult.UndercutUpTo10mmCount != 0 || vmcResult.UndercutFrom20mmCount != 0 || vmcResult.UndercutRemovalCount != 0)
-                {
-                    countUndercut++;
-                }
+                    if (vmcResult.UndercutUpTo5mmCount != 0 || vmcResult.UndercutFrom5mmCount != 0 || vmcResult.ContiuousUndercutCount != 0)
+                    {
+                        countUndercut++;
+                    }
 
-                if (vmcResult.SinkingCount != 0)
-                {
-                    countSinking++;
-                }
+                    if (vmcResult.ExcessSeamWidthCount != 0)
+                    {
+                        countExcessSeamWidth++;
+                    }
 
-                if (vmcResult.ExcessPenetrationCount != 0)
-                {
-                    countExcessPenetration++;
-                }
+                    if (vmcResult.RoughTransitionCount != 0)
+                    {
+                        countRoughTransition++;
+                    }
 
-                if (vmcResult.ExcessSeamWidthCount != 0)
-                {
-                    countExcessSeamWidth++;
-                }
+                    if (vmcResult.SeamGeometryCount != 0)
+                    {
+                        countSeamGeometry++;
+                    }
 
-                if (vmcResult.ExcessSeamConvexityCount != 0)
-                {
-                    countExcessSeamConvexity++;
-                }
+                    if (vmcResult.OtherWarningsCount != 0)
+                    {
+                        countOtherWarnings++;
+                    }
 
-                if (vmcResult.ExcessSeamScalingCount != 0)
-                {
-                    countExcessSeamScaling++;
-                }
-
-                if (vmcResult.RoughTransitionCount != 0)
-                {
-                    countRoughTransition++;
-                }
-
-                if (vmcResult.SeamGeometryCount != 0)
-                {
-                    countSeamGeometry++;
-                }
-
-                if (vmcResult.OtherWarningsCount != 0)
-                {
-                    countOtherWarnings++;
-                }
-
-                if (vmcResult.PoresAndSludgeCount != 0)
-                {
-                    countPoresAndSludge++;
+                    if (vmcResult.PoresAndSludgeCount != 0)
+                    {
+                        countPoresAndSludge++;
+                    }
                 }
             }
 

@@ -13,7 +13,7 @@ export class NavigationMenu extends Component {
 
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand style={{ marginLeft:"10px"}} href="/">Проект</Navbar.Brand>
+                <Navbar.Brand style={{ marginLeft:"10px"}} href="/">WELDINGTRAINING</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">

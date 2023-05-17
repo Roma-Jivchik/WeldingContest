@@ -39,10 +39,10 @@ export class MechanicalTestResultAddTabView extends Component {
                         <Form.Control type="number" name="destructionHeatAffectedEqualsStrength" value={this.props.destructionHeatAffectedEqualsStrength} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label className={this.props.destructionBaseMetal != 0 ? "check" : ''}>
+                        <Form.Label className={this.props.destructionBaseMetalCount != 0 ? "check" : ''}>
                             Разрушение по основному металлу с разрушающей нагрузкой равной или выше предела прочности арматуры
                         </Form.Label>
-                        <Form.Control type="number" name="destructionBaseMetal" value={this.props.destructionBaseMetal} onChange={this.props.handleChangeInput} required />
+                        <Form.Control type="number" name="destructionBaseMetalCount" value={this.props.destructionBaseMetalCount} onChange={this.props.handleChangeInput} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Примечание</Form.Label>
