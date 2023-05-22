@@ -69,6 +69,12 @@ export class ContestPage extends Component {
     async getCollectionFromController(pageNumber) {
         const response = await fetch(`evaluationResult/searched/by-nominationTitle/${this.state.dataUrl}&pageNumber=${pageNumber}&rowsNumber=10`);
         const data = await response.json();
+        let index = 1 + (pageNumber - 1) * 10;
+        data.map(item => {
+            item.index = index;
+            index++;
+        });
+
         this.setState({ evaluationResults: data });
         console.log(data);
     }

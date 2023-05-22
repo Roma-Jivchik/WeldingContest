@@ -844,13 +844,13 @@ namespace WeldingContest.Services.ProtocolServices
                 {
                     if (contestWork.ArmatureVMCResults.Count() == 0)
                     {
-                        InputData(sheet, $"B{currentRow}", 50 );
+                        InputData(sheet, $"B{currentRow}", 30 );
                         sheet.Cells[$"C{currentRow}:N{currentRow}"].Merge = true;
                         InputData(sheet, $"C{currentRow}:N{currentRow}", "не варил");
                     }
                     else
                     {
-                        InputData(sheet, $"B{currentRow}", 50 - contestWork.ArmatureVMCResults.ElementAt(0).OverallMark);
+                        InputData(sheet, $"B{currentRow}", 30 - contestWork.ArmatureVMCResults.ElementAt(0).OverallMark);
                         InputVMCMarksNomination(sheet, contestWork.ArmatureVMCResults.ElementAt(0), currentRow);
                     }
                 }
@@ -906,13 +906,13 @@ namespace WeldingContest.Services.ProtocolServices
             {
                 if (contestWork.MechanicalTestResults.Count() == 0)
                 {
-                    InputData(sheet, $"O{currentRow}", 50);
+                    InputData(sheet, $"O{currentRow}", 30);
                     sheet.Cells[$"P{currentRow}:T{currentRow}"].Merge = true;
                     InputData(sheet, $"P{currentRow}:T{currentRow}", "не проводился");
                 }
                 else
                 {
-                    InputData(sheet, $"O{currentRow}", 50 - contestWork.MechanicalTestResults.ElementAt(0).OverallMark);
+                    InputData(sheet, $"O{currentRow}", 30 - contestWork.MechanicalTestResults.ElementAt(0).OverallMark);
                     InputMTMarksNomination(sheet, contestWork.MechanicalTestResults.ElementAt(0), currentRow);
                 }
 

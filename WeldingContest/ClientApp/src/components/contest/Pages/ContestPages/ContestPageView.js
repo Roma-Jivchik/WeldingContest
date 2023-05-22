@@ -15,6 +15,7 @@ export class ContestPageView extends Component {
 
         this.state = {
             columns: [
+                {field: 'index', width:50, headerName: '№', sortable: false},
                 {
                     field: 'contestantRFID',
                     headerName: 'RFID конкурсанта',
