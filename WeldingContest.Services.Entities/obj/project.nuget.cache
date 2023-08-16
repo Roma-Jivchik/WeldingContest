@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UU45b6+JEj/88TAmVmaIpW2coRnO7Opli9ccMyGN/R4aXBwSvk3F7sM1oL+5hS5j5dS4zSBmIqNqK+8LHDbd1A==",
+  "dgSpecHash": "vNqSXQ4lm/5hfxdyP13s0jo8Otzrc6xCeOQN8h3PAvyhxPmA7Fi7EHJAAeVG7Rbr4sqSPmOe7wc6F3kYUwrojg==",
   "success": true,
   "projectFilePath": "C:\\Users\\AcedoraDynkan\\Desktop\\Repository\\WeldingContest\\WeldingContest.Services.Entities\\WeldingContest.Services.Entities.csproj",
   "expectedPackageFiles": [
@@ -34,7 +34,6 @@
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.identitymodel.tokens\\5.6.0\\microsoft.identitymodel.tokens.5.6.0.nupkg.sha512",
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",
-    "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.office.interop.excel\\15.0.4795.1001\\microsoft.office.interop.excel.15.0.4795.1001.nupkg.sha512",
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\AcedoraDynkan\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",

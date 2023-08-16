@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  weldingcontest:
+    container_name: weldingcontest
+    image: ${DOCKER_REGISTRY-}weldingcontest
+    build:
+      context: ..
+      dockerfile: ./WeldingContest/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      MSSQL_SA_PASSWORD: YourStrong!Passw0rd
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./dbdata:/var/opt/mssql/data
+
+volumes:
+  dbdata:

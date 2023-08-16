@@ -58,7 +58,7 @@ export class AssemblyKSSResultAddTab extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
 
         let object = {
@@ -88,7 +88,7 @@ export class AssemblyKSSResultAddTab extends Component {
         setTimeout(() => { window.location.reload() }, 500);
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         if (event.target.value >= 0) {
             this.setState({ [event.target.name]: event.target.value }, () => { this.countOverallMark() });
         }

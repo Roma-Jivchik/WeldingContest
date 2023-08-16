@@ -375,11 +375,11 @@ export class ContestWorkPageView extends Component {
         }
     }
 
-    handleChooseResultToView() {
+    handleChooseResultToView(event) {
         this.setState({ currentResultToView: event.target.name });
     }
 
-    handleChooseResultToAdd() {
+    handleChooseResultToAdd(event) {
         this.setState({ currentResultToAdd: event.target.name });
     }
 }

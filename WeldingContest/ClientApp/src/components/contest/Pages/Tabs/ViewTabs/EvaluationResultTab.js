@@ -46,7 +46,7 @@ export class EvaluationResultTab extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данную оценку?")) {
+        if (window.confirm("Вы действительно хотите удалить данную оценку?")) {
             this.deleteObjectFromController(this.props.contestWork.evaluationResults[0].id);
 
             setTimeout(() => { window.location.reload(true) }, 1000);

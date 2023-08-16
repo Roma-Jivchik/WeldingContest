@@ -31,7 +31,7 @@ export class ProtocolAddTab extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
 
         let file = new FormData();

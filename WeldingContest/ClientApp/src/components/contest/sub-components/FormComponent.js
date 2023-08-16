@@ -57,7 +57,7 @@ export class FormComponent extends Component {
         );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             "firstField": this.state.test1,
@@ -74,7 +74,7 @@ export class FormComponent extends Component {
         console.log(object);
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         console.log(event.target.name);
         this.setState({[event.target.name]: event.target.value});
     }

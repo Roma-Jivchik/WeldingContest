@@ -43,7 +43,7 @@ export class SearchBar extends Component {
             );
     }
 
-    handleChangeBarValue() {
+    handleChangeBarValue(event) {
         this.setState({ barValue: event.target.value});
     }
 

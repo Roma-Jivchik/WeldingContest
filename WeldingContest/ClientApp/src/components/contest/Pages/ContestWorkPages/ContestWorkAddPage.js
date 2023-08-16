@@ -71,7 +71,7 @@ export class ContestWorkAddPage extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             ID: "_",

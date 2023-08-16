@@ -106,7 +106,7 @@ export class NominationPage extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             ID: this.state.nomination.id,
@@ -132,7 +132,7 @@ export class NominationPage extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данную номинацию?")) {
+        if (window.confirm("Вы действительно хотите удалить данную номинацию?")) {
             this.deleteObjectFromController(this.state.nomination.id);
             setTimeout(() => { window.location = ('/Nominations') }, 1000);
         }
@@ -143,7 +143,7 @@ export class NominationPage extends Component {
         this.clearState();
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 }

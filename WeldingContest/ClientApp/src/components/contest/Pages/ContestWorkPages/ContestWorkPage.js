@@ -160,7 +160,7 @@ export class ContestWorkPage extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             ID: this.state.contestWork.id,
@@ -183,7 +183,7 @@ export class ContestWorkPage extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данную конкурсную работу?")) {
+        if (window.confirm("Вы действительно хотите удалить данную конкурсную работу?")) {
             this.deleteObjectFromController(this.state.contestWork.id);
             this.deleteFileFromController(`wwwroot\\Фото\\${this.state.contestWork.contest.name}\\${this.state.contestWork.nomination.title}\\${this.state.contestWork.contestant.rfid}\\Протокол_${this.state.contestWork.contestant.rfid}.jpg`);
 
@@ -220,7 +220,7 @@ export class ContestWorkPage extends Component {
         });
     }
 
-    handleClose() {
+    handleClose(event) {
         this.setState({
             [event.target.name]: null,
             [`${event.target.name}Open`]: false

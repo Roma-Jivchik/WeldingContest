@@ -20,6 +20,9 @@ namespace WeldingContest
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDataLayer(connectionString);
 
             services.AddControllersWithViews();
 
@@ -29,7 +32,7 @@ namespace WeldingContest
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "ClientApp/public";
             });
 
             services.AddControllers().AddNewtonsoftJson(options => 

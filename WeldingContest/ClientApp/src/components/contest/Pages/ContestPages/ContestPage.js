@@ -158,7 +158,7 @@ export class ContestPage extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
 
         let object = {
@@ -191,7 +191,7 @@ export class ContestPage extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данный конкурс?")) {
+        if (window.confirm("Вы действительно хотите удалить данный конкурс?")) {
             this.deleteObjectFromController(this.state.contest.id);
             setTimeout(() => { window.location = ('/Contests') }, 1000);
         }
@@ -202,7 +202,7 @@ export class ContestPage extends Component {
         this.clearState();
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 

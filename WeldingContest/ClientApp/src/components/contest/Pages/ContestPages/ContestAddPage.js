@@ -44,7 +44,7 @@ export class ContestAddPage extends Component {
             );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             ID: "_",
@@ -62,7 +62,7 @@ export class ContestAddPage extends Component {
         }
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 }

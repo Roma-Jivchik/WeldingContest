@@ -121,7 +121,7 @@ export class ContestantPage extends Component {
         }
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
         let object = {
             ID: this.state.contestant.id,
@@ -145,7 +145,7 @@ export class ContestantPage extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данного конкурсанта?")) {
+        if (window.confirm("Вы действительно хотите удалить данного конкурсанта?")) {
             this.deleteObjectFromController(this.state.contestant.id);
             setTimeout(() => { window.location = ('/Contestants') }, 1000);
         }
@@ -156,7 +156,7 @@ export class ContestantPage extends Component {
         this.clearState();
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 

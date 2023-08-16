@@ -73,7 +73,7 @@ export class RGMResultTab extends Component {
     }
 
     handleDelete() {
-        if (confirm("Вы действительно хотите удалить данную оценку?")) {
+        if (window.confirm("Вы действительно хотите удалить данную оценку?")) {
             this.deleteObjectFromController(this.props.contestWork.rgmResults[0].id);
             this.deleteFileFromController(`wwwroot\\Фото\\${this.props.contestWork.contest.name}\\${this.props.contestWork.nomination.title}\\${this.props.contestWork.contestant.rfid}\\Рентген_${this.props.contestWork.contestant.rfid}_1.jpg`);
             this.deleteFileFromController(`wwwroot\\Фото\\${this.props.contestWork.contest.name}\\${this.props.contestWork.nomination.title}\\${this.props.contestWork.contestant.rfid}\\Рентген_${this.props.contestWork.contestant.rfid}_2.jpg`);

@@ -42,7 +42,7 @@ export class WeldingTimeResultAddTab extends Component {
         );
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
         event.preventDefault();
 
         let object = {
@@ -64,7 +64,7 @@ export class WeldingTimeResultAddTab extends Component {
         setTimeout(() => { window.location.reload() }, 500);
     }
 
-    handleChangeInput() {
+    handleChangeInput(event) {
         this.setState({ [event.target.name]: event.target.value }, () => { this.countOverallMark() });
     }
 
