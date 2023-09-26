@@ -21,16 +21,22 @@ namespace WeldingContest.Controllers
 
         [HttpPost]
         [Route("[controller]/create")]
-        [ProducesResponseType(typeof(Contest), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] Contest entity)
         {
             try
             {
                 var result = await _protocolService.Create(entity);
 
-                await System.IO.File.WriteAllBytesAsync(Directory.GetCurrentDirectory() + "/Protocols/OverallProtocol.xlsx", result);
+                var directoryName = entity.Name.Replace(" ", "_");
 
-                return Ok(result);
+                var filePath = Directory.GetCurrentDirectory() + $"\\Protocols\\{directoryName}";
+                var fileName = "OverallProtocol.xlsx";
+
+                Directory.CreateDirectory(filePath);
+
+                System.IO.File.WriteAllBytes($"{filePath}\\{fileName}", result);
+
+                return new FileContentResult(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             }
             catch (Exception e)
             {

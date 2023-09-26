@@ -18,7 +18,7 @@ namespace WeldingContest.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]")]
+        [Route("[controller]/get-all")]
         public async Task<IActionResult> GetAll()
         {
             try

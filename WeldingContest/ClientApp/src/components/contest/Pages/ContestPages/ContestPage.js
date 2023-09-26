@@ -120,7 +120,20 @@ export class ContestPage extends Component {
             body: JSON.stringify(contest)
         });
 
-        const data = await response.json();
+        const data = await response.blob();
+
+        const url = URL.createObjectURL(data);
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = url;
+        downloadLink.download = "OverallProtocol.xlsx";
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(url);
+
         console.log(data);
     }
 

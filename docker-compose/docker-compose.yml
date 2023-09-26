@@ -1,9 +1,9 @@
 version: '3.4'
+name: welding-contest
 
 services:
   weldingcontest:
     container_name: weldingcontest
-    image: ${DOCKER_REGISTRY-}weldingcontest
     build:
       context: ..
       dockerfile: ./WeldingContest/Dockerfile
@@ -15,7 +15,7 @@ services:
       - db
 
   db:
-    container_name: db
+    container_name: weldingcontest-db
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       MSSQL_SA_PASSWORD: YourStrong!Passw0rd

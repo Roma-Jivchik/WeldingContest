@@ -19,7 +19,7 @@ export class ContestMainPage extends Component {
     }
 
     async getCollectionFromController() {
-        const response = await fetch(`contest`);
+        const response = await fetch(`contest/get-all`);
         const data = await response.json();
         this.setState({ contests: data});
         console.log(data);
